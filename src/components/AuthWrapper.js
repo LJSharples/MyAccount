@@ -17,14 +17,14 @@ class AuthWrapper extends Component {
 
     render(){
         return (
-            <div className="flex-1">
-            <CustomSignIn
-              authState={this.props.authState}
-              updateUsername={this.updateUsername}
-              onStateChange={this.props.onStateChange}
-            />
-            <InternalApp authState={this.props.authState} onStateChange={this.props.onStateChange} />
-          </div>
+            <div class="container mx-auto">
+                <CustomSignIn
+                authState={this.props.authState}
+                updateUsername={this.updateUsername}
+                onStateChange={this.props.onStateChange}
+                />
+                <InternalApp authState={this.props.authState} onStateChange={this.props.onStateChange} />
+            </div>
         );
     }
 }

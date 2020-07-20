@@ -7,24 +7,19 @@ export class InternalApp extends Component {
     render(){
         if(this.props.authState === "signedIn"){
             return (
-                <>
+                <div>
                     <Nav/>
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg">
-                        <img class="w-full" src={logo} alt="Sunset in the mountains"/>
-                        <div class="px-6 py-4">
-                            <div class="font-bold text-xl mb-2">The Coldest Sunset</div>
-                            <p class="text-gray-700 text-base">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.
+                    <div className="max-w-md mx-auto flex p-6 bg-gray-100 mt-10 rounded-lg shadow-xl">
+                        <div className="ml-6 pt-1">
+                            <h1 className="text-2xl text-blue-700 leading-tight">
+                                Tailwind and Create React App
+                            </h1>
+                            <p className="text-base text-gray-700 leading-normal">
+                                Building apps together
                             </p>
                         </div>
-                        <div class="px-6 py-4">
-                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#photography</span>
-                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#travel</span>
-                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#winter</span>
-                        </div>
                     </div>
-                    
-                </>
+                </div>
             )
         } else {
             return null;
