@@ -1,0 +1,9 @@
+{
+	"auth": {
+		"mbaccountad243adc": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": []
+		}
+	}
+}

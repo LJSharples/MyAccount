@@ -6,15 +6,19 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "aws-amplify": "^3.0.20",
+    "aws-amplify-react": "^4.1.19",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "tailwindcss": "^1.5.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "tailwind:css": "tailwind build src/css/tailwind.src.css -c  tailwind.js -o src/css/tailwind.css",
+    "start": "yarn tailwind:css && react-scripts start",
+    "build": "yarn tailwind:css && react-scripts build",
+    "test": "yarn tailwind:css && react-scripts test",
+    "eject": "yarn tailwind:css && react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
