@@ -21,6 +21,7 @@ export class CustomSignIn extends Component {
     const password = this.inputs.password;
     try {
       await Auth.signIn(username, password);
+      this.props.updateUsername(username);
       this.props.onStateChange("signedIn", {});
     } catch (err) {
       if (err.code === "UserNotConfirmedException") {

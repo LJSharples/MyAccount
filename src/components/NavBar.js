@@ -1,5 +1,14 @@
 import React, { Component } from "react";
 import { Auth } from "aws-amplify";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    NavLink
+  } from "react-router-dom";
+import Services from './Services';
+  
 
 class NavBar extends Component{
 
@@ -24,10 +33,21 @@ class NavBar extends Component{
                 <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
                     <div class="text-sm lg:flex-grow">
                         <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-                            Docs
+                            Dashboard
                         </a>
                         <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-                            Examples
+                            <NavLink to="/services" activeClassName="hurray">
+                            React
+                            </NavLink>
+                        </a>
+                        <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+                            Expenses
+                        </a>
+                        <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+                            My Details
+                        </a>
+                        <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+                            Settings
                         </a>
                     </div>
                     <div>
