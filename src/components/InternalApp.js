@@ -1,10 +1,19 @@
 import React, { Component } from "react";
+import { Auth } from "aws-amplify";
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Dashboard from './Dashboard';
 import Services from './Services';
+import Expenses from './Expenses';
+import PersonalDetails from './PersonalDetails';
+import Settings from './Settings';
 
 export class InternalApp extends Component {
-    
+    signOut = () => {
+        Auth.signOut()
+        .then(data => console.log(data))
+        .catch(err => console.log(err));
+    }
+
     render(){
         if(this.props.authState === "signedIn"){
             return (
@@ -25,6 +34,9 @@ export class InternalApp extends Component {
                                     <ul className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
                                         <li><Link to={'/'} className="nav-link"> Dashboard </Link></li>
                                         <li><Link to={'/services'} className="nav-link">Services</Link></li>
+                                        <li><Link to={'/expenses'} className="nav-link">Expenses</Link></li>
+                                        <li><Link to={'/my-details'} className="nav-link">My Details</Link></li>
+                                        <li><Link to={'/settings'} className="nav-link">Settings</Link></li>
                                     </ul>
                                 </div>
                                 <div>
@@ -36,6 +48,9 @@ export class InternalApp extends Component {
                         <Switch>
                             <Route exact path='/' component={Dashboard} />
                             <Route path='/services' component={Services} />
+                            <Route path='/expenses' component={Expenses} />
+                            <Route path='/my-details' component={PersonalDetails} />
+                            <Route path='/settings' component={Settings} />
                         </Switch>
                     </div>
                 </Router>
