@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Auth } from "aws-amplify";
+import { Auth, API, graphqlOperation } from "aws-amplify";
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Dashboard from './Dashboard';
 import Services from './Services';
@@ -7,7 +7,30 @@ import Expenses from './Expenses';
 import PersonalDetails from './PersonalDetails';
 import Settings from './Settings';
 
+const getUserDetails = `query getUser($user_name: String!){
+    user(
+      user_name: $user_name
+    ) {
+        first_name,
+        last_name,
+        phone
+      }
+  }`;
+
 export class InternalApp extends Component {
+
+    async componentDidMount(){
+        let user = await Auth.currentAuthenticatedUser();
+        console.log(user)
+
+        const userDetails = {
+            user_name : "luke.sharples@powersolutionsuk.com"
+        }
+
+        const userData = API.graphql(graphqlOperation(getUserDetails, userDetails));
+        console.log(userData);
+    }
+
     signOut = () => {
         Auth.signOut()
         .then(data => console.log(data))
@@ -18,7 +41,7 @@ export class InternalApp extends Component {
         if(this.props.authState === "signedIn"){
             return (
                 <Router>
-                    <div>
+                    <div className="bg-transparent">
                         <nav class="flex items-center justify-between flex-wrap bg-blue-600 p-6">
                             <div class="flex items-center flex-shrink-0 text-white mr-6">
                                 <svg class="fill-current h-8 w-8 mr-2" width="54" height="54" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 22.1c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05zM0 38.3c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05z"/></svg>
