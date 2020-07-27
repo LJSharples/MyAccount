@@ -19,11 +19,7 @@ class Expenses extends Component {
                             </article>
                         </div>
                     <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
-                            <article class="overflow-hidden rounded-lg">
-                                <header class="flex items-center justify-between leading-tight p-2 md:p-4">
-                                </header>
-                            </article>
-                        </div>
+                    </div>
                     <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
                         <article class="overflow-hidden rounded-lg shadow-lg bg-blue-200">
                             <header class="flex items-center justify-between leading-tight p-2 md:p-4">
@@ -114,19 +110,13 @@ class Expenses extends Component {
                                 </h1>
                             </header>
                             <div class="flex items-center justify-between leading-none p-2 md:p-4">
-                                <a class="flex items-center no-underline hover:underline text-white" href="#">
-                                    <p alt="Placeholder" class="block rounded-full">£</p>
-                                    <p class="ml-2 text-sm">
-                                        Author Name
-                                    </p>
-                                </a>
+                                <h1 class="text-lg">
+                                    <a class="no-underline hover:underline text-white text-2xl" href="#">
+                                        Expenses Breakdown
+                                    </a>
+                                </h1>
                             </div>
                             <div class="flex items-center justify-between leading-none p-2 md:p-4">
-                                <a class="flex items-center no-underline hover:underline text-white" href="#">
-                                    <p class="ml-2 text-sm">
-                                        View Details
-                                    </p>
-                                </a>
                             </div>
                         </article>
                     </div>
