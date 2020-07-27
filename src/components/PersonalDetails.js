@@ -3,47 +3,47 @@ import React, { Component } from "react";
 class PersonalDetails extends Component {
     render(){
         return (
-            <div class="flex mb-8 h-screen">
-                <div class="w-full rounded m-8 bg-gray-400">
-                    <div class="flex mb-2">
-                        <div class="w-1/2 rounded px-8 pt-6 pb-8 mb-4">
-                            <div class="mb-4">
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-                                    First Name
-                                </label>
-                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username"/>
-                            </div>
-                        </div>
-                        <div class="w-1/2  rounded px-8 pt-6 pb-8 mb-4">
-                            <div class="mb-4">
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-                                    Last Name
-                                </label>
-                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username"/>
-                            </div>
-                        </div>
+            <div class="container my-12 mx-auto px-4 md:px-12">
+                <div class="flex flex-wrap -mx-1 lg:-mx-4">
+                    <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
+                        <article class="overflow-hidden rounded-lg">
+                            <header class="flex items-center justify-between leading-tight p-2 md:p-4">
+                                <h1 class="text-lg no-underline hover:underline text-black text-2xl">
+                                    My Details
+                                </h1>
+                            </header>
+                        </article>
                     </div>
-                    <div class="flex mb-2">
-                        <div class="w-1/2 rounded px-8 pt-6 pb-8 mb-4">
-                            <div class="mb-4">
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-                                    Your Email
-                                </label>
-                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username"/>
-                            </div>
-                        </div>
-                        <div class="w-1/2 rounded px-8 pt-6 pb-8 mb-4">
-                            <div class="mb-4">
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-                                    Your Mobile Number
-                                </label>
-                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username"/>
-                            </div>
-                        </div>
+                </div>
+                <div class="flex flex-wrap -mx-1 lg:-mx-4">
+                    <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-first-name">
+                            First Name
+                        </label>
+                        <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text" placeholder="Jane"/>
+                    </div>
+                    <div class="md:w-1/2 px-3">
+                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-last-name">
+                            Last Name
+                        </label>
+                        <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text" placeholder="Doe"/>
+                    </div>
+                </div>
+                <div class="flex flex-wrap -mx-1 lg:-mx-4 mt-10">
+                    <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-first-name">
+                            First Name
+                        </label>
+                        <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text" placeholder="Jane"/>
+                    </div>
+                    <div class="md:w-1/2 px-3">
+                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-last-name">
+                            Last Name
+                        </label>
+                        <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text" placeholder="Doe"/>
                     </div>
                 </div>
             </div>
-            
         )
     }
 }
