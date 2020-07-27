@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import DataTable from "./DataTable";
+
 class Services extends Component {
 
-    
-    
     render(){
         return (
             <div class="container my-12 mx-auto px-4 md:px-12">
