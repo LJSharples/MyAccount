@@ -18,7 +18,7 @@ class PersonalDetails extends Component {
     }
     render(){
         return (
-            <>
+            <form>
                 <div className="container my-12 mx-auto px-4 md:px-12">
                     <div className="flex flex-wrap -mx-1 lg:-mx-4">
                         <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
@@ -150,8 +150,13 @@ class PersonalDetails extends Component {
                             <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text"  value={this.state.userCompany.address2}/>
                         </div>
                     </div>
+                    <div className="flex flex-wrap -mx-1 lg:-mx-4 mt-10">
+                        <div className="md:w-1/2 px-3 mb-6 md:mb-0">
+                            <button type="submit">Submit Lead</button>
+                        </div>
+                    </div>
                 </div>
-            </>
+            </form>
         )
     }
 }

@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import { getLeads, getServices } from "../graphql/queries";
 import { Auth, API, graphqlOperation } from "aws-amplify";
 import { MDBDataTable } from 'mdbreact';
+import ServiceModal from "./ServiceModal"
 
 class Services extends Component {
     state = {
         data: {},
-        data2: {}
+        data2: {},
+        show: false
     }
 
     async componentDidMount(){
@@ -75,6 +77,21 @@ class Services extends Component {
         }});
     }
 
+    showModal(){
+        this.setState({
+            show: true
+        });
+    }
+    hideModal(){
+        this.setState({
+            show: false
+        });
+    }
+
+    addLead(){
+
+    }
+
     render(){
         return (
             <>
@@ -87,6 +104,13 @@ class Services extends Component {
                                         <a class="no-underline hover:underline text-black" href="#">
                                             Leads 
                                         </a>
+                                    </h1>
+                                </header>
+                            </article>
+                            <article class="overflow-hidden rounded-lg">
+                                <header class="flex items-center justify-between leading-tight p-2 md:p-4">
+                                    <h1 class="text-lg">
+                                        <ServiceModal/>
                                     </h1>
                                 </header>
                             </article>
