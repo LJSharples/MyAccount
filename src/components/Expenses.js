@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import DataTable from "./DataTable";
 
 class Expenses extends Component {
 
@@ -122,7 +121,7 @@ class Expenses extends Component {
                     </div>
                 </div>
                 <div class="flex flex-wrap -mx-1 lg:-mx-4">
-                    <DataTable/>
+                    /*Add DataTable */
                 </div>	
             </div>	
         )

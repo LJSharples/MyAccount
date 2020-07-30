@@ -1,6 +1,21 @@
 import React, { Component } from 'react';
+import { getUserDetails } from "../graphql/queries";
+import { Auth, API, graphqlOperation } from "aws-amplify";
 
 class Dashboard extends Component {
+    state = {
+        userProfile: {},
+        userCompany: {}
+    }
+
+    async componentDidMount(){
+        let user = await Auth.currentAuthenticatedUser();
+        const userProfile = await API.graphql(graphqlOperation(getUserDetails, { user_name: user.username}));
+        this.setState({ userProfile: userProfile.data["user"]})
+        this.setState({ userCompany: userProfile.data["getCompany"]})
+        console.log(this.state.userProfile)
+        console.log(this.state.userCompany)
+    }
     render(){
         return(
             <div className="container my-12 mx-auto px-4 md:px-12">
@@ -10,7 +25,7 @@ class Dashboard extends Component {
                             <header className="flex items-center justify-between leading-tight p-2 md:p-4">
                                 <h1 className="text-lg">
                                     <a className="no-underline hover:underline text-black" href="#">
-                                        Welcome back, 
+                                        Welcome back { this.state.userProfile.full_name}, 
                                     </a>
                                 </h1>
                             </header>

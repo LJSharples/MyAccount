@@ -6,15 +6,16 @@ import Services from './Services';
 import Expenses from './Expenses';
 import PersonalDetails from './PersonalDetails';
 import Settings from './Settings';
-import { User } from "../graphql/schema"
-import { getUserDetails } from "../graphql/queries"
+import {User} from "../graphql/schema";
+import { getUserDetails, getLeads } from "../graphql/queries";
 
 export class InternalApp extends Component {
 
     async componentDidMount(){
         let user = await Auth.currentAuthenticatedUser();
         const userData = await API.graphql(graphqlOperation(getUserDetails, { user_name: user.username}));
-        
+        //const userLeads = await API.graphql(graphqlOperation(getLeads, { user_name: user.username}));
+        //console.log(userLeads)
         try {
             await DataStore.save(
                 new User({

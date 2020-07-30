@@ -64,7 +64,7 @@
           "name" : "getLeads",
           "description" : null,
           "args" : [ {
-            "name" : "PK",
+            "name" : "user_name",
             "description" : null,
             "type" : {
               "kind" : "NON_NULL",

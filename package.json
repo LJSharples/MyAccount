@@ -13,7 +13,7 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
-    "tailwindcss": "^1.5.2"
+    "tailwindcss": "^1.6.0"
   },
   "scripts": {
     "tailwind:css": "tailwind build src/css/tailwind.src.css -c  tailwind.js -o src/css/tailwind.css",

@@ -64,11 +64,8 @@ export const getCompany = /* GraphQL */ `
   }
 `;
 export const getLeads = /* GraphQL */ `
-  query GetLeads($PK: String!) {
-    getLeads(PK: $PK) {
-      PK
-      Sk
-      Data
+  query GetLeads($user_name: String!) {
+    getLeads(user_name: $user_name) {
       first_name
       last_name
       phone
@@ -79,11 +76,9 @@ export const getLeads = /* GraphQL */ `
   }
 `;
 export const getServices = /* GraphQL */ `
-  query GetServices($SK: String!) {
-    getServices(SK: $SK) {
+  query GetServices($user_name: String!) {
+    getServices(user_name: $user_name) {
       items {
-        PK
-        SK
         Data
         user_name
         status
