@@ -1,11 +1,16 @@
 import React, { Component } from "react";
-import { getUserDetails } from "../graphql/queries";
+import { getUserDetails, } from "../graphql/queries";
+import { updateUser, updateCompany } from "../graphql/mutations"
 import { Auth, API, graphqlOperation } from "aws-amplify";
 
 class PersonalDetails extends Component {
     state = {
         userProfile: {},
-        userCompany: {}
+        userCompany: {},
+        full_name: "",
+        first_name: "",
+        last_name: "",
+        phone: ""
     }
 
     async componentDidMount(){
@@ -16,6 +21,32 @@ class PersonalDetails extends Component {
         console.log(this.state.userProfile)
         console.log(this.state.userCompany)
     }
+
+    onChangeText(key, value) {
+        this.setState({
+          [key]: value
+        })
+    }
+
+    async updateDetailsProfile(){
+        const data = {
+            user_name: this.state.userProfile.user_name,
+            full_name: this.state.full_name,
+            first_name: this.state.first_name,
+            last_name: this.state.last_name,
+            phone: this.state.phone
+        }
+        const userUpdate = await API.graphql(graphqlOperation(updateUser, data));
+        console.log(userUpdate);
+        const userProfile = await API.graphql(graphqlOperation(getUserDetails, { user_name: this.state.userProfile.user_name}));
+        this.setState({ userProfile: userProfile.data["user"]})
+        console.log(this.state.userProfile)
+    }
+
+    updateDetailsCompany(){
+
+    }
+
     render(){
         return (
             <form>
@@ -36,13 +67,13 @@ class PersonalDetails extends Component {
                             <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-first-name">
                                 First Name
                             </label>
-                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text" value={this.state.userProfile.first_name}/>
+                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text" value={this.state.userProfile.first_name} onChange={value => this.onChangeText('first_name', value)}/>
                         </div>
                         <div className="md:w-1/2 px-3">
                             <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-last-name">
                                 Last Name
                             </label>
-                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text" value={this.state.userProfile.last_name}/>
+                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text" value={this.state.userProfile.last_name} onChange={value => this.onChangeText('last_name', value)}/>
                         </div>
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4 mt-10">
@@ -50,13 +81,13 @@ class PersonalDetails extends Component {
                             <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-first-name">
                                 Your Email
                             </label>
-                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text"  value={this.state.userProfile.user_name}/>
+                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text"  value={this.state.userProfile.user_name} onChange={value => this.onChangeText('user_name', value)}/>
                         </div>
                         <div className="md:w-1/2 px-3">
                             <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-last-name">
                                 Your Mobile Number
                             </label>
-                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text"  value={this.state.userProfile.phone}/>
+                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text"  value={this.state.userProfile.phone}  onChange={value => this.onChangeText('phone', value)}/>
                         </div>
                     </div>
                 </div>
@@ -152,7 +183,7 @@ class PersonalDetails extends Component {
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4 mt-10">
                         <div className="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <button type="submit">Submit Lead</button>
+                            <button type="submit" onClick={this.updateDetailsProfile()}>Update Details</button>
                         </div>
                     </div>
                 </div>

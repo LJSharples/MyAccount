@@ -95,26 +95,16 @@ export const addCompany = /* GraphQL */ `
 `;
 export const addLead = /* GraphQL */ `
   mutation AddLead(
-    $PK: String
-    $SK: String
-    $Data: String
     $first_name: String
     $last_name: String
     $full_name: String
     $phone: String
-    $created_at: AWSDateTime
-    $updated_at: AWSDateTime
   ) {
     addLead(
-      PK: $PK
-      SK: $SK
-      Data: $Data
       first_name: $first_name
       last_name: $last_name
       full_name: $full_name
       phone: $phone
-      created_at: $created_at
-      updated_at: $updated_at
     ) {
       PK
       Sk
@@ -156,4 +146,49 @@ export const addService = /* GraphQL */ `
       updated_at
     }
   }
+`;
+export const updateUser = /* GraphQL */ `
+  mutation updateUser(
+    $user_name: String
+    $full_name: String
+    $first_name: String
+    $last_name: String
+    $phone: String
+  ){
+    updateCompany(
+      user_name: $user_name
+      full_name: $full_name
+      first_name: $first_name
+      last_name: $last_name
+      phone: $phone
+  ) {
+    user_name
+    full_name
+    first_name
+    last_name
+    phone
+}
+`;
+export const updateCompany = /* GraphQL */ `
+  mutation upateCompany(
+    $user_name: String
+    $address1: String
+    $address2: String
+    $city: String
+    $postcode: String
+  ){
+    updateCompany(
+      user_name: $user_name
+      address1: $address1
+      address2: $address2
+      city: $city
+      postcode: $postcode
+  ) {
+    user_name
+    address1
+    address2
+    city
+    postcode
+  }
+}
 `;

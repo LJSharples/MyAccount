@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { getLeads, getServices } from "../graphql/queries";
+import { addLead } from "../graphql/mutations";
 import { Auth, API, graphqlOperation } from "aws-amplify";
 import { MDBDataTable } from 'mdbreact';
 import ServiceModal from "./ServiceModal"
@@ -8,7 +9,7 @@ class Services extends Component {
     state = {
         data: {},
         data2: {},
-        show: false
+        isOpen: false ,
     }
 
     async componentDidMount(){
@@ -16,12 +17,11 @@ class Services extends Component {
 
         //user leads
         const userLeads = await API.graphql(graphqlOperation(getLeads, { user_name: user.username}));
-        this.setState({ userLeads: userLeads.data['getLeads']});
         
         const columnsArray = [];
         const valuesArray = [];
         
-        for (const [key, value] of Object.entries(this.state.userLeads[0])) {
+        for (const [key, value] of Object.entries(userLeads.data['getLeads'][0])) {
             let newColumn = {
               label: key,
               field: key,
@@ -29,7 +29,7 @@ class Services extends Component {
             }
             columnsArray.push(newColumn);
         }
-        this.state.userLeads.map(lead => {
+        userLeads.data['getLeads'].map(lead => {
             const newValue = {
                 first_name: lead.first_name,
                 last_name: lead.last_name,
@@ -40,11 +40,11 @@ class Services extends Component {
             }
             valuesArray.push(newValue);
         })
-        const data = {
+        const data1 = {
             columns: columnsArray,
             rows: valuesArray
         };
-        this.setState({ data: data});
+        this.onChangeText('data', data1);
 
         //user services
         const userServices = await API.graphql(graphqlOperation(getServices, { user_name: user.username}));
@@ -71,26 +71,25 @@ class Services extends Component {
             }
             valuesArray2.push(newValue2);
         })
-        this.setState({ data2: {
+
+        this.onChangeText('data2', {
             columns: columnsArray2,
             rows: valuesArray2
-        }});
-    }
-
-    showModal(){
-        this.setState({
-            show: true
-        });
-    }
-    hideModal(){
-        this.setState({
-            show: false
         });
     }
 
-    addLead(){
-
+    onChangeText(key, value) {
+        this.setState({
+          [key]: value
+        })
     }
+
+    toggleModal = () => {
+        this.setState({
+          isOpen: !this.state.isOpen
+        });
+      }
+    
 
     render(){
         return (
@@ -110,7 +109,18 @@ class Services extends Component {
                             <article class="overflow-hidden rounded-lg">
                                 <header class="flex items-center justify-between leading-tight p-2 md:p-4">
                                     <h1 class="text-lg">
-                                        <ServiceModal/>
+                                        <button
+                                            className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                            type="button"
+                                            style={{ transition: "all .15s ease" }}
+                                            onClick={this.toggleModal}
+                                        >
+                                            Add Lead
+                                        </button>
+                                        <ServiceModal show={this.state.isOpen} onClose={this.toggleModal}>
+                                            `Here's some content for the modal`
+                                        </ServiceModal>
+
                                     </h1>
                                 </header>
                             </article>

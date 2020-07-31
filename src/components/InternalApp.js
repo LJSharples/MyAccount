@@ -14,22 +14,6 @@ export class InternalApp extends Component {
     async componentDidMount(){
         let user = await Auth.currentAuthenticatedUser();
         const userData = await API.graphql(graphqlOperation(getUserDetails, { user_name: user.username}));
-        //const userLeads = await API.graphql(graphqlOperation(getLeads, { user_name: user.username}));
-        //console.log(userLeads)
-        try {
-            await DataStore.save(
-                new User({
-                    user_name: userData.data['user'].user_name,
-                    full_name: userData.data['user'].full_name,
-                    first_name: userData.data['user'].first_name,
-                    last_name: userData.data['user'].last_name,
-                    phone: userData.data['user'].phone
-                })
-            );
-            console.log("Post saved successfully!");
-        } catch (error) {
-            console.log("Error saving post", error);
-        }
     }
 
     signOut = () => {
