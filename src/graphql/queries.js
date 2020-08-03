@@ -70,8 +70,6 @@ export const getLeads = /* GraphQL */ `
       last_name
       phone
       full_name
-      created_at
-      updated_at
     }
   }
 `;
@@ -79,11 +77,16 @@ export const getServices = /* GraphQL */ `
   query GetServices($user_name: String!) {
     getServices(user_name: $user_name) {
       items {
-        Data
         user_name
         status
-        created_at
-        updated_at
+        service_name
+        callback_time
+        contract_end
+        contract_length
+        cost_month
+        cost_year
+        current_supplier
+        request_costs
       }
       nextToken
     }

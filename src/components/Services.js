@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { getLeads, getServices } from "../graphql/queries";
-import { addLead } from "../graphql/mutations";
+import { getLeads, getServices, getUserDetails } from "../graphql/queries";
+import { addLead, addService, updateUser } from "../graphql/mutations";
 import { Auth, API, graphqlOperation } from "aws-amplify";
 import { MDBDataTable } from 'mdbreact';
 import ServiceModal from "./ServiceModal"
@@ -9,17 +9,24 @@ class Services extends Component {
     state = {
         data: {},
         data2: {},
+        userProfile: {},
+        userCompany: {},
         isOpen: false ,
         serviceName: '',
         provider: '',
         contractDate: '',
+        contractLength: '',
         billUpload: '',
         requestCall: '',
         serviceCosts: '',
+        currentSupplier: ''
     }
 
     async componentDidMount(){
         let user = await Auth.currentAuthenticatedUser();
+        const userProfile = await API.graphql(graphqlOperation(getUserDetails, { user_name: user.username}));
+        this.setState({ userProfile: userProfile.data["user"]})
+        this.setState({ userCompany: userProfile.data["getCompany"]})
 
         //user leads
         const userLeads = await API.graphql(graphqlOperation(getLeads, { user_name: user.username}));
@@ -41,8 +48,6 @@ class Services extends Component {
                 last_name: lead.last_name,
                 phone: lead.phone,
                 full_name: lead.full_name,
-                created_at: lead.created_at,
-                updated_at: lead.updated_at,
             }
             valuesArray.push(newValue);
         })
@@ -69,11 +74,9 @@ class Services extends Component {
         }
         userServices.data["getServices"].items.map(lead => {
             const newValue2 = {
-                Data: lead.Data,
-                created_at: lead.created_at,
                 status: lead.status,
-                updated_at: lead.updated_at,
                 user_name: lead.user_name,
+                service_name: lead.service_name
             }
             valuesArray2.push(newValue2);
         })
@@ -96,22 +99,64 @@ class Services extends Component {
         this.setState({
           isOpen: !this.state.isOpen
         });
-      }
+    }
 
     async submitLead(){
         const data = {
             user_name: this.state.userProfile.user_name,
-            full_name: this.state.full_name,
-            first_name: this.state.first_name,
-            last_name: this.state.last_name,
-            phone: this.state.phone
+            full_name: this.state.userProfile.full_name,
+            first_name: this.state.userProfile.first_name,
+            last_name: this.state.userProfile.last_name,
+            phone: this.state.userProfile.phone
         }
-        console.log(data);
-        const newLead = await API.graphql(graphqlOperation(addLead, data));
-        console.log(newLead);
+        try {
+            await API.graphql(graphqlOperation(addLead, data));
+            console.log("Success");
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async submitService(){
+        const data = {
+            user_name: this.state.userProfile.user_name,
+            status: "FROMMVP",
+            service_name: this.state.serviceName,
+            callback_time: this.state.requestCall,
+            contract_end: this.state.contractDate,
+            contract_length: this.state.contractLength,
+            current_supplier: this.state.currentSupplier
+        }
+        try {
+            const newService = await API.graphql(graphqlOperation(addService, data));
+            console.log(newService);
+            console.log("Success");
+        } catch (err) {
+            console.log("Error:")
+            console.log(data);
+            console.log(err);
+        }
+    }
+
+    async test(){
+        const data = {
+            user_name: 'luke.sharples@powersolutionsuk.com',
+            full_name: 'LJSharples',
+            first_name: 'L',
+            last_name: 'Sharp',
+            phone: '123456789'
+        }
+        try {
+            const newService = await API.graphql(graphqlOperation(updateUser, data));
+            console.log(newService);
+            console.log("Success");
+        } catch (err) {
+            console.log("Error:")
+            console.log(data);
+            console.log(err);
+        }
     }
     
-
     render(){
         return (
             <>
@@ -134,11 +179,11 @@ class Services extends Component {
                                             className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                                             type="button"
                                             style={{ transition: "all .15s ease" }}
-                                            onClick={this.toggleModal}
+                                            onClick={this.test}
                                         >
                                             Add Lead
                                         </button>
-                                        <ServiceModal show={this.state.isOpen} onClose={this.toggleModal} handleChange={this.onChangeText} submitLead={this.submitLead}>
+                                        <ServiceModal show={this.state.isOpen} onClose={this.toggleModal} onChangeText={this.onChangeText} submitLead={this.submitLead}>
                                             `Here's some content for the modal`
                                         </ServiceModal>
 

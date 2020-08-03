@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { getUserDetails, } from "../graphql/queries";
-import { updateUser } from "../graphql/mutations"
 import { Auth, API, graphqlOperation } from "aws-amplify";
+import { updateUser} from '../graphql/mutations';
 
 class PersonalDetails extends Component {
     state = {
@@ -29,17 +29,17 @@ class PersonalDetails extends Component {
         console.log(this.state);
     }
 
-    updateDetailsProfile = async () => {
+    async updateUser(){
         const data = {
-            user_name: this.state.userProfile.user_name,
-            full_name: this.state.full_name,
-            first_name: this.state.first_name,
-            last_name: this.state.last_name,
-            phone: this.state.phone
+            user_name: 'luke.sharples@powersolutionsuk.com',
+            full_name: 'Luke Sharples',
+            first_name: 'Luke',
+            last_name: 'Sharples',
+            phone: '1234567890'
         }
         try {
-            await API.graphql(graphqlOperation(updateUser, data));
-            console.log(data);
+            const newService = await API.graphql(graphqlOperation(updateUser, data));
+            console.log(newService);
             console.log("Success");
         } catch (err) {
             console.log("Error:")
@@ -184,7 +184,13 @@ class PersonalDetails extends Component {
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4 mt-10">
                         <div className="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <button onClick={this.updateDetailsProfile}>Update Details</button>
+                            <button
+                                className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                type="button"
+                                style={{ transition: "all .15s ease" }}
+                                onClick={this.updateUser}>
+                                Update Profile
+                            </button>
                         </div>
                     </div>
                 </div>

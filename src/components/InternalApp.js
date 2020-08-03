@@ -6,7 +6,6 @@ import Services from './Services';
 import Expenses from './Expenses';
 import PersonalDetails from './PersonalDetails';
 import Settings from './Settings';
-import {User} from "../graphql/schema";
 import { getUserDetails, getLeads } from "../graphql/queries";
 
 export class InternalApp extends Component {

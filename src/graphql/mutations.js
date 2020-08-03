@@ -95,55 +95,55 @@ export const addCompany = /* GraphQL */ `
 `;
 export const addLead = /* GraphQL */ `
   mutation AddLead(
+    $user_name: String
     $first_name: String
     $last_name: String
     $full_name: String
     $phone: String
   ) {
     addLead(
+      user_name: $user_name
       first_name: $first_name
       last_name: $last_name
       full_name: $full_name
       phone: $phone
     ) {
-      PK
-      Sk
-      Data
       first_name
       last_name
       phone
       full_name
-      created_at
-      updated_at
     }
   }
 `;
 export const addService = /* GraphQL */ `
   mutation AddService(
-    $PK: String
-    $SK: String
-    $Data: String
     $user_name: String
     $status: String
-    $created_at: AWSDateTime
-    $updated_at: AWSDateTime
+    $service_name: String
+    $callback_time: String
+    $contract_end: String
+    $contract_length: String
+    $current_supplier: String
   ) {
     addService(
-      PK: $PK
-      SK: $SK
-      Data: $Data
       user_name: $user_name
       status: $status
-      created_at: $created_at
-      updated_at: $updated_at
+      service_name: $service_name
+      callback_time: $callback_time
+      contract_end: $contract_end
+      contract_length: $contract_length
+      current_supplier: $current_supplier
     ) {
-      PK
-      SK
-      Data
       user_name
       status
-      created_at
-      updated_at
+      service_name
+      callback_time
+      contract_end
+      contract_length
+      cost_month
+      cost_year
+      current_supplier
+      request_costs
     }
   }
 `;
@@ -155,7 +155,7 @@ export const updateUser = /* GraphQL */ `
     $last_name: String
     $phone: String
   ){
-    updateCompany(
+    updateUser(
       user_name: $user_name
       full_name: $full_name
       first_name: $first_name
