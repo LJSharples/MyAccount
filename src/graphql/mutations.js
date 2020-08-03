@@ -167,6 +167,7 @@ export const updateUser = /* GraphQL */ `
     first_name
     last_name
     phone
+  }
 }
 `;
 export const updateCompany = /* GraphQL */ `

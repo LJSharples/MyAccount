@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import { getUserDetails, } from "../graphql/queries";
-import { updateUser, updateCompany } from "../graphql/mutations"
+import { updateUser } from "../graphql/mutations"
 import { Auth, API, graphqlOperation } from "aws-amplify";
 
 class PersonalDetails extends Component {
     state = {
         userProfile: {},
         userCompany: {},
-        full_name: "",
-        first_name: "",
-        last_name: "",
-        phone: ""
+        full_name: "Luke J Sharples",
+        first_name: "Luke",
+        last_name: "Sharples",
+        phone: "0123456789"
     }
 
     async componentDidMount(){
@@ -26,9 +26,10 @@ class PersonalDetails extends Component {
         this.setState({
           [key]: value
         })
+        console.log(this.state);
     }
 
-    async updateDetailsProfile(){
+    updateDetailsProfile = async () => {
         const data = {
             user_name: this.state.userProfile.user_name,
             full_name: this.state.full_name,
@@ -36,15 +37,15 @@ class PersonalDetails extends Component {
             last_name: this.state.last_name,
             phone: this.state.phone
         }
-        const userUpdate = await API.graphql(graphqlOperation(updateUser, data));
-        console.log(userUpdate);
-        const userProfile = await API.graphql(graphqlOperation(getUserDetails, { user_name: this.state.userProfile.user_name}));
-        this.setState({ userProfile: userProfile.data["user"]})
-        console.log(this.state.userProfile)
-    }
-
-    updateDetailsCompany(){
-
+        try {
+            await API.graphql(graphqlOperation(updateUser, data));
+            console.log(data);
+            console.log("Success");
+        } catch (err) {
+            console.log("Error:")
+            console.log(data);
+            console.log(err);
+        }
     }
 
     render(){
@@ -64,30 +65,30 @@ class PersonalDetails extends Component {
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4">
                         <div className="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-first-name">
+                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
                                 First Name
                             </label>
-                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text" value={this.state.userProfile.first_name} onChange={value => this.onChangeText('first_name', value)}/>
+                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text" value={this.state.userProfile.first_name}/>
                         </div>
                         <div className="md:w-1/2 px-3">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-last-name">
+                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
                                 Last Name
                             </label>
-                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text" value={this.state.userProfile.last_name} onChange={value => this.onChangeText('last_name', value)}/>
+                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text" value={this.state.userProfile.last_name} onChange={e => this.onChangeText('last_name', e.target.value)}/>
                         </div>
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4 mt-10">
                         <div className="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-first-name">
+                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
                                 Your Email
                             </label>
-                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text"  value={this.state.userProfile.user_name} onChange={value => this.onChangeText('user_name', value)}/>
+                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text"  value={this.state.userProfile.user_name} onChange={e => this.onChangeText('user_name', e.target.value)}/>
                         </div>
                         <div className="md:w-1/2 px-3">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-last-name">
+                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
                                 Your Mobile Number
                             </label>
-                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text"  value={this.state.userProfile.phone}  onChange={value => this.onChangeText('phone', value)}/>
+                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text"  value={this.state.userProfile.phone}  onChange={e => this.onChangeText('phone', e.target.value)}/>
                         </div>
                     </div>
                 </div>
@@ -105,13 +106,13 @@ class PersonalDetails extends Component {
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4">
                         <div className="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-first-name">
+                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
                                 Company Name
                             </label>
                             <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text" value={this.state.userCompany.user_name}/>
                         </div>
                         <div className="md:w-1/2 px-3">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-last-name">
+                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
                                 Company Number
                             </label>
                             <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text" value={this.state.userCompany.company_number}/>
@@ -119,13 +120,13 @@ class PersonalDetails extends Component {
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4 mt-10">
                         <div className="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-first-name">
+                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
                                 Address1
                             </label>
                             <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text"  value={this.state.userCompany.address1}/>
                         </div>
                         <div className="md:w-1/2 px-3">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-last-name">
+                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
                             Address2
                             </label>
                             <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text"  value={this.state.userCompany.address2}/>
@@ -155,13 +156,13 @@ class PersonalDetails extends Component {
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4">
                         <div className="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-first-name">
+                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
                             How many years have you been trading?
                             </label>
                             <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text" value={this.state.userCompany.user_name}/>
                         </div>
                         <div className="md:w-1/2 px-3">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-last-name">
+                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
                             What is your estimated yearly turn-over?
                             </label>
                             <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text" value={this.state.userCompany.company_number}/>
@@ -169,13 +170,13 @@ class PersonalDetails extends Component {
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4 mt-10">
                         <div className="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-first-name">
+                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
                             How many employees do you have?
                             </label>
                             <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text"  value={this.state.userCompany.address1}/>
                         </div>
                         <div className="md:w-1/2 px-3">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-last-name">
+                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
                             Which industry does your business form part of?
                             </label>
                             <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text"  value={this.state.userCompany.address2}/>
@@ -183,7 +184,7 @@ class PersonalDetails extends Component {
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4 mt-10">
                         <div className="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <button type="submit" onClick={this.updateDetailsProfile()}>Update Details</button>
+                            <button onClick={this.updateDetailsProfile}>Update Details</button>
                         </div>
                     </div>
                 </div>

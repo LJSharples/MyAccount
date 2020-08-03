@@ -10,6 +10,12 @@ class Services extends Component {
         data: {},
         data2: {},
         isOpen: false ,
+        serviceName: '',
+        provider: '',
+        contractDate: '',
+        billUpload: '',
+        requestCall: '',
+        serviceCosts: '',
     }
 
     async componentDidMount(){
@@ -80,8 +86,10 @@ class Services extends Component {
 
     onChangeText(key, value) {
         this.setState({
-          [key]: value
+            [key]: value
         })
+        console.log(value);
+        console.log(this.state);
     }
 
     toggleModal = () => {
@@ -89,26 +97,39 @@ class Services extends Component {
           isOpen: !this.state.isOpen
         });
       }
+
+    async submitLead(){
+        const data = {
+            user_name: this.state.userProfile.user_name,
+            full_name: this.state.full_name,
+            first_name: this.state.first_name,
+            last_name: this.state.last_name,
+            phone: this.state.phone
+        }
+        console.log(data);
+        const newLead = await API.graphql(graphqlOperation(addLead, data));
+        console.log(newLead);
+    }
     
 
     render(){
         return (
             <>
-                <div class="container my-12 mx-auto px-4 md:px-12">
-                    <div class="flex flex-wrap -mx-1 lg:-mx-4">
-                        <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
-                            <article class="overflow-hidden rounded-lg">
-                                <header class="flex items-center justify-between leading-tight p-2 md:p-4">
-                                    <h1 class="text-lg">
-                                        <a class="no-underline hover:underline text-black" href="#">
+                <div className="container my-12 mx-auto px-4 md:px-12">
+                    <div className="flex flex-wrap -mx-1 lg:-mx-4">
+                        <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
+                            <article className="overflow-hidden rounded-lg">
+                                <header className="flex items-center justify-between leading-tight p-2 md:p-4">
+                                    <h1 className="text-lg">
+                                        <a className="no-underline hover:underline text-black" href="#">
                                             Leads 
                                         </a>
                                     </h1>
                                 </header>
                             </article>
-                            <article class="overflow-hidden rounded-lg">
-                                <header class="flex items-center justify-between leading-tight p-2 md:p-4">
-                                    <h1 class="text-lg">
+                            <article className="overflow-hidden rounded-lg">
+                                <header className="flex items-center justify-between leading-tight p-2 md:p-4">
+                                    <h1 className="text-lg">
                                         <button
                                             className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                                             type="button"
@@ -117,7 +138,7 @@ class Services extends Component {
                                         >
                                             Add Lead
                                         </button>
-                                        <ServiceModal show={this.state.isOpen} onClose={this.toggleModal}>
+                                        <ServiceModal show={this.state.isOpen} onClose={this.toggleModal} handleChange={this.onChangeText} submitLead={this.submitLead}>
                                             `Here's some content for the modal`
                                         </ServiceModal>
 
@@ -126,7 +147,7 @@ class Services extends Component {
                             </article>
                         </div>
                     </div>
-                    <div class="flex flex-wrap -mx-1 lg:-mx-4">
+                    <div className="flex flex-wrap -mx-1 lg:-mx-4">
                     <MDBDataTable
                         striped
                         bordered
@@ -135,13 +156,13 @@ class Services extends Component {
                         />
                     </div>	
                 </div>
-                <div class="container my-12 mx-auto px-4 md:px-12">
-                    <div class="flex flex-wrap -mx-1 lg:-mx-4">
-                        <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
-                            <article class="overflow-hidden rounded-lg">
-                                <header class="flex items-center justify-between leading-tight p-2 md:p-4">
-                                    <h1 class="text-lg">
-                                        <a class="no-underline hover:underline text-black" href="#">
+                <div className="container my-12 mx-auto px-4 md:px-12">
+                    <div className="flex flex-wrap -mx-1 lg:-mx-4">
+                        <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
+                            <article className="overflow-hidden rounded-lg">
+                                <header className="flex items-center justify-between leading-tight p-2 md:p-4">
+                                    <h1 className="text-lg">
+                                        <a className="no-underline hover:underline text-black" href="#">
                                             Services 
                                         </a>
                                     </h1>
@@ -149,7 +170,7 @@ class Services extends Component {
                             </article>
                         </div>
                     </div>
-                    <div class="flex flex-wrap -mx-1 lg:-mx-4">
+                    <div className="flex flex-wrap -mx-1 lg:-mx-4">
                     <MDBDataTable
                         striped
                         bordered
