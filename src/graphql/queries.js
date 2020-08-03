@@ -151,6 +151,7 @@ export const getUserDetails = `query getUserProfile($user_name: String!){
   getCompany(
       user_name: $user_name
   ) {
+      Data
       address1
       address2
       city

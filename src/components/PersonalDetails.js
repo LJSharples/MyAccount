@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { getUserDetails, } from "../graphql/queries";
 import { Auth, API, graphqlOperation } from "aws-amplify";
-import { updateUser} from '../graphql/mutations';
+import { updateUser, updateCompany } from '../graphql/mutations';
 
 class PersonalDetails extends Component {
     state = {
@@ -10,36 +10,84 @@ class PersonalDetails extends Component {
         full_name: "Luke J Sharples",
         first_name: "Luke",
         last_name: "Sharples",
-        phone: "0123456789"
+        phone: "0123456789",
+        company_name: '',
+        company_number: '',
+        address1: '',
+        address2: '',
+        city: '',
+        postcode: '',
+        region: '',
+        years_trading: '',
     }
 
     async componentDidMount(){
         let user = await Auth.currentAuthenticatedUser();
         const userProfile = await API.graphql(graphqlOperation(getUserDetails, { user_name: user.username}));
         this.setState({ userProfile: userProfile.data["user"]})
+        this.setState({
+            user_name: userProfile.data["user"].user_name,
+            full_name: userProfile.data["user"].full_name,
+            first_name: userProfile.data["user"].first_name,
+            last_name: userProfile.data["user"].last_name,
+            phone: userProfile.data["user"].phone
+        });
         this.setState({ userCompany: userProfile.data["getCompany"]})
-        console.log(this.state.userProfile)
-        console.log(this.state.userCompany)
+        this.setState({
+            company_name: userProfile.data["getCompany"].Data,
+            address1: userProfile.data["getCompany"].address1,
+            address2: userProfile.data["getCompany"].address2,
+            city: userProfile.data["getCompany"].city,
+            postcode: userProfile.data["getCompany"].postcode,
+            region: userProfile.data["getCompany"].region,
+            company_number: userProfile.data["getCompany"].company_number,
+            years_trading: userProfile.data["getCompany"].years_trading,
+            yearly_turnover: userProfile.data["getCompany"].yearly_turnover,
+            num_employees: userProfile.data["getCompany"].num_employees
+        });
     }
 
-    onChangeText(key, value) {
-        this.setState({
-          [key]: value
-        })
+    handleChange = ({ target }) => {
         console.log(this.state);
-    }
+        console.log(target);
+        this.setState({ [target.name]: target.value });
+        console.log(this.state);
+     };
 
     async updateUser(){
         const data = {
-            user_name: 'luke.sharples@powersolutionsuk.com',
-            full_name: 'Luke Sharples',
-            first_name: 'Luke',
-            last_name: 'Sharples',
-            phone: '1234567890'
+            user_name: this.state.user_name,
+            full_name: this.state.full_name,
+            first_name: this.state.first_name,
+            last_name: this.state.last_name,
+            phone: this.state.phone
         }
         try {
-            const newService = await API.graphql(graphqlOperation(updateUser, data));
-            console.log(newService);
+            const update = await API.graphql(graphqlOperation(updateUser, data));
+            console.log(update);
+            console.log("Success");
+        } catch (err) {
+            console.log("Error:")
+            console.log(data);
+            console.log(err);
+        }
+    }
+
+    async updateCompany(){
+        const data = {
+            address1: this.state.address1,
+            address2: this.state.address2,
+            city: this.state.city,
+            postcode: this.state.postcode,
+            region: this.state.region,
+            company_number: this.state.company_number,
+            years_trading: this.state.years_trading,
+            yearly_turnover: this.state.yearly_turnover,
+            num_employees: this.state.num_employees
+        };
+        try {
+            const update = await API.graphql(graphqlOperation(updateCompany, data));
+            console.log(update);
             console.log("Success");
         } catch (err) {
             console.log("Error:")
@@ -68,13 +116,15 @@ class PersonalDetails extends Component {
                             <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
                                 First Name
                             </label>
-                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text" value={this.state.userProfile.first_name}/>
+                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" 
+                            id="first_name" name="first_name" type="text" value={this.state.first_name} onChange={this.handleChange} />
                         </div>
                         <div className="md:w-1/2 px-3">
                             <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
                                 Last Name
                             </label>
-                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text" value={this.state.userProfile.last_name} onChange={e => this.onChangeText('last_name', e.target.value)}/>
+                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" 
+                            id="last_name" name="last_name" type="text" value={this.state.last_name} onChange={this.handleChange}/>
                         </div>
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4 mt-10">
@@ -82,13 +132,15 @@ class PersonalDetails extends Component {
                             <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
                                 Your Email
                             </label>
-                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text"  value={this.state.userProfile.user_name} onChange={e => this.onChangeText('user_name', e.target.value)}/>
+                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" 
+                            id="user_name" name="user_name" type="text"  value={this.state.user_name} onChange={this.handleChange}/>
                         </div>
                         <div className="md:w-1/2 px-3">
                             <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
                                 Your Mobile Number
                             </label>
-                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text"  value={this.state.userProfile.phone}  onChange={e => this.onChangeText('phone', e.target.value)}/>
+                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" 
+                            id="phone" name="phone" type="text"  value={this.state.phone}  onChange={this.handleChange}/>
                         </div>
                     </div>
                 </div>
@@ -109,13 +161,15 @@ class PersonalDetails extends Component {
                             <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
                                 Company Name
                             </label>
-                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text" value={this.state.userCompany.user_name}/>
+                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" 
+                            id="company_name" name="company_name" type="text" value={this.state.company_name} onChange={this.handleChange}/>
                         </div>
                         <div className="md:w-1/2 px-3">
                             <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
                                 Company Number
                             </label>
-                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text" value={this.state.userCompany.company_number}/>
+                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" 
+                            id="company_number" name="company_number" type="text" value={this.state.company_number} onChange={this.handleChange}/>
                         </div>
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4 mt-10">
@@ -123,13 +177,15 @@ class PersonalDetails extends Component {
                             <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
                                 Address1
                             </label>
-                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text"  value={this.state.userCompany.address1}/>
+                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" 
+                            id="address1" name="address1" type="text"  value={this.state.address1} onChange={this.handleChange}/>
                         </div>
                         <div className="md:w-1/2 px-3">
                             <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
                             Address2
                             </label>
-                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text"  value={this.state.userCompany.address2}/>
+                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" 
+                            id="address2" name="address2" type="text"  value={this.state.address2} onChange={this.handleChange}/>
                         </div>
                     </div>
                 </div>
@@ -159,13 +215,15 @@ class PersonalDetails extends Component {
                             <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
                             How many years have you been trading?
                             </label>
-                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text" value={this.state.userCompany.user_name}/>
+                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" 
+                            id="years_trading"  name="years_trading" type="text" value={this.state.years_trading}/>
                         </div>
                         <div className="md:w-1/2 px-3">
                             <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
                             What is your estimated yearly turn-over?
                             </label>
-                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text" value={this.state.userCompany.company_number}/>
+                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" 
+                            id="yearly_turnover" name="yearly_turnover" type="text" value={this.state.yearly_turnover}/>
                         </div>
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4 mt-10">
@@ -173,7 +231,8 @@ class PersonalDetails extends Component {
                             <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
                             How many employees do you have?
                             </label>
-                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text"  value={this.state.userCompany.address1}/>
+                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" 
+                            id="num_employees" type="text"  value={this.state.num_employees}/>
                         </div>
                         <div className="md:w-1/2 px-3">
                             <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
