@@ -13,6 +13,7 @@ class Services extends Component {
         userProfile: {},
         userCompany: {},
         isOpen: false ,
+        isOpen2: false ,
         serviceName: 'Gas',
         provider: 'E-On',
         contractDate: '12/11/2021',
@@ -107,6 +108,12 @@ class Services extends Component {
         });
     }
 
+    toggleModal2 = () => {
+        this.setState({
+          isOpen2: !this.state.isOpen2
+        });
+    }
+
     submitLead = async () => {
         const data = {
             user_name: this.state.user_name,
@@ -143,25 +150,6 @@ class Services extends Component {
             console.log(err);
         }
     }
-
-    async test(){
-        const data = {
-            user_name: 'luke.sharples@powersolutionsuk.com',
-            address1:  'One City Place',
-            address2:  "Queen's Road",
-            city:  'Chester',
-            postcode:  'CH1 2TX'
-        }
-        try {
-            const newService = await API.graphql(graphqlOperation(updateCompany, data));
-            console.log(newService);
-            console.log("Success");
-        } catch (err) {
-            console.log("Error:")
-            console.log(data);
-            console.log(err);
-        }
-    }
     
     render(){
         return (
@@ -185,7 +173,7 @@ class Services extends Component {
                                             className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                                             type="button"
                                             style={{ transition: "all .15s ease" }}
-                                            onClick={this.submitLead}
+                                            onClick={this.toggleModal}
                                         >
                                             Add Lead
                                         </button>
@@ -226,11 +214,11 @@ class Services extends Component {
                                             className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                                             type="button"
                                             style={{ transition: "all .15s ease" }}
-                                            onClick={this.submitService}
+                                            onClick={this.toggleModal2}
                                         >
                                             Add Service
                                         </button>
-                                        <ServiceModal show={this.state.isOpen} onClose={this.toggleModal} onChangeText={this.onChangeText} submitLead={this.submitService}>
+                                        <ServiceModal show={this.state.isOpen2} onClose={this.toggleModal2} onChangeText={this.onChangeText} submitLead={this.submitService}>
                                             `Here's some content for the modal`
                                         </ServiceModal>
 

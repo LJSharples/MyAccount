@@ -31,59 +31,34 @@ class Modal extends React.Component {
                 <div className="relative p-6 flex-auto">
                     <div className="flex flex-wrap -mx-3 mb-6">
                         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
-                                Service Name
+                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                First Name
                             </label>
-                            <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="serviceName" name="serviceName" type="text" onChange={this.props.onChangeText}>
-                                <option>Gas</option>
-                                <option>Electric</option>
-                                <option>Water</option>
-                            </select>
+                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                            id="first_name" name="first_name" type="text" onChange={this.props.onChangeText} type="text"/>
                         </div>
                         <div className="w-full md:w-1/2 px-3">
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                Provider
+                                Last Name
                             </label>
-                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="provider" name="provider" type="text" placeholder="Enter your current supplier" onChange={this.props.onChangeText}/>
+                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                            id="last_name" name="last_name" type="text" onChange={this.props.onChangeText} type="text"/>
                         </div>
                     </div>
                     <div className="flex flex-wrap -mx-3 mb-6">
                         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                Contract End Date
+                                Phone
                             </label>
-                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="contractDate" name="contractDate" type="text" onChange={this.props.onChangeText} type="date"/>
+                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                            id="phone" name="phone" type="text" onChange={this.props.onChangeText} type="text"/>
                         </div>
                         <div className="w-full md:w-1/2 px-3">
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                Bill Upload
+                                Full Name
                             </label>
-                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="billUpload" name="billUpload" type="text" onChange={this.props.onChangeText} type="text"/>
-                        </div>
-                    </div>
-                    <div className="flex flex-wrap -mx-3 mb-6">
-                        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                Request A Call From Our Partners
-                            </label>
-                            <div className="flex items-center justify-center w-full mb-24">
-                                <label className="flex items-center cursor-pointer">
-                                    <div className="relative">
-                                        <input id="toogleA" type="checkbox" className="hidden" id="requestCall" name="requestCall" onChange={this.props.onChangeText}/>
-                                        <div className="toggle__line w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
-                                        <div className="toggle__dot absolute w-6 h-6 bg-white rounded-full shadow inset-y-0 left-0"></div>
-                                    </div>
-                                    <div className="ml-3 text-gray-700 font-medium">
-                                        Toggle Me!
-                                    </div>
-                                </label>    
-                            </div>
-                        </div>
-                        <div className="w-full md:w-1/2 px-3">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                Add Service Costs
-                            </label>
-                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Enter your current supplier"/>
+                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                            id="full_name" name="full_name" type="text" onChange={this.props.onChangeText} type="text"/>
                         </div>
                     </div>
                 </div>
