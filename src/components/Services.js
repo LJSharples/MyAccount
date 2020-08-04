@@ -13,14 +13,19 @@ class Services extends Component {
         userProfile: {},
         userCompany: {},
         isOpen: false ,
-        serviceName: '',
-        provider: '',
-        contractDate: '',
-        contractLength: '',
+        serviceName: 'Gas',
+        provider: 'E-On',
+        contractDate: '12/11/2021',
+        contractLength: '24',
         billUpload: '',
-        requestCall: '',
-        serviceCosts: '',
-        currentSupplier: ''
+        requestCall: '13:00:00',
+        serviceCosts: '10,000',
+        currentSupplier: 'British Gas',
+        user_name: 'luke.sharples@powersolutionsuk.com',
+        full_name: 'Luke Sharp',
+        first_name: 'LJ',
+        last_name: 'Sharples',
+        phone: '097531'
     }
 
     async componentDidMount(){
@@ -102,13 +107,13 @@ class Services extends Component {
         });
     }
 
-    async submitLead(){
+    submitLead = async () => {
         const data = {
-            user_name: this.state.userProfile.user_name,
-            full_name: this.state.userProfile.full_name,
-            first_name: this.state.userProfile.first_name,
-            last_name: this.state.userProfile.last_name,
-            phone: this.state.userProfile.phone
+            user_name: this.state.user_name,
+            full_name: this.state.full_name,
+            first_name: this.state.first_name,
+            last_name: this.state.last_name,
+            phone: this.state.phone
         }
         try {
             await API.graphql(graphqlOperation(addLead, data));
@@ -118,9 +123,9 @@ class Services extends Component {
         }
     }
 
-    async submitService(){
+    submitService = async () => {
         const data = {
-            user_name: this.state.userProfile.user_name,
+            user_name: this.state.user_name,
             status: "FROMMVP",
             service_name: this.state.serviceName,
             callback_time: this.state.requestCall,

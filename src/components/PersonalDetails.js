@@ -57,9 +57,9 @@ class PersonalDetails extends Component {
         console.log(this.state);
      };
 
-    async updateUser(){
+     updateUserProfile = async () => {
         const data = {
-            user_name: this.state.userProfile.data["user"].user_name,
+            user_name: this.state.user_name,
             full_name: this.state.full_name,
             first_name: this.state.first_name,
             last_name: this.state.last_name,
@@ -76,12 +76,32 @@ class PersonalDetails extends Component {
         }
     }
 
-    async updateUserProfile(){
+    updateUserCompany = async () => {
+        const data = {
+            user_name: this.state.user_name,
+            address1: this.state.address1,
+            address2: this.state.address2,
+            city: this.state.city,
+            postcode: this.state.postcode
+        }
         try{
-             const r = await API.graphql(graphqlOperation(updateCompany, {
-                 user_name: this.state.user_name,
-                 address1: this.state.address1
-            }));
+            const r = await API.graphql(graphqlOperation(updateCompany, data));
+            console.log("Success!");
+            console.log(r);
+       }catch(err){
+           console.log(err);
+            console.log("Error:");
+            console.log(err);
+       }
+    }
+
+    /*async updateUserProfile = () => {
+        const data = {
+            user_name: this.state.userProfile.data["user"].user_name,
+            address1: this.state.address1
+        }
+        try{
+             const r = await API.graphql(graphqlOperation(updateCompany, data));
              console.log("Success!");
              console.log(r);
         }catch(err){
