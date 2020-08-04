@@ -10,9 +10,9 @@ class Expenses extends Component {
                             <article class="overflow-hidden rounded-lg">
                                 <header class="flex items-center justify-between leading-tight p-2 md:p-4">
                                     <h1 class="text-lg">
-                                        <a class="no-underline hover:underline text-black" href="#">
+                                        <h1 class="no-underline hover:underline text-black" >
                                             Expenses Today
-                                        </a>
+                                        </h1>
                                     </h1>
                                 </header>
                             </article>
@@ -23,7 +23,7 @@ class Expenses extends Component {
                         <article class="overflow-hidden rounded-lg shadow-lg bg-blue-200">
                             <header class="flex items-center justify-between leading-tight p-2 md:p-4">
                                 <h1 class="text-lg">
-                                    <a class="no-underline hover:underline text-blue-700 text-2xl" href="#">
+                                    <a class="no-underline hover:underline text-blue-700 text-2xl" >
                                         Savings To Date
                                     </a>
                                 </h1>

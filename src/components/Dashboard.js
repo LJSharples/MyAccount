@@ -24,9 +24,9 @@ class Dashboard extends Component {
                         <article className="overflow-hidden rounded-lg">
                             <header className="flex items-center justify-between leading-tight p-2 md:p-4">
                                 <h1 className="text-lg">
-                                    <a className="no-underline hover:underline text-black" href="#">
+                                    <h1 className="no-underline hover:underline text-black">
                                         Welcome back { this.state.userProfile.full_name}, 
-                                    </a>
+                                    </h1>
                                 </h1>
                             </header>
                         </article>

@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { getLeads, getServices, getUserDetails } from "../graphql/queries";
-import { addLead, addService, updateUser } from "../graphql/mutations";
+import { addLead, addService, updateCompany } from "../graphql/mutations";
 import { Auth, API, graphqlOperation } from "aws-amplify";
 import { MDBDataTable } from 'mdbreact';
-import ServiceModal from "./ServiceModal"
+import ServiceModal from "./ServiceModal";
+import LeadModal from "./LeadModal";
 
 class Services extends Component {
     state = {
@@ -141,13 +142,13 @@ class Services extends Component {
     async test(){
         const data = {
             user_name: 'luke.sharples@powersolutionsuk.com',
-            full_name: 'LJSharples',
-            first_name: 'L',
-            last_name: 'Sharp',
-            phone: '123456789'
+            address1:  'One City Place',
+            address2:  "Queen's Road",
+            city:  'Chester',
+            postcode:  'CH1 2TX'
         }
         try {
-            const newService = await API.graphql(graphqlOperation(updateUser, data));
+            const newService = await API.graphql(graphqlOperation(updateCompany, data));
             console.log(newService);
             console.log("Success");
         } catch (err) {
@@ -166,9 +167,9 @@ class Services extends Component {
                             <article className="overflow-hidden rounded-lg">
                                 <header className="flex items-center justify-between leading-tight p-2 md:p-4">
                                     <h1 className="text-lg">
-                                        <a className="no-underline hover:underline text-black" href="#">
+                                        <h1 className="no-underline hover:underline text-black" href="#">
                                             Leads 
-                                        </a>
+                                        </h1>
                                     </h1>
                                 </header>
                             </article>
@@ -179,13 +180,13 @@ class Services extends Component {
                                             className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                                             type="button"
                                             style={{ transition: "all .15s ease" }}
-                                            onClick={this.test}
+                                            onClick={this.submitLead}
                                         >
                                             Add Lead
                                         </button>
-                                        <ServiceModal show={this.state.isOpen} onClose={this.toggleModal} onChangeText={this.onChangeText} submitLead={this.submitLead}>
+                                        <LeadModal show={this.state.isOpen} onClose={this.toggleModal} onChangeText={this.onChangeText} submitLead={this.submitLead}>
                                             `Here's some content for the modal`
-                                        </ServiceModal>
+                                        </LeadModal>
 
                                     </h1>
                                 </header>
@@ -207,9 +208,27 @@ class Services extends Component {
                             <article className="overflow-hidden rounded-lg">
                                 <header className="flex items-center justify-between leading-tight p-2 md:p-4">
                                     <h1 className="text-lg">
-                                        <a className="no-underline hover:underline text-black" href="#">
+                                        <h1 className="no-underline hover:underline text-black" href="#">
                                             Services 
-                                        </a>
+                                        </h1>
+                                    </h1>
+                                </header>
+                            </article>
+                            <article className="overflow-hidden rounded-lg">
+                                <header className="flex items-center justify-between leading-tight p-2 md:p-4">
+                                    <h1 className="text-lg">
+                                        <button
+                                            className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                            type="button"
+                                            style={{ transition: "all .15s ease" }}
+                                            onClick={this.submitService}
+                                        >
+                                            Add Service
+                                        </button>
+                                        <ServiceModal show={this.state.isOpen} onClose={this.toggleModal} onChangeText={this.onChangeText} submitLead={this.submitService}>
+                                            `Here's some content for the modal`
+                                        </ServiceModal>
+
                                     </h1>
                                 </header>
                             </article>
