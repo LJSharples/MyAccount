@@ -34,7 +34,8 @@ class Modal extends React.Component {
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
                                 Service Name
                             </label>
-                            <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="serviceName" name="serviceName" type="text" onChange={this.props.onChangeText}>
+                            <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                            id="serviceName" name="serviceName" type="text" onChange={event => this.props.onInput('serviceName', event)}>
                                 <option>Gas</option>
                                 <option>Electric</option>
                                 <option>Water</option>
@@ -44,7 +45,8 @@ class Modal extends React.Component {
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                                 Provider
                             </label>
-                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="provider" name="provider" type="text" placeholder="Enter your current supplier" onChange={this.props.onChangeText}/>
+                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                            id="currentSupplier" name="currentSupplier" type="text" placeholder="Enter your current supplier" onChange={event => this.props.onInput('currentSupplier', event)}/>
                         </div>
                     </div>
                     <div className="flex flex-wrap -mx-3 mb-6">
@@ -52,13 +54,15 @@ class Modal extends React.Component {
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                                 Contract End Date
                             </label>
-                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="contractDate" name="contractDate" type="text" onChange={this.props.onChangeText} type="date"/>
+                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                            id="contractDate" name="contractDate" type="text" onChange={event => this.props.onInput('contractDate', event)} type="date"/>
                         </div>
                         <div className="w-full md:w-1/2 px-3">
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                                 Bill Upload
                             </label>
-                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="billUpload" name="billUpload" type="text" onChange={this.props.onChangeText} type="text"/>
+                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                            id="billUpload" name="billUpload" type="text" onChange={event => this.props.onInput('billUpload', event)} type="text"/>
                         </div>
                     </div>
                     <div className="flex flex-wrap -mx-3 mb-6">
@@ -69,7 +73,7 @@ class Modal extends React.Component {
                             <div className="flex items-center justify-center w-full mb-24">
                                 <label className="flex items-center cursor-pointer">
                                     <div className="relative">
-                                        <input id="toogleA" type="checkbox" className="hidden" id="requestCall" name="requestCall" onChange={this.props.onChangeText}/>
+                                        <input id="toogleA" type="checkbox" className="hidden"/>
                                         <div className="toggle__line w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
                                         <div className="toggle__dot absolute w-6 h-6 bg-white rounded-full shadow inset-y-0 left-0"></div>
                                     </div>
@@ -81,9 +85,26 @@ class Modal extends React.Component {
                         </div>
                         <div className="w-full md:w-1/2 px-3">
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                Add Service Costs
+                                Callback time
                             </label>
-                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Enter your current supplier"/>
+                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                            id="requestCall" name="requestCall" type="datetime-local" onChange={event => this.props.onInput('requestCall', event)}/>
+                        </div>
+                    </div>
+                    <div className="flex flex-wrap -mx-3 mb-6">
+                        <div className="w-full md:w-1/2 px-3">
+                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                Contract Length
+                            </label>
+                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                            id="contractLength" name="contractLength" type="text" onChange={event => this.props.onInput('contractLength', event)}/>
+                        </div>
+                        <div className="w-full md:w-1/2 px-3">
+                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                Contract End Date
+                            </label>
+                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                            id="contractDate" name="contractDate" type="date" onChange={event => this.props.onInput('contractDate', event)}/>
                         </div>
                     </div>
                 </div>
@@ -103,7 +124,7 @@ class Modal extends React.Component {
                     style={{ transition: "all .15s ease" }}
                     onClick={this.props.submitLead}
                 >
-                    Add Lead
+                    Add Service
                 </button>
               </div>
             </div>

@@ -96,9 +96,13 @@ class Services extends Component {
     }
 
     onChangeText = (key, value) => {
-        console.log(key);
-        console.log(value);
         this.setState({ [key]: value})
+    };
+
+    onInput = (key, event) => {
+        console.log(key);
+        console.log(event.target.value);
+        this.setState({ [key]: event.target.value})
         console.log(this.state);
     };
 
@@ -125,6 +129,9 @@ class Services extends Component {
         try {
             await API.graphql(graphqlOperation(addLead, data));
             console.log("Success");
+            this.setState({
+                isOpen: !this.state.isOpen
+            });
         } catch (err) {
             console.log(err);
         }
@@ -207,14 +214,14 @@ class Services extends Component {
                                                                         First Name
                                                                     </label>
                                                                     <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-                                                                    id="first_name" name="first_name" type="text" onChange={value => this.onChangeText('first_name', value)} type="text"/>
+                                                                    id="first_name" name="first_name" type="text" onChange={event => this.onInput('first_name', event)} type="text"/>
                                                                 </div>
                                                                 <div className="w-full md:w-1/2 px-3">
                                                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                                                                         Last Name
                                                                     </label>
                                                                     <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-                                                                    id="last_name" name="last_name" type="text" onChange={value => this.onChangeText('last_name', value)} type="text"/>
+                                                                    id="last_name" name="last_name" type="text" onChange={event => this.onInput('last_name', event)} type="text"/>
                                                                 </div>
                                                             </div>
                                                             <div className="flex flex-wrap -mx-3 mb-6">
@@ -223,14 +230,14 @@ class Services extends Component {
                                                                         Phone
                                                                     </label>
                                                                     <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-                                                                    id="phone" name="phone" type="text" onChange={this.onChangeText} type="text"/>
+                                                                    id="phone" name="phone" type="text" onChange={event => this.onInput('phone', event)} type="text"/>
                                                                 </div>
                                                                 <div className="w-full md:w-1/2 px-3">
                                                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                                                                         Full Name
                                                                     </label>
                                                                     <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-                                                                    id="full_name" name="full_name" type="text" onChange={this.onChangeText} type="text"/>
+                                                                    id="full_name" name="full_name" type="text" onChange={event => this.onInput('full_name', event)} type="text"/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -301,10 +308,8 @@ class Services extends Component {
                                         >
                                             Add Service
                                         </button>
-                                        <ServiceModal show={this.state.isOpen2} onClose={this.toggleModal2} onChangeText={this.onChangeText} submitLead={this.submitService}>
-                                            `Here's some content for the modal`
+                                        <ServiceModal show={this.state.isOpen2} onClose={this.toggleModal2} onInput={this.onInput} submitLead={this.submitService}>
                                         </ServiceModal>
-
                                     </h1>
                                 </header>
                             </article>

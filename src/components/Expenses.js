@@ -88,7 +88,7 @@ class Expenses extends Component {
                                 </a>
                             </div>
                             <div className="flex items-center justify-between leading-none p-2 md:p-4">
-                                <p className=" flex items-center no-underline  text-blue-700 ml-2 text-sm">
+                                <p className=" flex items-center no-underline text-blue-700 ml-2 text-sm">
                                     View Details
                                 </p>
                             </div>
@@ -112,9 +112,11 @@ class Expenses extends Component {
                                 </a>
                             </div>
                             <div className="flex items-center justify-between leading-none p-2 md:p-4">
-                                <p className=" flex items-center no-underline text-blue-700 ml-2 text-sm">
-                                    View Details
-                                </p>
+                                <a className="flex items-center no-underline text-white" href="#">
+                                    <p className="ml-2 text-sm">
+                                        View Details
+                                    </p>
+                                </a>
                             </div>
                         </article>
                     </div>
