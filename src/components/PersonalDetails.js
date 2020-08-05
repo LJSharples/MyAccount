@@ -164,6 +164,17 @@ class PersonalDetails extends Component {
                             id="phone" name="phone" type="text"  value={this.state.phone}  onChange={this.handleChange}/>
                         </div>
                     </div>
+                    <div className="flex flex-wrap -mx-1 lg:-mx-4 mt-10">
+                        <div className="md:w-1/2 px-3 mb-6 md:mb-0">
+                            <button
+                                className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                type="button"
+                                style={{ transition: "all .15s ease" }}
+                                onClick={this.updateUserProfile}>
+                                Update Profile
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <div className="container my-12 mx-auto px-4 md:px-12">
                     <div className="flex flex-wrap -mx-1 lg:-mx-4">
@@ -285,8 +296,8 @@ class PersonalDetails extends Component {
                                 className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                                 type="button"
                                 style={{ transition: "all .15s ease" }}
-                                onClick={this.updateUserProfile}>
-                                Update Profile
+                                onClick={this.updateUserCompany}>
+                                Update Company
                             </button>
                         </div>
                     </div>

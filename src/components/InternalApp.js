@@ -1,19 +1,12 @@
 import React, { Component } from "react";
-import { Auth, API, graphqlOperation, DataStore } from "aws-amplify";
+import { Auth } from "aws-amplify";
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Dashboard from './Dashboard';
 import Services from './Services';
 import Expenses from './Expenses';
 import PersonalDetails from './PersonalDetails';
-import Settings from './Settings';
-import { getUserDetails, getLeads } from "../graphql/queries";
 
 export class InternalApp extends Component {
-
-    async componentDidMount(){
-        let user = await Auth.currentAuthenticatedUser();
-        const userData = await API.graphql(graphqlOperation(getUserDetails, { user_name: user.username}));
-    }
 
     signOut = () => {
         Auth.signOut()
@@ -39,15 +32,14 @@ export class InternalApp extends Component {
                             <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
                                 <div className="text-sm lg:flex-grow">
                                     <ul className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
-                                        <li><Link to={'/'} className="nav-link mt-4 lg:inline-block lg:mt-0 "> Dashboard </Link></li>
-                                        <li><Link to={'/services'} className="nav-link mt-4 lg:inline-block lg:mt-0 ">Services</Link></li>
-                                        <li><Link to={'/expenses'} className="nav-link mt-4 lg:inline-block lg:mt-0 ">Expenses</Link></li>
-                                        <li><Link to={'/my-details'} className="nav-link mt-4 lg:inline-block lg:mt-0 ">My Details</Link></li>
-                                        <li><Link to={'/settings'} className="nav-link mt-4 lg:inline-block lg:mt-0 ">Settings</Link></li>
+                                        <li><Link to={'/'} className="nav-link mt-4 lg:inline-block lg:mt-0 mr-8 ml-8 text-white text-xl"> Dashboard </Link></li>
+                                        <li><Link to={'/services'} className="nav-link mt-4 lg:inline-block lg:mt-0 mr-8 text-white text-xl">Services</Link></li>
+                                        <li><Link to={'/expenses'} className="nav-link mt-4 lg:inline-block lg:mt-0 mr-8 text-white text-xl">Expenses</Link></li>
+                                        <li><Link to={'/my-details'} className="nav-link mt-4 lg:inline-block lg:mt-0 mr-8 text-white text-xl">My Details</Link></li>
                                     </ul>
                                 </div>
                                 <div>
-                                    <a onClick={this.signOut} className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">Logout</a>
+                                    <button onClick={this.signOut} className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">Logout</button>
                                 </div>
                             </div>
                         </nav>
@@ -57,7 +49,6 @@ export class InternalApp extends Component {
                             <Route path='/services' component={Services} />
                             <Route path='/expenses' component={Expenses} />
                             <Route path='/my-details' component={PersonalDetails} />
-                            <Route path='/settings' component={Settings} />
                         </Switch>
                     </div>
                 </Router>
