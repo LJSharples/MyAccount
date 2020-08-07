@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { getLeads, getServices, getUserDetails } from "../graphql/queries";
-import { addLead, addService, deleteService } from "../graphql/mutations";
+import { addLead, addService, removeService } from "../graphql/mutations";
 import { Auth, API, graphqlOperation } from "aws-amplify";
 import { MDBDataTableV5, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdbreact';
 import ServiceModal from "./ServiceModal";
@@ -70,26 +70,54 @@ class Services extends Component {
         const userServices = await API.graphql(graphqlOperation(getServices, { user_name: user.username}));
         console.log(userServices.data["getServices"].items);
 
-        const columnsArray2 = [];
+        const columnsArray2 = [
+            {
+                label: "Ref",
+                field: 'id',
+                width: 250,
+            },
+            {
+                label: "Service Name",
+                field: 'service_name',
+                width: 250,
+            },
+            {
+                label: "Service Provider",
+                field: 'provider',
+                width: 250,
+            },
+            {
+                label: "Contract End Date",
+                field: 'contract_end',
+                width: 250,
+            },
+            {
+                label: "Cost per year",
+                field: 'cost_year',
+                width: 250,
+            },
+            {
+                label: "Attachments",
+                field: 'attachments',
+                width: 250,
+            },
+            {
+                label: "Actions",
+                field: 'handle',
+                width: 250,
+            }
+        ];
         const valuesArray2 = [];
         
-        for (const [key, value] of Object.entries(userServices.data["getServices"].items[0])) {
-            let newColumn2 = {
-              label: key,
-              field: key,
-              width: 250,
-            }
-            columnsArray2.push(newColumn2);
-        }
         userServices.data["getServices"].items.map(lead => {
             const newValue2 = {
-                user_name: lead.user_name,
-                status: lead.status,
-                service_name: lead.service_name,
-                callback_time: lead.callback_time,
-                contract_end: lead.contract_end,
                 id: lead.id,
-                handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.deleteService(lead.id)}>Delete</MDBBtn>
+                service_name: lead.service_name,
+                provider: lead.current_supplier,
+                contract_end: lead.contract_end,
+                cost_year: lead.cost_year,
+                attachments: lead.callback_time,
+                handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.deleteService(lead.PK)}>Delete</MDBBtn>
 
             }
             valuesArray2.push(newValue2);
@@ -102,14 +130,14 @@ class Services extends Component {
         console.log("clicked Row");
     }
 
-    deleteService = async (id) => {
-        console.log("clicked Row");
+    deleteService = async (created) => {
         const data = {
             user_name: this.state.user_name,
-            id: id
+            id: created.substr(8)
         }
         try {
-            const newService = await API.graphql(graphqlOperation(deleteService, data));
+            const newService = await API.graphql(graphqlOperation(removeService, data));
+            console.log(newService);
             const userServices = await API.graphql(graphqlOperation(getServices, { user_name: this.state.user_name}));
             console.log(userServices);
             console.log("Success");
@@ -334,14 +362,6 @@ class Services extends Component {
                                         >
                                             Add Service
                                         </button>
-                                        <button
-                                            className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                                            type="button"
-                                            style={{ transition: "all .15s ease" }}
-                                            onClick={this.toggleModal2}
-                                        >
-                                            Delete Service
-                                        </button>
                                         <ServiceModal show={this.state.isOpen2} onClose={this.toggleModal2} onInput={this.onInput} submitLead={this.submitService}>
                                         </ServiceModal>
                                     </h1>
@@ -350,7 +370,7 @@ class Services extends Component {
                         </div>
                     </div>
                     <div>
-                    <MDBTable btn striped bordered small>
+                    <MDBTable btn striped bordered small responsive>
                         <MDBTableHead columns={this.state.columns2} />
                         <MDBTableBody rows={this.state.rows2} />
                     </MDBTable>

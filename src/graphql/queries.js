@@ -88,6 +88,7 @@ export const getServices = /* GraphQL */ `
         current_supplier
         request_costs
         id
+        PK
       }
       nextToken
     }

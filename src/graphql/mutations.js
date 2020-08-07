@@ -193,15 +193,16 @@ export const updateCompany = /* GraphQL */ `
   }
 }
 `;
-export const deleteService = /* GraphQL */ `
-  mutation deleteService(
+export const removeService = /* GraphQL */ `
+  mutation removeService(
     $user_name: String
     $id: String
   ){
     deleteService(
-      user_name: $user_name
       id: $id
-  ) {
+      user_name: $user_name
+  ){
+    user_name
     id
   }
 }
