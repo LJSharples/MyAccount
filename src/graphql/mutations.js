@@ -193,3 +193,16 @@ export const updateCompany = /* GraphQL */ `
   }
 }
 `;
+export const deleteService = /* GraphQL */ `
+  mutation deleteService(
+    $user_name: String
+    $id: String
+  ){
+    deleteService(
+      user_name: $user_name
+      id: $id
+  ) {
+    id
+  }
+}
+`;

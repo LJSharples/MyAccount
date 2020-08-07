@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { getLeads, getServices, getUserDetails } from "../graphql/queries";
-import { addLead, addService } from "../graphql/mutations";
+import { addLead, addService, deleteService } from "../graphql/mutations";
 import { Auth, API, graphqlOperation } from "aws-amplify";
-import { MDBDataTableV5 } from 'mdbreact';
+import { MDBDataTableV5, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdbreact';
 import ServiceModal from "./ServiceModal";
-import LeadModal from "./LeadModal";
 import Modal from "react-modal";
 
 class Services extends Component {
@@ -13,6 +12,8 @@ class Services extends Component {
         data2: {},
         userProfile: {},
         userCompany: {},
+        columns2: [],
+        rows2: [],
         isOpen: false ,
         isOpen2: false ,
         serviceName: '',
@@ -82,18 +83,43 @@ class Services extends Component {
         }
         userServices.data["getServices"].items.map(lead => {
             const newValue2 = {
-                status: lead.status,
                 user_name: lead.user_name,
-                service_name: lead.service_name
+                status: lead.status,
+                service_name: lead.service_name,
+                callback_time: lead.callback_time,
+                contract_end: lead.contract_end,
+                id: lead.id,
+                handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.deleteService(lead.id)}>Delete</MDBBtn>
+
             }
             valuesArray2.push(newValue2);
         })
 
-        this.onChangeText('data2', {
-            columns: columnsArray2,
-            rows: valuesArray2
-        });
+        this.onChangeText('columns2', columnsArray2);
+        this.onChangeText('rows2', valuesArray2);
     }
+    handleRowClick = (id) => {
+        console.log("clicked Row");
+    }
+
+    deleteService = async (id) => {
+        console.log("clicked Row");
+        const data = {
+            user_name: this.state.user_name,
+            id: id
+        }
+        try {
+            const newService = await API.graphql(graphqlOperation(deleteService, data));
+            const userServices = await API.graphql(graphqlOperation(getServices, { user_name: this.state.user_name}));
+            console.log(userServices);
+            console.log("Success");
+        } catch (err) {
+            console.log("Error:")
+            console.log(data);
+            console.log(err);
+        }
+    }
+
 
     onChangeText = (key, value) => {
         this.setState({ [key]: value})
@@ -149,7 +175,7 @@ class Services extends Component {
         }
         try {
             const newService = await API.graphql(graphqlOperation(addService, data));
-            console.log(newService);
+            console.log(data);
             console.log("Success");
         } catch (err) {
             console.log("Error:")
@@ -308,6 +334,14 @@ class Services extends Component {
                                         >
                                             Add Service
                                         </button>
+                                        <button
+                                            className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                            type="button"
+                                            style={{ transition: "all .15s ease" }}
+                                            onClick={this.toggleModal2}
+                                        >
+                                            Delete Service
+                                        </button>
                                         <ServiceModal show={this.state.isOpen2} onClose={this.toggleModal2} onInput={this.onInput} submitLead={this.submitService}>
                                         </ServiceModal>
                                     </h1>
@@ -316,16 +350,10 @@ class Services extends Component {
                         </div>
                     </div>
                     <div>
-                    <MDBDataTableV5
-                        hover
-                        entriesOptions={[5, 20, 25]}
-                        entries={5}
-                        pagesAmount={4}
-                        pagingTop
-                        searchTop
-                        searchBottom={false}
-                        data={this.state.data2}
-                    />
+                    <MDBTable btn striped bordered small>
+                        <MDBTableHead columns={this.state.columns2} />
+                        <MDBTableBody rows={this.state.rows2} />
+                    </MDBTable>
                     </div>	
                 </div>	
             </>
