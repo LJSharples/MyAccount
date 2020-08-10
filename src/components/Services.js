@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { getLeads, getServices, getUserDetails } from "../graphql/queries";
 import { addLead, addService, removeService } from "../graphql/mutations";
 import { Auth, API, graphqlOperation } from "aws-amplify";
-import { MDBDataTableV5, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdbreact';
+import { MDBDataTable, MDBDataTableV5, MDBBtn } from 'mdbreact';
 import ServiceModal from "./ServiceModal";
 import Modal from "react-modal";
 
@@ -21,10 +21,12 @@ class Services extends Component {
         contractDate: '',
         contractLength: '',
         billUpload: '',
-        requestCall: '',
-        serviceCosts: '',
+        callback_time: '',
+        callback_date: '',
+        cost_year: '',
+        cost_month: '',
         currentSupplier: '',
-        user_name: 'luke.sharples@powersolutionsuk.com',
+        user_name: '',
         full_name: '',
         first_name: '',
         last_name: '',
@@ -34,8 +36,8 @@ class Services extends Component {
     async componentDidMount(){
         let user = await Auth.currentAuthenticatedUser();
         const userProfile = await API.graphql(graphqlOperation(getUserDetails, { user_name: user.username}));
-        this.setState({ userProfile: userProfile.data["user"]})
-        this.setState({ userCompany: userProfile.data["getCompany"]})
+        this.setState({ userProfile: userProfile.data["user"]});
+        this.setState({ userCompany: userProfile.data["getCompany"]});
 
         //user leads
         const userLeads = await API.graphql(graphqlOperation(getLeads, { user_name: user.username}));
@@ -123,31 +125,15 @@ class Services extends Component {
             valuesArray2.push(newValue2);
         })
 
+        const data2 = {
+            columns: columnsArray2,
+            rows: valuesArray2
+        };
+        this.onChangeText('data2', data2);
+
         this.onChangeText('columns2', columnsArray2);
         this.onChangeText('rows2', valuesArray2);
     }
-    handleRowClick = (id) => {
-        console.log("clicked Row");
-    }
-
-    deleteService = async (created) => {
-        const data = {
-            user_name: this.state.user_name,
-            id: created.substr(8)
-        }
-        try {
-            const newService = await API.graphql(graphqlOperation(removeService, data));
-            console.log(newService);
-            const userServices = await API.graphql(graphqlOperation(getServices, { user_name: this.state.user_name}));
-            console.log(userServices);
-            console.log("Success");
-        } catch (err) {
-            console.log("Error:")
-            console.log(data);
-            console.log(err);
-        }
-    }
-
 
     onChangeText = (key, value) => {
         this.setState({ [key]: value})
@@ -174,7 +160,7 @@ class Services extends Component {
 
     submitLead = async () => {
         const data = {
-            user_name: this.state.user_name,
+            user_name: this.state.userProfile.user_name,
             full_name: this.state.full_name,
             first_name: this.state.first_name,
             last_name: this.state.last_name,
@@ -193,23 +179,42 @@ class Services extends Component {
 
     submitService = async () => {
         const data = {
-            user_name: this.state.user_name,
+            user_name: this.state.userProfile.user_name,
             status: "FROMMVP",
             service_name: this.state.serviceName,
-            callback_time: this.state.requestCall,
+            callback_time: this.state.callback_time,
             contract_end: this.state.contractDate,
             contract_length: this.state.contractLength,
-            current_supplier: this.state.currentSupplier
+            current_supplier: this.state.currentSupplier,
+            cost_year: this.state.cost_year,
+            cost_month: this.state.cost_month
         }
         try {
-            const newService = await API.graphql(graphqlOperation(addService, data));
+            await API.graphql(graphqlOperation(addService, data));
+            console.log("Success");
+        } catch (err) {
+            console.log("Error:")
             console.log(data);
+            console.log(err);
+        }   
+        //window.location.reload(false);
+    }
+
+    deleteService = async (created) => {
+        const data = {
+            user_name: this.state.userProfile.user_name,
+            id: created.substr(8)
+        }
+        try {
+            const newService = await API.graphql(graphqlOperation(removeService, data));
+            console.log(newService);
             console.log("Success");
         } catch (err) {
             console.log("Error:")
             console.log(data);
             console.log(err);
         }
+        window.location.reload(false);
     }
     
     render(){
@@ -370,10 +375,7 @@ class Services extends Component {
                         </div>
                     </div>
                     <div>
-                    <MDBTable btn striped bordered small responsive>
-                        <MDBTableHead columns={this.state.columns2} />
-                        <MDBTableBody rows={this.state.rows2} />
-                    </MDBTable>
+                    <MDBDataTable btn striped bordered small responsive data={this.state.data2}/>
                     </div>	
                 </div>	
             </>

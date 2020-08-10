@@ -59,52 +59,71 @@ class Modal extends React.Component {
                         </div>
                         <div className="w-full md:w-1/2 px-3">
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                Bill Upload
-                            </label>
-                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-                            id="billUpload" name="billUpload" type="text" onChange={event => this.props.onInput('billUpload', event)} type="text"/>
-                        </div>
-                    </div>
-                    <div className="flex flex-wrap -mx-3 mb-6">
-                        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                Request A Call From Our Partners
-                            </label>
-                            <div className="flex items-center justify-center w-full mb-24">
-                                <label className="flex items-center cursor-pointer">
-                                    <div className="relative">
-                                        <input id="toogleA" type="checkbox" className="hidden"/>
-                                        <div className="toggle__line w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
-                                        <div className="toggle__dot absolute w-6 h-6 bg-white rounded-full shadow inset-y-0 left-0"></div>
-                                    </div>
-                                    <div className="ml-3 text-gray-700 font-medium">
-                                        Toggle Me!
-                                    </div>
-                                </label>    
-                            </div>
-                        </div>
-                        <div className="w-full md:w-1/2 px-3">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                Callback time
-                            </label>
-                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-                            id="requestCall" name="requestCall" type="datetime-local" onChange={event => this.props.onInput('requestCall', event)}/>
-                        </div>
-                    </div>
-                    <div className="flex flex-wrap -mx-3 mb-6">
-                        <div className="w-full md:w-1/2 px-3">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                                 Contract Length
                             </label>
                             <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
                             id="contractLength" name="contractLength" type="text" onChange={event => this.props.onInput('contractLength', event)}/>
                         </div>
-                        <div className="w-full md:w-1/2 px-3">
+                    </div>
+                    <div className="flex flex-wrap -mx-3 mb-6">
+                        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                Contract End Date
+                                Bill Upload
                             </label>
                             <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-                            id="contractDate" name="contractDate" type="date" onChange={event => this.props.onInput('contractDate', event)}/>
+                            id="contractDate" name="contractDate" type="text" onChange={event => this.props.onInput('contractDate', event)} type="date"/>
+                        </div>
+                    </div>
+                    <div className="flex flex-wrap -mx-3 mb-6">
+                        <div className="w-full px-3 border-b border-solid border-gray-300 rounded-t">
+                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                Callback
+                            </label>
+                            <p className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                              Add date time you would like a call from one of our partners
+                            </p>
+                        </div>
+                    </div>
+                    <div className="flex flex-wrap -mx-3 mb-6">
+                        <div className="w-full md:w-1/2 px-3">
+                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                Callback Time
+                            </label>
+                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                            id="requestCall" name="requestCall" type="time" onChange={event => this.props.onInput('callback_time', event)}/>
+                        </div>
+                        <div className="w-full md:w-1/2 px-3">
+                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                Callback Date
+                            </label>
+                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                            id="requestCall" name="requestCall" type="date" onChange={event => this.props.onInput('callback_date', event)}/>
+                        </div>
+                    </div>
+                    <div className="flex flex-wrap -mx-3 mb-6">
+                        <div className="w-full px-3 border-b border-solid border-gray-300 rounded-t">
+                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                Costs
+                            </label>
+                            <p className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                              Add your yearly costs below and will estimate the monthly costs
+                            </p>
+                        </div>
+                    </div>
+                    <div className="flex flex-wrap -mx-3 mb-6">
+                        <div className="w-full md:w-1/2 px-3">
+                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                Cost Per Year
+                            </label>
+                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                            id="cost_year" name="cost_year" type="number" min="0.01" step="0.01" max="250000" onChange={event => this.props.onInput('callback_time', event)}/>
+                        </div>
+                        <div className="w-full md:w-1/2 px-3">
+                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                Callback Date
+                            </label>
+                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                            id="cost_month" name="cost_month" type="number" min="0.01" step="0.01" max="2500" onChange={event => this.props.onInput('callback_date', event)}/>
                         </div>
                     </div>
                 </div>
