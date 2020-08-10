@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { getUserDetails } from "../graphql/queries";
+import { getUserDetails, getServices } from "../graphql/queries";
 import { Auth, API, graphqlOperation } from "aws-amplify";
 
 class Dashboard extends Component {
     state = {
         userProfile: {},
-        userCompany: {}
+        userCompany: {},
+        services: 0,
+        annualCost: 0,
     }
 
     async componentDidMount(){
@@ -13,8 +15,15 @@ class Dashboard extends Component {
         const userProfile = await API.graphql(graphqlOperation(getUserDetails, { user_name: user.username}));
         this.setState({ userProfile: userProfile.data["user"]})
         this.setState({ userCompany: userProfile.data["getCompany"]})
-        console.log(this.state.userProfile)
-        console.log(this.state.userCompany)
+
+        //get total services
+        const userServices = await API.graphql(graphqlOperation(getServices, { user_name: user.username}));
+        this.setState({services: userServices.data['getServices'].items.length});
+
+        let sum = userServices.data["getServices"].items.reduce(function(prev, current) {
+            return prev + +current.cost_year
+        }, 0);
+        this.setState({annualCost: sum})
     }
     render(){
         return(
@@ -31,29 +40,29 @@ class Dashboard extends Component {
                     </div>
                 </div>
                 <div className="flex flex-wrap -mx-1 lg:-mx-4">
-                    <div class="flex-1 text-gray-700 text-center bg-gray-400 px-8 py-4 m-4 rounded-lg shadow-lg bg-blue-500">
+                    <div className="flex-1 text-gray-700 text-center bg-gray-400 px-8 py-4 m-4 rounded-lg shadow-lg bg-blue-500">
                         <h1 className="no-underline text-white text-2xl text-lg p-4">
                             Your Services
                         </h1>
-                        <button className="no-underline text-white text-2xl text-lg border-2 p-5 mb-8">
-                            Add Services
-                        </button><br/>
+                        <h1 className="no-underline text-white text-2xl text-lg p-5">
+                            Total Services: {this.state.services}
+                        </h1>
                         <button className="no-underline text-white text-2xl text-lg border-2 p-4">
                             View Services
                         </button>
                     </div>
-                    <div class="flex-1 text-gray-700 text-center bg-gray-400 px-8 py-4 m-4 rounded-lg shadow-lg bg-pink-700 bg-opacity-85">
+                    <div className="flex-1 text-gray-700 text-center bg-gray-400 px-8 py-4 m-4 rounded-lg shadow-lg bg-pink-700 bg-opacity-85">
                         <h1 className="no-underline text-white text-2xl text-lg p-4">
                             Annual Expenses
                         </h1>
                         <h1 className="no-underline text-white text-2xl text-lg p-5">
-                            £
+                            £ {this.state.annualCost}
                         </h1>
                         <h1 className="no-underline text-white text-2xl text-lg">
                             View Details
                         </h1>
                     </div>
-                    <div class="flex-1 text-gray-700 text-center bg-gray-400 px-8 py-4 m-4 rounded-lg shadow-lg bg-green-400 bg-opacity-95">
+                    <div className="flex-1 text-gray-700 text-center bg-gray-400 px-8 py-4 m-4 rounded-lg shadow-lg bg-green-400 bg-opacity-95">
                         <h1 className="no-underline text-white text-2xl text-lg p-4">
                             You've Saved
                         </h1>
@@ -77,7 +86,7 @@ class Dashboard extends Component {
                     </div>
                 </div>
                 <div className="flex flex-wrap -mx-1 lg:-mx-4">
-                    <div class="flex-1 text-gray-700 text-center bg-gray-400 px-8 py-4 m-4 rounded-lg shadow-lg bg-gray-200">
+                    <div className="flex-1 text-gray-700 text-center bg-gray-400 px-8 py-4 m-4 rounded-lg shadow-lg bg-gray-200">
                         <h1 className="no-underline text-black text-2xl text-lg p-4">
                             Reduce your Waste Management costs
                         </h1>
@@ -85,7 +94,7 @@ class Dashboard extends Component {
                             See if you can reduce your waste manageemnt costs with a free quote from our partners.
                         </h1>
                     </div>
-                    <div class="flex-1 text-gray-700 text-center bg-gray-400 px-8 py-4 m-4 rounded-lg shadow-lg bg-gray-200">
+                    <div className="flex-1 text-gray-700 text-center bg-gray-400 px-8 py-4 m-4 rounded-lg shadow-lg bg-gray-200">
                         <h1 className="no-underline text-black text-2xl text-lg p-4">
                             Merchant services savings
                         </h1>
@@ -93,7 +102,7 @@ class Dashboard extends Component {
                             Save money on every transaction you make with low merchant service transaction costs. Find out more.
                         </h1>
                     </div>
-                    <div class="flex-1 text-gray-700 text-center bg-gray-400 px-8 py-4 m-4 rounded-lg shadow-lg bg-gray-200">
+                    <div className="flex-1 text-gray-700 text-center bg-gray-400 px-8 py-4 m-4 rounded-lg shadow-lg bg-gray-200">
                         <h1 className="no-underline text-black text-2xl text-lg p-4">
                         New updated business rates
                         </h1>

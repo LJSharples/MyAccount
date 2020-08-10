@@ -1,60 +1,68 @@
 import React, { Component } from "react";
 import { Auth, API, graphqlOperation } from "aws-amplify";
 import { MDBDataTableV5 } from 'mdbreact';
-import { getLeads } from "../graphql/queries";
+import {  getServices } from "../graphql/queries";
 import { HorizontalBar } from "react-chartjs-2"
 
 class Expenses extends Component {
     state = {
-        data: {},
-        dataset: {}
+        monthData: [],
+        yearData: [],
+        datasetsMonth: [],
+        services: [],
     }
 
     async componentDidMount(){
         let user = await Auth.currentAuthenticatedUser();
-        //user leads
-        const userLeads = await API.graphql(graphqlOperation(getLeads, { user_name: user.username}));
-        
-        const columnsArray = [];
-        const valuesArray = [];
-        
-        for (const [key, value] of Object.entries(userLeads.data['getLeads'][0])) {
-            let newColumn = {
-              label: key,
-              field: key,
-              width: 850,
-            }
-            columnsArray.push(newColumn);
-        }
-        userLeads.data['getLeads'].map(lead => {
-            const newValue = {
-                first_name: lead.first_name,
-                last_name: lead.last_name,
-                phone: lead.phone,
-                full_name: lead.full_name,
-            }
-            valuesArray.push(newValue);
-        });
-        this.setState({'data': {
-            columns: columnsArray,
-            rows: valuesArray
-        }})
+        //user services
+        const userServices = await API.graphql(graphqlOperation(getServices, { user_name: user.username}));
 
-        const dataset1 = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [
-                {
-                    label: 'My First dataset',
-                    backgroundColor: 'rgba(255,99,132,0.2)',
-                    borderColor: 'rgba(255,99,132,1)',
-                    borderWidth: 1,
-                    hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-                    hoverBorderColor: 'rgba(255,99,132,1)',
-                    data: [65, 59, 80, 81, 56, 55, 40]
-                }
-            ]
+        //costs
+        const serviceArray = []; //get service names
+        const serviceArray2 = [];
+        userServices.data['getServices'].items.map(lead => {
+            serviceArray.push(lead.service_name);
+        })
+        const serviceNames = serviceArray.filter((val,id,array) => array.indexOf(val) == id);
+        this.setState({ services: serviceNames});
+
+        //map data to service
+        userServices.data['getServices'].items.map(lead => {
+            serviceArray2.push({key: lead.service_name, value: lead.cost_month});
+        })
+        this.setState({monthData: serviceArray2});
+        console.log(serviceArray2);
+
+        //convert to dataset
+        const arrayDatasets = []
+        this.state.monthData.map(month => {
+            const monthValue = [];
+            for (let i = 0; i < 12; i++) {
+                monthValue.push(month.value);
+            }
+            const dataset = {
+                label: month.key,
+                backgroundColor: 'rgba(255,99,132,0.2)',
+                borderColor: 'rgba(255,99,132,1)',
+                borderWidth: 1,
+                stack: 1,
+                hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+                hoverBorderColor: 'rgba(255,99,132,1)',
+                data: monthValue
+            }
+            arrayDatasets.push(dataset)
+        });
+        this.setState({ datasetsMonth: arrayDatasets});
+        console.log(this.state);
+
+        
+        
+        var monthData = {
+            labels: ["January", "February", "March", "April", "June", "July", "August", "September", "October", "November", "December"],
+            datasets: this.state.datasetsMonth
         };
-        this.setState({ dataset: dataset1});
+        console.log(monthData)
+        this.setState({ data1: monthData});
     }
 
     render(){
@@ -177,7 +185,7 @@ class Expenses extends Component {
                         </article>
                     </div>
                     <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2">
-                        <HorizontalBar data={this.state.dataset} />
+                        <HorizontalBar data={this.state.data1} />
                     </div>
                 </div>
                 <div className="flex flex-wrap -mx-1 lg:-mx-4">
