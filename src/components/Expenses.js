@@ -6,10 +6,17 @@ import { HorizontalBar } from "react-chartjs-2"
 
 class Expenses extends Component {
     state = {
-        monthData: [],
-        yearData: [],
-        datasetsMonth: [],
-        services: [],
+        data1: {},
+        data2: {},
+        data3: {},
+        gasValues: [],
+        elecValues: [],
+        waterValues: [],
+        gasYearValues: [],
+        elecYearValues: [],
+        waterYearValues: [],
+        annualCost: 0,
+        monthlyCost: 0
     }
 
     async componentDidMount(){
@@ -17,52 +24,185 @@ class Expenses extends Component {
         //user services
         const userServices = await API.graphql(graphqlOperation(getServices, { user_name: user.username}));
 
-        //costs
-        const serviceArray = []; //get service names
-        const serviceArray2 = [];
-        userServices.data['getServices'].items.map(lead => {
-            serviceArray.push(lead.service_name);
-        })
-        const serviceNames = serviceArray.filter((val,id,array) => array.indexOf(val) == id);
-        this.setState({ services: serviceNames});
+        //summary expenses
+        let sum = userServices.data["getServices"].items.reduce(function(prev, current) {
+            return prev + +current.cost_year
+        }, 0);
+        this.setState({annualCost: sum})
 
-        //map data to service
-        userServices.data['getServices'].items.map(lead => {
-            serviceArray2.push({key: lead.service_name, value: lead.cost_month});
-        })
-        this.setState({monthData: serviceArray2});
-        console.log(serviceArray2);
 
-        //convert to dataset
-        const arrayDatasets = []
-        this.state.monthData.map(month => {
-            const monthValue = [];
-            for (let i = 0; i < 12; i++) {
-                monthValue.push(month.value);
+        let sum2 = userServices.data["getServices"].items.reduce(function(prev, current) {
+            return prev + +current.cost_month
+        }, 0);
+        this.setState({monthlyCost: sum2})
+
+        //costs per month
+        const water = [];
+        const gas = [];
+        const elec = [];
+        userServices.data["getServices"].items.map(lead => {
+            if (lead.service_name == "Gas") {
+                gas.push(parseFloat(lead.cost_month));
+            } else if(lead.service_name == "Electric") {
+                elec.push(parseFloat(lead.cost_month));
+            } else {
+                water.push(parseFloat(lead.cost_month));
             }
-            const dataset = {
-                label: month.key,
-                backgroundColor: 'rgba(255,99,132,0.2)',
-                borderColor: 'rgba(255,99,132,1)',
-                borderWidth: 1,
-                stack: 1,
-                hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-                hoverBorderColor: 'rgba(255,99,132,1)',
-                data: monthValue
-            }
-            arrayDatasets.push(dataset)
         });
-        this.setState({ datasetsMonth: arrayDatasets});
-        console.log(this.state);
+        //do summary 
+        const gasTotal = gas.reduce((result, number) => result+number);
+        const elecTotal = elec.reduce((result, number) => result+number);
+        const waterTotal = water.reduce((result, number) => result+number);
 
-        
+        for (let i = 0; i < 12; i++) {
+            var gas1 = this.state.gasValues.concat(gasTotal);
+            this.setState({ gasValues: gas1 })
+        }
+
+        for (let i = 0; i < 12; i++) {
+            var elec1 = this.state.elecValues.concat(elecTotal);
+            this.setState({ elecValues: elec1 })
+        }
+
+        for (let i = 0; i < 12; i++) {
+            var water1 = this.state.waterValues.concat(waterTotal);
+            this.setState({ waterValues: water1 })
+        }
         
         var monthData = {
             labels: ["January", "February", "March", "April", "June", "July", "August", "September", "October", "November", "December"],
-            datasets: this.state.datasetsMonth
+            datasets: [
+                {
+                    label: "Gas",
+                    backgroundColor: 'rgba(255,99,132,0.2)',
+                    borderColor: 'rgba(255,99,132,1)',
+                    data: this.state.gasValues
+                },
+                {
+                    label: "Electric",
+                    backgroundColor: 'rgba(255,99,132,0.2)',
+                    borderColor: 'rgba(255,99,132,1)',
+                    data: this.state.elecValues
+                },
+                {
+                    label: "Water",
+                    backgroundColor: 'rgba(255,99,132,0.2)',
+                    borderColor: 'rgba(255,99,132,1)',
+                    data: this.state.waterValues
+                }
+            ]
         };
         console.log(monthData)
         this.setState({ data1: monthData});
+
+        //costs per Year
+        const waterYear = [];
+        const gasYear = [];
+        const elecYear = [];
+        userServices.data["getServices"].items.map(lead => {
+            if (lead.service_name == "Gas") {
+                gasYear.push(parseFloat(lead.cost_year));
+            } else if(lead.service_name == "Electric") {
+                elecYear.push(parseFloat(lead.cost_year));
+            } else {
+                waterYear.push(parseFloat(lead.cost_year));
+            }
+        });
+        //do summary 
+        const gasYearTotal = gasYear.reduce((result, number) => result+number);
+        const elecYearTotal = elecYear.reduce((result, number) => result+number);
+        const waterYearTotal = waterYear.reduce((result, number) => result+number);
+
+        for (let i = 0; i < 12; i++) {
+            var gas2 = this.state.gasYearValues.concat(gasYearTotal);
+            this.setState({ gasYearValues: gas2 })
+        }
+
+        for (let i = 0; i < 12; i++) {
+            var elec2 = this.state.elecYearValues.concat(elecYearTotal);
+            this.setState({ elecYearValues: elec2 })
+        }
+
+        for (let i = 0; i < 12; i++) {
+            var water2 = this.state.waterYearValues.concat(waterYearTotal);
+            this.setState({ waterYearValues: water2 })
+        }
+        
+        var YearData = {
+            labels: ["January", "February", "March", "April", "June", "July", "August", "September", "October", "November", "December"],
+            datasets: [
+                {
+                    label: "Gas",
+                    backgroundColor: 'rgba(255,99,132,0.2)',
+                    borderColor: 'rgba(255,99,132,1)',
+                    data: this.state.gasYearValues
+                },
+                {
+                    label: "Electric",
+                    backgroundColor: 'rgba(255,99,132,0.2)',
+                    borderColor: 'rgba(255,99,132,1)',
+                    data: this.state.elecYearValues
+                },
+                {
+                    label: "Water",
+                    backgroundColor: 'rgba(255,99,132,0.2)',
+                    borderColor: 'rgba(255,99,132,1)',
+                    data: this.state.waterYearValues
+                }
+            ]
+        };
+        console.log(YearData)
+        this.setState({ data2: YearData});
+
+        const columnsArray2 = [
+            {
+                label: "Ref",
+                field: 'id',
+                width: 250,
+            },
+            {
+                label: "Service Name",
+                field: 'service_name',
+                width: 250,
+            },
+            {
+                label: "Service Provider",
+                field: 'provider',
+                width: 250,
+            },
+            {
+                label: "Contract End Date",
+                field: 'contract_end',
+                width: 250,
+            },
+            {
+                label: "Cost per year",
+                field: 'cost_year',
+                width: 250,
+            },
+            {
+                label: "Attachments",
+                field: 'attachments',
+                width: 250,
+            }
+        ];
+        const valuesArray2 = [];
+        
+        userServices.data["getServices"].items.map(lead => {
+            const newValue2 = {
+                id: lead.id,
+                service_name: lead.service_name,
+                provider: lead.current_supplier,
+                contract_end: lead.contract_end,
+                cost_year: lead.cost_year,
+                attachments: lead.callback_time,
+            }
+            valuesArray2.push(newValue2);
+        })
+        this.setState({ data3: {
+            columns: columnsArray2,
+            rows: valuesArray2
+        }})
     }
 
     render(){
@@ -115,7 +255,7 @@ class Expenses extends Component {
                                 <a className="flex items-center no-underline  text-white" href="#">
                                     <p alt="Placeholder" className="block rounded-full">£</p>
                                     <p className="ml-2 text-sm">
-                                        Author Name
+                                        {this.state.monthlyCost}
                                     </p>
                                 </a>
                             </div>
@@ -139,7 +279,7 @@ class Expenses extends Component {
                                 <a className="flex items-center no-underline text-white" href="#">
                                     <p alt="Placeholder" className="block rounded-full">£</p>
                                     <p className="ml-2 text-sm">
-                                        Author Name
+                                        {this.state.annualCost}
                                     </p>
                                 </a>
                             </div>
@@ -204,7 +344,7 @@ class Expenses extends Component {
                         </article>
                     </div>
                     <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2">
-                        <HorizontalBar data={this.state.dataset} />
+                        <HorizontalBar data={this.state.data2} />
                     </div>
                 </div>
                 <MDBDataTableV5
@@ -216,7 +356,7 @@ class Expenses extends Component {
                     pagingTop
                     searchTop
                     searchBottom={false}
-                    data={this.state.data}
+                    data={this.state.data3}
                 />
             </div>	
         )
