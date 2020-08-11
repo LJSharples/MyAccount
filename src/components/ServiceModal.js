@@ -36,6 +36,7 @@ class Modal extends React.Component {
                             </label>
                             <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
                             id="serviceName" name="serviceName" type="text" onChange={event => this.props.onInput('serviceName', event)}>
+                                <option>Please Select a service</option>
                                 <option>Gas</option>
                                 <option>Electric</option>
                                 <option>Water</option>
@@ -116,14 +117,14 @@ class Modal extends React.Component {
                                 Cost Per Year
                             </label>
                             <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-                            id="cost_year" name="cost_year" type="number" min="0.01" step="0.01" max="250000" onChange={event => this.props.onInput('callback_time', event)}/>
+                            id="cost_year" name="cost_year" type="number" min="0.01" step="0.01" max="250000" onChange={event => this.props.onInput('cost_year', event)}/>
                         </div>
                         <div className="w-full md:w-1/2 px-3">
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                Callback Date
+                                Cost Per Month
                             </label>
                             <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-                            id="cost_month" name="cost_month" type="number" min="0.01" step="0.01" max="2500" onChange={event => this.props.onInput('callback_date', event)}/>
+                            id="cost_month" name="cost_month" type="number" min="0.01" step="0.01" max="2500" onChange={event => this.props.onInput('cost_month', event)}/>
                         </div>
                     </div>
                 </div>

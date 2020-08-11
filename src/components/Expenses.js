@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Auth, API, graphqlOperation } from "aws-amplify";
-import { MDBDataTableV5 } from 'mdbreact';
-import {  getServices } from "../graphql/queries";
+import { MDBDataTable } from 'mdbreact';
+import { getServices } from "../graphql/queries";
 import { HorizontalBar } from "react-chartjs-2"
 
 class Expenses extends Component {
@@ -23,7 +23,7 @@ class Expenses extends Component {
         let user = await Auth.currentAuthenticatedUser();
         //user services
         const userServices = await API.graphql(graphqlOperation(getServices, { user_name: user.username}));
-
+        console.log(userServices.data["getServices"].items);
         //summary expenses
         let sum = userServices.data["getServices"].items.reduce(function(prev, current) {
             return prev + +current.cost_year
@@ -41,11 +41,11 @@ class Expenses extends Component {
         const gas = [];
         const elec = [];
         userServices.data["getServices"].items.map(lead => {
-            if (lead.service_name == "Gas") {
+            if (lead.service_name === "Gas" && lead.cost_month) {
                 gas.push(parseFloat(lead.cost_month));
-            } else if(lead.service_name == "Electric") {
+            } else if(lead.service_name === "Electric" && lead.cost_month) {
                 elec.push(parseFloat(lead.cost_month));
-            } else {
+            } else if(lead.cost_month) {
                 water.push(parseFloat(lead.cost_month));
             }
         });
@@ -74,20 +74,20 @@ class Expenses extends Component {
             datasets: [
                 {
                     label: "Gas",
-                    backgroundColor: 'rgba(255,99,132,0.2)',
-                    borderColor: 'rgba(255,99,132,1)',
+                    backgroundColor: 'rgba(100,255,108)',
+                    borderColor: 'rgba(100,255,108)',
                     data: this.state.gasValues
                 },
                 {
                     label: "Electric",
-                    backgroundColor: 'rgba(255,99,132,0.2)',
-                    borderColor: 'rgba(255,99,132,1)',
+                    backgroundColor: 'rgba(255, 206, 86)',
+                    borderColor: 'rgba(255, 206, 86)',
                     data: this.state.elecValues
                 },
                 {
                     label: "Water",
-                    backgroundColor: 'rgba(255,99,132,0.2)',
-                    borderColor: 'rgba(255,99,132,1)',
+                    backgroundColor: 'rgba(46,122,255)',
+                    borderColor: 'rgba(46,122,255)',
                     data: this.state.waterValues
                 }
             ]
@@ -100,11 +100,11 @@ class Expenses extends Component {
         const gasYear = [];
         const elecYear = [];
         userServices.data["getServices"].items.map(lead => {
-            if (lead.service_name == "Gas") {
+            if (lead.service_name === "Gas" && lead.cost_year) {
                 gasYear.push(parseFloat(lead.cost_year));
-            } else if(lead.service_name == "Electric") {
+            } else if(lead.service_name === "Electric" && lead.cost_year) {
                 elecYear.push(parseFloat(lead.cost_year));
-            } else {
+            } else if(lead.cost_year){
                 waterYear.push(parseFloat(lead.cost_year));
             }
         });
@@ -133,20 +133,20 @@ class Expenses extends Component {
             datasets: [
                 {
                     label: "Gas",
-                    backgroundColor: 'rgba(255,99,132,0.2)',
-                    borderColor: 'rgba(255,99,132,1)',
+                    backgroundColor: 'rgba(100,255,108)',
+                    borderColor: 'rgba(100,255,108)',
                     data: this.state.gasYearValues
                 },
                 {
                     label: "Electric",
-                    backgroundColor: 'rgba(255,99,132,0.2)',
-                    borderColor: 'rgba(255,99,132,1)',
+                    backgroundColor: 'rgba(255, 206, 86)',
+                    borderColor: 'rgba(255, 206, 86)',
                     data: this.state.elecYearValues
                 },
                 {
                     label: "Water",
-                    backgroundColor: 'rgba(255,99,132,0.2)',
-                    borderColor: 'rgba(255,99,132,1)',
+                    backgroundColor: 'rgba(46,122,255)',
+                    borderColor: 'rgba(46,122,255)',
                     data: this.state.waterYearValues
                 }
             ]
@@ -158,33 +158,27 @@ class Expenses extends Component {
             {
                 label: "Ref",
                 field: 'id',
-                width: 250,
             },
             {
                 label: "Service Name",
                 field: 'service_name',
-                width: 250,
             },
             {
-                label: "Service Provider",
-                field: 'provider',
-                width: 250,
+                label: "Contract Length",
+                field: 'contract_length',
             },
             {
-                label: "Contract End Date",
+                label: "Contract End",
                 field: 'contract_end',
-                width: 250,
             },
             {
-                label: "Cost per year",
+                label: "Cost Per Year",
                 field: 'cost_year',
-                width: 250,
             },
             {
-                label: "Attachments",
-                field: 'attachments',
-                width: 250,
-            }
+                label: "Cost Per Month",
+                field: 'cost_month',
+            },
         ];
         const valuesArray2 = [];
         
@@ -192,10 +186,10 @@ class Expenses extends Component {
             const newValue2 = {
                 id: lead.id,
                 service_name: lead.service_name,
-                provider: lead.current_supplier,
+                contract_length: lead.contract_length,
                 contract_end: lead.contract_end,
                 cost_year: lead.cost_year,
-                attachments: lead.callback_time,
+                cost_month: lead.cost_month,
             }
             valuesArray2.push(newValue2);
         })
@@ -228,16 +222,15 @@ class Expenses extends Component {
                                 </h1>
                             </header>
                             <div className="flex items-center justify-between leading-none p-2 md:p-4">
-                                <a className="flex items-center no-underline text-blue-700" href="#">
+                                <div className="flex items-center no-underline text-blue-700">
                                     <p alt="Placeholder" className="block rounded-full">£</p>
                                     <p className="ml-2 text-sm">
-                                        Author Name
+                                        
                                     </p>
-                                </a>
+                                </div>
                             </div>
                             <div className="flex items-center justify-between leading-none p-2 md:p-4">
                                 <p className=" flex items-center no-underline text-blue-700 ml-2 text-sm">
-                                    View Details
                                 </p>
                             </div>
                         </article>
@@ -252,19 +245,18 @@ class Expenses extends Component {
                                 </h1>
                             </header>
                             <div className="flex items-center justify-between leading-none p-2 md:p-4">
-                                <a className="flex items-center no-underline  text-white" href="#">
+                                <div className="flex items-center no-underline  text-white" >
                                     <p alt="Placeholder" className="block rounded-full">£</p>
                                     <p className="ml-2 text-sm">
                                         {this.state.monthlyCost}
                                     </p>
-                                </a>
+                                </div>
                             </div>
                             <div className="flex items-center justify-between leading-none p-2 md:p-4">
-                                <a className="flex items-center no-underline text-white" href="#">
+                                <div className="flex items-center no-underline text-white">
                                     <p className="ml-2 text-sm">
-                                        View Details
                                     </p>
-                                </a>
+                                </div>
                             </div>
                         </article>
                     </div>
@@ -276,19 +268,18 @@ class Expenses extends Component {
                                 </h1>
                             </header>
                             <div className="flex items-center justify-between leading-none p-2 md:p-4">
-                                <a className="flex items-center no-underline text-white" href="#">
+                                <div className="flex items-center no-underline text-white">
                                     <p alt="Placeholder" className="block rounded-full">£</p>
                                     <p className="ml-2 text-sm">
                                         {this.state.annualCost}
                                     </p>
-                                </a>
+                                </div>
                             </div>
                             <div className="flex items-center justify-between leading-none p-2 md:p-4">
-                                <a className="flex items-center no-underline text-white" href="#">
+                                <div className="flex items-center no-underline text-white">
                                     <p className="ml-2 text-sm">
-                                        View Details
                                     </p>
-                                </a>
+                                </div>
                             </div>
                         </article>
                     </div>
@@ -311,17 +302,12 @@ class Expenses extends Component {
                 </div>
                 <div className="flex flex-wrap -mx-1 lg:-mx-4">
                     <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2">
-                        <article className="overflow-hidden rounded-lg shadow-lg bg-blue-500">
+                        <article className="overflow-hidden rounded-lg shadow-lg bg-blue-500 mt-24">
                             <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                                <h1 className="no-underline text-white text-2xl">
+                                <h1 className="no-underline text-white text-2xl text-center">
                                     Monthly Expenses
                                 </h1>
                             </header>
-                            <div className="flex items-center justify-between leading-none p-2 md:p-4">
-                                <h1 className="no-underline  text-white text-2xl">
-                                    View Details
-                                </h1>
-                            </div>
                         </article>
                     </div>
                     <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2">
@@ -330,34 +316,19 @@ class Expenses extends Component {
                 </div>
                 <div className="flex flex-wrap -mx-1 lg:-mx-4">
                     <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2">
-                        <article className="overflow-hidden rounded-lg shadow-lg bg-pink-700 bg-opacity-85">
+                        <article className="overflow-hidden rounded-lg shadow-lg bg-pink-700 bg-opacity-85 mt-24">
                             <header className="flex items-center justify-between leading-tight p-2 md:p-4">
                                 <h1 className="no-underline text-white text-2xl">
                                     Annual Expenses
                                 </h1>
                             </header>
-                            <div className="flex items-center justify-between leading-none p-2 md:p-4">
-                                <h1 className="no-underline  text-white text-2xl">
-                                    View Details
-                                </h1>
-                            </div>
                         </article>
                     </div>
                     <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2">
                         <HorizontalBar data={this.state.data2} />
                     </div>
                 </div>
-                <MDBDataTableV5
-                    hover
-                    autoWidth
-                    entriesOptions={[5, 20, 25]}
-                    entries={5}
-                    pagesAmount={4}
-                    pagingTop
-                    searchTop
-                    searchBottom={false}
-                    data={this.state.data3}
-                />
+                <MDBDataTable btn hover striped bordered small responsive data={this.state.data3}/>
             </div>	
         )
     }

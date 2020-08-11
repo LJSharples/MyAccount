@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { getUserDetails, getServices } from "../graphql/queries";
 import { Auth, API, graphqlOperation } from "aws-amplify";
+import {Link } from 'react-router-dom';
 
 class Dashboard extends Component {
     state = {
@@ -47,9 +48,11 @@ class Dashboard extends Component {
                         <h1 className="no-underline text-white text-2xl text-lg p-5">
                             Total Services: {this.state.services}
                         </h1>
-                        <button className="no-underline text-white text-2xl text-lg border-2 p-4">
-                            View Services
-                        </button>
+                        <Link to="/services">
+                            <button className="no-underline text-white text-2xl text-lg border-2 p-4">
+                                View Services  
+                            </button>
+                        </Link>
                     </div>
                     <div className="flex-1 text-gray-700 text-center bg-gray-400 px-8 py-4 m-4 rounded-lg shadow-lg bg-pink-700 bg-opacity-85">
                         <h1 className="no-underline text-white text-2xl text-lg p-4">
@@ -58,9 +61,11 @@ class Dashboard extends Component {
                         <h1 className="no-underline text-white text-2xl text-lg p-5">
                             £ {this.state.annualCost}
                         </h1>
-                        <h1 className="no-underline text-white text-2xl text-lg">
-                            View Details
-                        </h1>
+                        <Link to="/expenses">
+                            <button className="no-underline text-white text-2xl text-lg border-2 p-4">
+                                View Details  
+                            </button>
+                        </Link>
                     </div>
                     <div className="flex-1 text-gray-700 text-center bg-gray-400 px-8 py-4 m-4 rounded-lg shadow-lg bg-green-400 bg-opacity-95">
                         <h1 className="no-underline text-white text-2xl text-lg p-4">
@@ -69,9 +74,11 @@ class Dashboard extends Component {
                         <h1 className="no-underline text-white text-2xl text-lg p-5">
                             £
                         </h1>
-                        <h1 className="no-underline text-white text-2xl text-lg">
-                            View Details
-                        </h1>
+                        <Link to="/expenses">
+                            <button className="no-underline text-white text-2xl text-lg border-2 p-4">
+                                View Details  
+                            </button>
+                        </Link>
                     </div>
                 </div>
                 <div className="flex flex-wrap -mx-1 lg:-mx-4">

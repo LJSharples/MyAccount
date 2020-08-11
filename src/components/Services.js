@@ -46,37 +46,30 @@ class Services extends Component {
             {
                 label: "Ref",
                 field: 'id',
-                width: 250,
             },
             {
                 label: "Service Name",
                 field: 'service_name',
-                width: 250,
             },
             {
                 label: "Service Provider",
                 field: 'provider',
-                width: 250,
             },
             {
                 label: "Contract End Date",
                 field: 'contract_end',
-                width: 250,
             },
             {
                 label: "Cost per year",
                 field: 'cost_year',
-                width: 250,
             },
             {
                 label: "Attachments",
                 field: 'attachments',
-                width: 250,
             },
             {
                 label: "Actions",
                 field: 'handle',
-                width: 250,
             }
         ];
         const valuesArray2 = [];
@@ -131,6 +124,7 @@ class Services extends Component {
             cost_year: this.state.cost_year,
             cost_month: this.state.cost_month
         }
+        console.log(data);
         try {
             await API.graphql(graphqlOperation(addService, data));
             console.log("Success");
@@ -139,6 +133,10 @@ class Services extends Component {
             console.log(data);
             console.log(err);
         }   
+        this.setState({
+          isOpen2: !this.state.isOpen2
+        });
+        window.location.reload(false);
         //window.location.reload(false);
     }
 
