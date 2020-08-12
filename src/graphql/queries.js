@@ -161,6 +161,8 @@ export const getUserDetails = `query getUserProfile($user_name: String!){
       postcode
       region
       years_trading
+      num_employees
+      yearly_turnover
   }
   user (
       user_name: $user_name

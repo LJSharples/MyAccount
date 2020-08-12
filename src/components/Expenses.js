@@ -99,6 +99,7 @@ class Expenses extends Component {
         const waterYear = [];
         const gasYear = [];
         const elecYear = [];
+        const years = [];
         userServices.data["getServices"].items.map(lead => {
             if (lead.service_name === "Gas" && lead.cost_year) {
                 gasYear.push(parseFloat(lead.cost_year));
@@ -107,7 +108,10 @@ class Expenses extends Component {
             } else if(lead.cost_year){
                 waterYear.push(parseFloat(lead.cost_year));
             }
+            years.push(parseInt(lead.contract_end.substring(0,4)))
         });
+        const yearList = years.filter((val,id,array) => array.indexOf(val) == id);
+        console.log(yearList)
         //do summary 
         const gasYearTotal = gasYear.reduce((result, number) => result+number);
         const elecYearTotal = elecYear.reduce((result, number) => result+number);
@@ -129,7 +133,7 @@ class Expenses extends Component {
         }
         
         var YearData = {
-            labels: ["January", "February", "March", "April", "June", "July", "August", "September", "October", "November", "December"],
+            labels: yearList.sort(),
             datasets: [
                 {
                     label: "Gas",

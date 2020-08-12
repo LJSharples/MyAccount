@@ -181,6 +181,10 @@ export const updateCompany = /* GraphQL */ `
     $address2: String
     $city: String
     $postcode: String
+    $region: String
+    $years_trading: String
+    $num_employees: String
+    $yearly_turnover: String
   ){
     updateCompany(
       user_name: $user_name
@@ -188,12 +192,18 @@ export const updateCompany = /* GraphQL */ `
       address2: $address2
       city: $city
       postcode: $postcode
+      region: $region
+      years_trading: $years_trading
+      num_employees: $num_employees
+      yearly_turnover: $yearly_turnover
   ) {
     user_name
     address1
     address2
     city
     postcode
+    region
+    num_employees
   }
 }
 `;

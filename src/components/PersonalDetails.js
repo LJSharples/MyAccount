@@ -7,10 +7,10 @@ class PersonalDetails extends Component {
     state = {
         userProfile: {},
         userCompany: {},
-        full_name: "Luke J Sharples",
-        first_name: "Luke",
-        last_name: "Sharples",
-        phone: "0123456789",
+        full_name: "",
+        first_name: "",
+        last_name: "",
+        phone: "",
         company_name: "",
         company_number: "",
         address1: "",
@@ -18,7 +18,9 @@ class PersonalDetails extends Component {
         city: "",
         postcode: "",
         region: "",
+        num_employees: "",
         years_trading: "",
+        yearly_turnover: "",
         industry: "",
         user_name: ""
     }
@@ -82,7 +84,11 @@ class PersonalDetails extends Component {
             address1: this.state.address1,
             address2: this.state.address2,
             city: this.state.city,
-            postcode: this.state.postcode
+            postcode: this.state.postcode,
+            region: this.state.region,
+            years_trading: this.state.years_trading,
+            num_employees: this.state.num_employees,
+            yearly_turnover: this.state.years_trading
         }
         try{
             const r = await API.graphql(graphqlOperation(updateCompany, data));
@@ -234,6 +240,15 @@ class PersonalDetails extends Component {
                             </label>
                             <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" 
                             id="region" name="region" type="text"  value={this.state.region} onChange={this.handleChange}/>
+                        </div>
+                    </div>
+                    <div className="flex flex-wrap -mx-1 lg:-mx-4 mt-10">
+                        <div className="md:w-1/2 px-3 mb-6 md:mb-0">
+                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
+                                Post Code
+                            </label>
+                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" 
+                            id="postcode" name="postcode" type="text"  value={this.state.postcode} onChange={this.handleChange}/>
                         </div>
                     </div>
                 </div>
