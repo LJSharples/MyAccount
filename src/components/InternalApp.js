@@ -32,10 +32,10 @@ export class InternalApp extends Component {
                             <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
                                 <div className="text-sm lg:flex-grow">
                                     <ul className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
-                                        <li><Link to={'/'} className="nav-link mt-4 lg:inline-block lg:mt-0 mr-8 ml-8 text-white text-xl"> Dashboard </Link></li>
-                                        <li><Link to={'/services'} className="nav-link mt-4 lg:inline-block lg:mt-0 mr-8 text-white text-xl">Services</Link></li>
-                                        <li><Link to={'/expenses'} className="nav-link mt-4 lg:inline-block lg:mt-0 mr-8 text-white text-xl">Expenses</Link></li>
-                                        <li><Link to={'/my-details'} className="nav-link mt-4 lg:inline-block lg:mt-0 mr-8 text-white text-xl">My Details</Link></li>
+                                        <li><Link to={'/'} className="nav-link mt-4 lg:inline-block lg:mt-0 mr-8 ml-8 text-white text-xl hover:shadow-lg"> Dashboard </Link></li>
+                                        <li><Link to={'/services'} className="nav-link mt-4 lg:inline-block lg:mt-0 mr-8 text-white text-xl hover:shadow-lg">Services</Link></li>
+                                        <li><Link to={'/expenses'} className="nav-link mt-4 lg:inline-block lg:mt-0 mr-8 text-white text-xl hover:shadow-lg">Expenses</Link></li>
+                                        <li><Link to={'/my-details'} className="nav-link mt-4 lg:inline-block lg:mt-0 mr-8 text-white text-xl hover:shadow-lg">My Details</Link></li>
                                     </ul>
                                 </div>
                                 <div>

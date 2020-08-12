@@ -124,6 +124,8 @@ export const addService = /* GraphQL */ `
     $contract_end: String
     $contract_length: String
     $current_supplier: String
+    $cost_month: String
+    $cost_year: String
   ) {
     addService(
       user_name: $user_name
@@ -133,6 +135,8 @@ export const addService = /* GraphQL */ `
       contract_end: $contract_end
       contract_length: $contract_length
       current_supplier: $current_supplier
+      cost_month: $cost_month
+      cost_year: $cost_year
     ) {
       user_name
       status
