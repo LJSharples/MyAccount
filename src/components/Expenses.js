@@ -110,7 +110,7 @@ class Expenses extends Component {
             }
             years.push(parseInt(lead.contract_end.substring(0,4)))
         });
-        const yearList = years.filter((val,id,array) => array.indexOf(val) == id);
+        const yearList = years.filter((val,id,array) => array.indexOf(val) === id);
         console.log(yearList)
         //do summary 
         const gasYearTotal = gasYear.reduce((result, number) => result+number);
