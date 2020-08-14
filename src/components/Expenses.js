@@ -50,9 +50,9 @@ class Expenses extends Component {
             }
         });
         //do summary 
-        const gasTotal = gas.reduce((result, number) => result+number);
-        const elecTotal = elec.reduce((result, number) => result+number);
-        const waterTotal = water.reduce((result, number) => result+number);
+        const gasTotal = gas.reduce((result, number) => result+number, 0);        
+        const elecTotal = elec.reduce((result, number) => result+number, 0);
+        const waterTotal = water.reduce((result, number) => result+number, 0);
 
         for (let i = 0; i < 12; i++) {
             var gas1 = this.state.gasValues.concat(gasTotal);
@@ -112,9 +112,9 @@ class Expenses extends Component {
         });
         const yearList = years.filter((val,id,array) => array.indexOf(val) === id);
         //do summary 
-        const gasYearTotal = gasYear.reduce((result, number) => result+number);
-        const elecYearTotal = elecYear.reduce((result, number) => result+number);
-        const waterYearTotal = waterYear.reduce((result, number) => result+number);
+        const gasYearTotal = gasYear.reduce((result, number) => result+number, 0);
+        const elecYearTotal = elecYear.reduce((result, number) => result+number, 0);
+        const waterYearTotal = waterYear.reduce((result, number) => result+number, 0);
 
         for (let i = 0; i < 12; i++) {
             var gas2 = this.state.gasYearValues.concat(gasYearTotal);
