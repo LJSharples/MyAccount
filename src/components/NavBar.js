@@ -14,7 +14,12 @@ export default function Navbar( props ) {
                     <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-blue-500 mb-3">
                         <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
                             <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
-                                <Link to={'/'} className="text-lg font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase text-white">My Account</Link>
+                                
+                                <div className="flex items-center flex-shrink-0 text-white mr-6">
+                                    <svg className="fill-current h-8 w-8 mr-2" width="54" height="54" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 22.1c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05zM0 38.3c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05z"/></svg>
+                                    <span className="font-semibold text-xl tracking-tight"><Link to={'/'} className="text-lg font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase text-white">My Account</Link></span>
+                                </div>
+
                                 <button
                                     className="text-white cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-teal-400 hover:text-white border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
                                     type="button"
@@ -45,13 +50,12 @@ export default function Navbar( props ) {
                                         <Link to={'/my-details'} className="px-3 py-2 flex items-center text-lg uppercase font-bold leading-snug text-white hover:opacity-75">My Details</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <button onClick={props.signOut} className="inline-block text-lg px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">Logout</button>     
+                                        <button onClick={props.signOut} className="inline-block text-lg px-4 py-2 ml-12 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">Logout</button>     
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </nav>
-                    <hr />
                     <Switch>
                         <Route exact path='/' component={Dashboard} />
                         <Route path='/services' component={Services} />

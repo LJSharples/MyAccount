@@ -88,7 +88,7 @@ class PersonalDetails extends Component {
             region: this.state.region,
             years_trading: this.state.years_trading,
             num_employees: this.state.num_employees,
-            yearly_turnover: this.state.years_trading
+            yearly_turnover: this.state.yearly_turnover
         }
         try{
             const r = await API.graphql(graphqlOperation(updateCompany, data));
@@ -100,28 +100,6 @@ class PersonalDetails extends Component {
             console.log(err);
        }
     }
-
-    /*async updateUserProfile = () => {
-        const data = {
-            user_name: this.state.userProfile.data["user"].user_name,
-            address1: this.state.address1
-        }
-        try{
-             const r = await API.graphql(graphqlOperation(updateCompany, data));
-             console.log("Success!");
-             console.log(r);
-        }catch(err){
-            console.log(err);
-             console.log("Error:");
-             console.log(err);
-        }
-    }
-            /*region: this.state.region,
-            company_number: this.state.company_number,
-            years_trading: this.state.years_trading,
-            yearly_turnover: this.state.yearly_turnover,
-            num_employees: this.state.num_employees*/
-       
 
     render(){
         return (
@@ -295,7 +273,7 @@ class PersonalDetails extends Component {
                             How many employees do you have?
                             </label>
                             <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" 
-                            id="num_employees" type="text"  value={this.state.num_employees} onChange={this.handleChange}/>
+                            id="num_employees" name="num_employees" type="text"  value={this.state.num_employees} onChange={this.handleChange}/>
                         </div>
                         <div className="md:w-1/2 px-3">
                             <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">

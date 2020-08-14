@@ -23,7 +23,7 @@ class Expenses extends Component {
         let user = await Auth.currentAuthenticatedUser();
         //user services
         const userServices = await API.graphql(graphqlOperation(getServices, { user_name: user.username}));
-        console.log(userServices.data["getServices"].items);
+
         //summary expenses
         let sum = userServices.data["getServices"].items.reduce(function(prev, current) {
             return prev + +current.cost_year
@@ -70,7 +70,7 @@ class Expenses extends Component {
         }
         
         var monthData = {
-            labels: ["January", "February", "March", "April", "June", "July", "August", "September", "October", "November", "December"],
+            labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
             datasets: [
                 {
                     label: "Gas",
@@ -111,7 +111,6 @@ class Expenses extends Component {
             years.push(parseInt(lead.contract_end.substring(0,4)))
         });
         const yearList = years.filter((val,id,array) => array.indexOf(val) === id);
-        console.log(yearList)
         //do summary 
         const gasYearTotal = gasYear.reduce((result, number) => result+number);
         const elecYearTotal = elecYear.reduce((result, number) => result+number);
@@ -329,7 +328,7 @@ class Expenses extends Component {
                         </article>
                     </div>
                     <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2">
-                        <HorizontalBar data={this.state.data2} />
+                        <HorizontalBar data={this.state.data2} options={{ maintainAspectRatio: false }}/>
                     </div>
                 </div>
                 <MDBDataTable btn hover striped bordered small responsive data={this.state.data3}/>
