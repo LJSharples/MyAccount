@@ -177,6 +177,7 @@ export const updateUser = /* GraphQL */ `
 export const updateCompany = /* GraphQL */ `
   mutation upateCompany(
     $user_name: String
+    $company_number: String
     $address1: String
     $address2: String
     $city: String
@@ -185,9 +186,11 @@ export const updateCompany = /* GraphQL */ `
     $years_trading: String
     $num_employees: String
     $yearly_turnover: String
+    $industry: String
   ){
     updateCompany(
       user_name: $user_name
+      company_number: $company_number
       address1: $address1
       address2: $address2
       city: $city
@@ -196,6 +199,7 @@ export const updateCompany = /* GraphQL */ `
       years_trading: $years_trading
       num_employees: $num_employees
       yearly_turnover: $yearly_turnover
+      industry: $industry
   ) {
     user_name
     address1

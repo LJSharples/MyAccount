@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { getUserDetails, } from "../graphql/queries";
 import { Auth, API, graphqlOperation } from "aws-amplify";
 import { updateUser, updateCompany } from '../graphql/mutations';
+import Alert from '@material-ui/lab/Alert';
 
 class PersonalDetails extends Component {
     state = {
@@ -37,6 +38,7 @@ class PersonalDetails extends Component {
             phone: userProfile.data["user"].phone
         });
         this.setState({ userCompany: userProfile.data["getCompany"]})
+        console.log(userProfile.data["getCompany"])
         this.setState({
             company_name: userProfile.data["getCompany"].Data,
             address1: userProfile.data["getCompany"].address1,
@@ -81,6 +83,8 @@ class PersonalDetails extends Component {
     updateUserCompany = async () => {
         const data = {
             user_name: this.state.user_name,
+            company_name: this.state.company_name,
+            company_number: this.state.company_number,
             address1: this.state.address1,
             address2: this.state.address2,
             city: this.state.city,
@@ -88,7 +92,8 @@ class PersonalDetails extends Component {
             region: this.state.region,
             years_trading: this.state.years_trading,
             num_employees: this.state.num_employees,
-            yearly_turnover: this.state.yearly_turnover
+            yearly_turnover: this.state.yearly_turnover,
+            industry: this.state.industry
         }
         try{
             const r = await API.graphql(graphqlOperation(updateCompany, data));
@@ -133,13 +138,6 @@ class PersonalDetails extends Component {
                         </div>
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4 mt-10">
-                        <div className="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
-                                Your Email
-                            </label>
-                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" 
-                            id="user_name" name="user_name" type="text"  value={this.state.user_name} onChange={this.handleChange}/>
-                        </div>
                         <div className="md:w-1/2 px-3">
                             <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
                                 Your Mobile Number
@@ -148,8 +146,10 @@ class PersonalDetails extends Component {
                             id="phone" name="phone" type="text"  value={this.state.phone}  onChange={this.handleChange}/>
                         </div>
                     </div>
-                    <div className="flex flex-wrap -mx-1 lg:-mx-4 mt-10">
-                        <div className="md:w-1/2 px-3 mb-6 md:mb-0">
+                    <div className="flex flex-wrap -mx-1 lg:-mx-4">
+                        <div className="flex-1 text-center px-8 py-4 m-4 rounded-lg">
+                        </div>
+                        <div className="flex-1 text-center px-8 py-4 m-4 rounded-lg ">
                             <button
                                 className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                                 type="button"
@@ -157,6 +157,8 @@ class PersonalDetails extends Component {
                                 onClick={this.updateUserProfile}>
                                 Update Profile
                             </button>
+                        </div>
+                        <div className="flex-1 text-center px-8 py-4 m-4 rounded-lg">
                         </div>
                     </div>
                 </div>
@@ -256,15 +258,28 @@ class PersonalDetails extends Component {
                             <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
                             How many years have you been trading?
                             </label>
-                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" 
-                            id="years_trading"  name="years_trading" type="text" value={this.state.years_trading} onChange={this.handleChange}/>
+                            <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                                id="years_trading" name="years_trading" type="text" onChange={this.handleChange}>
+                                <option selected="selected">{this.state.years_trading || "Select"}</option>
+                                <option>0 - 1 Years</option>
+                                <option>2 - 5 Years</option>
+                                <option>5 - 10 Years</option>
+                                <option>10 Years +</option>
+                            </select>
                         </div>
                         <div className="md:w-1/2 px-3">
                             <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
                             What is your estimated yearly turn-over?
                             </label>
-                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" 
-                            id="yearly_turnover" name="yearly_turnover" type="text" value={this.state.yearly_turnover} onChange={this.handleChange}/>
+                            <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                                id="yearly_turnover" name="yearly_turnover" type="text" onChange={this.handleChange}>
+                                <option selected="selected">{this.state.yearly_turnover || "Select"}</option>
+                                <option>£0 - £50,000</option>
+                                <option>£50,000 - £100,000</option>
+                                <option>£100,000 - £500,000</option>
+                                <option>£500,000 - £2M</option>
+                                <option>£2M +</option>
+                            </select>
                         </div>
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4 mt-10">
@@ -272,26 +287,70 @@ class PersonalDetails extends Component {
                             <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
                             How many employees do you have?
                             </label>
-                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" 
-                            id="num_employees" name="num_employees" type="text"  value={this.state.num_employees} onChange={this.handleChange}/>
+                            <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                                id="num_employees" name="num_employees" type="text" onChange={this.handleChange}>
+                                <option selected="selected">{this.state.num_employees || "Select"} </option>
+                                <option>1 - 10</option>
+                                <option>10 - 50</option>
+                                <option>50 - 200</option>
+                                <option>200 - 500</option>
+                                <option>500 +</option>
+                            </select>
                         </div>
                         <div className="md:w-1/2 px-3">
                             <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
                             Which industry does your business form part of?
                             </label>
-                            <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" 
-                            id="industry" name="industry" type="text"  value={this.state.industry} onChange={this.handleChange}/>
+                            <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                                id="industry" name="industry" type="text" onChange={this.handleChange}>
+                                <option selected="selected">{this.state.industry || "Select"}</option>
+                                <option value='Aerospace and Defence' >Aerospace and Defence</option>
+                                <option value='Alternative Investment Funds' >Alternative Investment Funds</option>
+                                <option value='Asset and Wealth Management' >Asset and Wealth Management</option>
+                                <option value='Automotive' >Automotive</option>
+                                <option value='Banking and Capital Markets' >Banking and Capital Markets</option>
+                                <option value='Business Services' >Business Services</option>
+                                <option value='Capital Projects and Infrastructure' >Capital Projects and Infrastructure</option>
+                                <option value='Charities' >Charities</option>
+                                <option value='Chemicals' >Chemicals</option>
+                                <option value='Education' >Education</option>
+                                <option value='Engineering and Construction' >Engineering and Construction</option>
+                                <option value='Financial Services' >Financial Services</option>
+                                <option value='Forest, Paper and Packaging' >Forest, Paper and Packaging</option>
+                                <option value='Government and Public Services' >Government and Public Services</option>
+                                <option value='Healthcare' >Healthcare</option>
+                                <option value='Hospitality and Leisure' >Hospitality and Leisure</option>
+                                <option value='Insurance' >Insurance</option>
+                                <option value='Manufacturing' >Manufacturing</option>
+                                <option value='Media and Entertainment' >Media and Entertainment</option>
+                                <option value='Mining and Metals' >Mining and Metals</option>
+                                <option value='Oil and Gas' >Oil and Gas</option>
+                                <option value='Pharmaceutical and Life Sciences' >Pharmaceutical and Life Sciences</option>
+                                <option value='Power and Utilities'>Power and Utilities</option>
+                                <option value='Private Equity' >Private Equity</option>
+                                <option value='Real Estate' >Real Estate</option>
+                                <option value='Retail and Consumer' >Retail and Consumer</option>
+                                <option value='Sovereign Investment Funds' >Sovereign Investment Funds</option>
+                                <option value='Technology' >Technology</option>
+                                <option value='Telecommunications' >Telecommunications</option>
+                                <option value='Transport and Logistics' >Transport and Logistics</option>
+                                <option value='Other / Not listed' >Other / Not listed</option>
+                            </select>
                         </div>
                     </div>
-                    <div className="flex flex-wrap -mx-1 lg:-mx-4 mt-10">
-                        <div className="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <button
+                    <div className="flex flex-wrap -mx-1 lg:-mx-4">
+                        <div className="flex-1 text-center px-8 py-4 m-4 rounded-lg">
+                        </div>
+                        <div className="flex-1 text-center px-8 py-4 m-4 rounded-lg ">
+                        <button
                                 className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                                 type="button"
                                 style={{ transition: "all .15s ease" }}
                                 onClick={this.updateUserCompany}>
                                 Update Company
                             </button>
+                        </div>
+                        <div className="flex-1 text-center px-8 py-4 m-4 rounded-lg">
                         </div>
                     </div>
                 </div>
