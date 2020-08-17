@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Auth, API, graphqlOperation } from "aws-amplify";
-import { MDBDataTable } from 'mdbreact';
+import { MDBDataTableV5 } from 'mdbreact';
 import { getServices } from "../graphql/queries";
 import { HorizontalBar } from "react-chartjs-2"
 
@@ -331,7 +331,15 @@ class Expenses extends Component {
                         <HorizontalBar data={this.state.data2} options={{ maintainAspectRatio: false }}/>
                     </div>
                 </div>
-                <MDBDataTable btn hover striped bordered small responsive data={this.state.data3}/>
+                <div className="flex flex-wrap -mx-1 lg:-mx-4">
+                    <div className="my-1 px-1 w-full lg:my-4 lg:px-4">
+                        <article className="overflow-hidden rounded-lg">
+                            <header className="flex items-center justify-between leading-tight p-2 md:p-4">
+                                <MDBDataTableV5 btn autoWidth hover striped responsive entriesOptions={[5, 20, 25]} entries={5} pagesAmount={4} pagingTop searchTop searchBottom={false} data={this.state.data3}/>
+                            </header>
+                        </article>
+                    </div>
+                </div>
             </div>	
         )
     }
