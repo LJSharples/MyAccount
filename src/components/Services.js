@@ -197,7 +197,7 @@ class Services extends Component {
                         <div className="my-1 px-1 w-full lg:my-4 lg:px-4">
                             <article className="overflow-hidden rounded-lg">
                                 <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                                    <MDBDataTableV5 btn autoWidth hover striped responsive entriesOptions={[5, 20, 25]} entries={5} pagingTop searchTop searchBottom={false} data={this.state.data2}/>
+                                    <MDBDataTableV5 btn autoWidth hover striped responsive entriesOptions={[5, 20, 25]} entries={5} pagesAmount={4} pagingTop searchTop searchBottom={false} data={this.state.data2}/>
                                 </header>
                             </article>
                         </div>
