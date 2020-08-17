@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { getUserDetails, } from "../graphql/queries";
 import { Auth, API, graphqlOperation } from "aws-amplify";
 import { updateUser, updateCompany } from '../graphql/mutations';
-import Alert from '@material-ui/lab/Alert';
+import { Alert, AlertTitle } from '@material-ui/lab';
+import { Collapse, IconButton } from '@material-ui/core';
 
 class PersonalDetails extends Component {
     state = {
@@ -23,7 +24,9 @@ class PersonalDetails extends Component {
         years_trading: "",
         yearly_turnover: "",
         industry: "",
-        user_name: ""
+        user_name: "",
+        success: false,
+        failed: false,
     }
 
     async componentDidMount(){
@@ -49,7 +52,8 @@ class PersonalDetails extends Component {
             company_number: userProfile.data["getCompany"].company_number,
             years_trading: userProfile.data["getCompany"].years_trading,
             yearly_turnover: userProfile.data["getCompany"].yearly_turnover,
-            num_employees: userProfile.data["getCompany"].num_employees
+            num_employees: userProfile.data["getCompany"].num_employees,
+            industry: userProfile.data["getCompany"].industry
         });
         console.log(this.state);
     }
@@ -60,6 +64,10 @@ class PersonalDetails extends Component {
         this.setState({ [target.name]: target.value });
         console.log(this.state);
      };
+
+     setOpen = () => {
+         this.setState({ success: false});
+     }
 
      updateUserProfile = async () => {
         const data = {
@@ -74,6 +82,8 @@ class PersonalDetails extends Component {
             const update = await API.graphql(graphqlOperation(updateUser, data));
             console.log(update);
             console.log("Success");
+            this.setState({ success: true})
+            window.scrollTo(0, 0)
         } catch (err) {
             console.log("Error:")
             console.log(err);
@@ -99,6 +109,8 @@ class PersonalDetails extends Component {
             const r = await API.graphql(graphqlOperation(updateCompany, data));
             console.log("Success!");
             console.log(r);
+            this.setState({ success: true})
+            window.scrollTo(0, 0)
        }catch(err){
            console.log(err);
             console.log("Error:");
@@ -111,7 +123,7 @@ class PersonalDetails extends Component {
             <form>
                 <div className="container my-12 mx-auto px-4 md:px-12">
                     <div className="flex flex-wrap -mx-1 lg:-mx-4">
-                        <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
+                        <div className="my-1 px-1 w-full lg:my-4 lg:px-4 lg:w-1/3">
                             <article className="overflow-hidden rounded-lg">
                                 <header className="flex items-center justify-between leading-tight p-2 md:p-4">
                                     <h1 className="text-lg no-underline hover:underline text-black text-2xl">
@@ -120,6 +132,26 @@ class PersonalDetails extends Component {
                                 </header>
                             </article>
                         </div>
+                        <Collapse in={this.state.success}>
+                            <Alert severity="success" action={
+                                    <IconButton
+                                    aria-label="close"
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => {
+                                        this.setOpen();
+                                    }}
+                                    >
+                                        <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                                        ×
+                                        </span>
+                                    </IconButton>
+                                }
+                            >
+                                <AlertTitle>Success</AlertTitle>
+                                Your update was successful — <strong>Your details have been updated!</strong>
+                            </Alert>
+                        </Collapse>
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4">
                         <div className="md:w-1/2 px-3 mb-6 md:mb-0">

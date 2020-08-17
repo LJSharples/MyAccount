@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { getServices, getUserDetails } from "../graphql/queries";
 import { addService, removeService } from "../graphql/mutations";
 import { Auth, API, graphqlOperation } from "aws-amplify";
-import { MDBDataTable, MDBBtn } from 'mdbreact';
+import { MDBDataTableV5, MDBBtn } from 'mdbreact';
 import ServiceModal from "./ServiceModal";
 
 class Services extends Component {
@@ -193,9 +193,15 @@ class Services extends Component {
                             </article>
                         </div>
                     </div>
-                    <div>
-                    <MDBDataTable btn hover striped bordered small responsive data={this.state.data2}/>
-                    </div>	
+                    <div className="flex flex-wrap -mx-1 lg:-mx-4">
+                        <div className="my-1 px-1 w-full lg:my-4 lg:px-4">
+                            <article className="overflow-hidden rounded-lg">
+                                <header className="flex items-center justify-between leading-tight p-2 md:p-4">
+                                    <MDBDataTableV5 btn autoWidth hover striped responsive entriesOptions={[5, 20, 25]} entries={5} pagingTop searchTop searchBottom={false} data={this.state.data2}/>
+                                </header>
+                            </article>
+                        </div>
+                    </div>
                 </div>	
             </>
         )

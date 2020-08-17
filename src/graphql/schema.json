@@ -1342,6 +1342,16 @@
                                     "defaultValue": null
                                 },
                                 {
+                                    "name": "company_name",
+                                    "description": null,
+                                    "type": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    },
+                                    "defaultValue": null
+                                },
+                                {
                                     "name": "site_id",
                                     "description": null,
                                     "type": {
@@ -1393,6 +1403,16 @@
                                 },
                                 {
                                     "name": "region",
+                                    "description": null,
+                                    "type": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    },
+                                    "defaultValue": null
+                                },
+                                {
+                                    "name": "industry",
                                     "description": null,
                                     "type": {
                                         "kind": "SCALAR",
