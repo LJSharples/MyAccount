@@ -7,16 +7,20 @@ class Dashboard extends Component {
     state = {
         userProfile: {},
         userCompany: {},
+        full_name: '',
         services: 0,
         annualCost: 0,
     }
 
     async componentDidMount(){
         let user = await Auth.currentAuthenticatedUser();
+        console.log(this.state)
+        console.log(user)
         const userProfile = await API.graphql(graphqlOperation(getUserDetails, { user_name: user.username}));
         this.setState({ userProfile: userProfile.data["user"]})
         this.setState({ userCompany: userProfile.data["getCompany"]})
-        console.log(userProfile.data["user"])
+        this.setState({ full_name: userProfile.data["user"].full_name });
+        console.log(this.state)
         console.log(userProfile)
 
         //get total services
@@ -36,7 +40,7 @@ class Dashboard extends Component {
                         <article className="overflow-hidden rounded-lg">
                             <header className="flex items-center justify-between leading-tight p-4 md:p-6">
                                 <h1 className="no-underline text-blue-600 text-3xl font-bold ">
-                                    Welcome back { this.state.userProfile.first_name} { this.state.userProfile.last_name},
+                                    Welcome back { this.state.full_name },
                                 </h1>
                             </header>
                         </article>
