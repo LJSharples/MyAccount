@@ -27,6 +27,7 @@ class PersonalDetails extends Component {
         user_name: "",
         success: false,
         failed: false,
+        timeOut: 300
     }
 
     async componentDidMount(){
@@ -88,6 +89,9 @@ class PersonalDetails extends Component {
             console.log("Error:")
             console.log(err);
         }
+        setTimeout(function() { //Start the timer
+             this.setState({success: false}) //After 1 second, set render to true
+         }.bind(this), 3000)
     }
 
     updateUserCompany = async () => {
@@ -116,6 +120,9 @@ class PersonalDetails extends Component {
             console.log("Error:");
             console.log(err);
        }
+       setTimeout(function() { //Start the timer
+            this.setState({success: false}) //After 1 second, set render to true
+        }.bind(this), 3000)
     }
 
     render(){
@@ -132,7 +139,7 @@ class PersonalDetails extends Component {
                                 </header>
                             </article>
                         </div>
-                        <Collapse in={this.state.success}>
+                        <Collapse in={this.state.success} timeout="auto" unmountOnExit>
                             <Alert severity="success" action={
                                     <IconButton
                                     aria-label="close"

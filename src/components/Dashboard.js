@@ -19,7 +19,9 @@ class Dashboard extends Component {
         const userProfile = await API.graphql(graphqlOperation(getUserDetails, { user_name: user.username}));
         this.setState({ userProfile: userProfile.data["user"]})
         this.setState({ userCompany: userProfile.data["getCompany"]})
-        this.setState({ full_name: userProfile.data["user"].full_name });
+        if(userProfile.data["user"].full_name){
+            this.setState({ full_name: userProfile.data["user"].full_name });
+        }
         console.log(this.state)
         console.log(userProfile)
 
@@ -36,7 +38,7 @@ class Dashboard extends Component {
         return(
             <div className="container my-12 mx-auto px-4 md:px-12">
                 <div className="flex flex-wrap -mx-1 lg:-mx-4">
-                    <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2">
+                    <div className="my-1 px-1 w-full lg:my-4 lg:px-4">
                         <article className="overflow-hidden rounded-lg">
                             <header className="flex items-center justify-between leading-tight p-4 md:p-6">
                                 <h1 className="no-underline text-blue-600 text-3xl font-bold ">
