@@ -62,8 +62,16 @@ class Modal extends React.Component {
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                                 Contract Length
                             </label>
-                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-                            id="contractLength" name="contractLength" type="text" placeholder="12/24 Months" onChange={event => this.props.onInput('contractLength', event)}/>
+                            <select className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                                id="contractLength" name="contractLength" type="text" onChange={event => this.props.onInput('contractLength', event)}>
+                                <option selected="selected">Enter Contract Length</option>
+                                <option>12 Months</option>
+                                <option>18 Months</option>
+                                <option>24 Months</option>
+                                <option>36 Months</option>
+                                <option>48 Months</option>
+                                <option>60 Months</option>
+                            </select>
                         </div>
                     </div>
                     <div className="flex flex-wrap -mx-3 mb-6">

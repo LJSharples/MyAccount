@@ -9,6 +9,7 @@ class Services extends Component {
     state = {
         data: {},
         data2: {},
+        column2: {},
         userProfile: {},
         userCompany: {},
         columns2: [],
@@ -92,6 +93,7 @@ class Services extends Component {
             columns: columnsArray2,
             rows: valuesArray2
         };
+        this.onChangeText('column2', columnsArray2);
         this.onChangeText('data2', data2);
     }
 
@@ -136,7 +138,29 @@ class Services extends Component {
         this.setState({
           isOpen2: !this.state.isOpen2
         });
-        window.location.reload(false);
+        const userServices = await API.graphql(graphqlOperation(getServices, { user_name: this.state.userProfile.user_name}));
+
+        const valuesArray2 = [];
+        
+        userServices.data["getServices"].items.map(lead => {
+            const newValue2 = {
+                id: lead.id,
+                service_name: lead.service_name,
+                provider: lead.current_supplier,
+                contract_end: lead.contract_end,
+                cost_year: lead.cost_year,
+                attachments: lead.callback_time,
+                handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.deleteService(lead.PK)}>Delete</MDBBtn>
+
+            }
+            valuesArray2.push(newValue2);
+        })
+
+        const data2 = {
+            columns: this.state.column2,
+            rows: valuesArray2
+        };
+        this.onChangeText('data2', data2);
         //window.location.reload(false);
     }
 
@@ -154,7 +178,29 @@ class Services extends Component {
             console.log(data);
             console.log(err);
         }
-        window.location.reload(false);
+        const userServices = await API.graphql(graphqlOperation(getServices, { user_name: this.state.userProfile.user_name}));
+
+        const valuesArray2 = [];
+        
+        userServices.data["getServices"].items.map(lead => {
+            const newValue2 = {
+                id: lead.id,
+                service_name: lead.service_name,
+                provider: lead.current_supplier,
+                contract_end: lead.contract_end,
+                cost_year: lead.cost_year,
+                attachments: lead.callback_time,
+                handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.deleteService(lead.PK)}>Delete</MDBBtn>
+
+            }
+            valuesArray2.push(newValue2);
+        })
+
+        const data2 = {
+            columns: this.state.column2,
+            rows: valuesArray2
+        };
+        this.onChangeText('data2', data2);
     }
     
     render(){
