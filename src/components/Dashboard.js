@@ -10,6 +10,7 @@ class Dashboard extends Component {
         full_name: '',
         services: 0,
         annualCost: 0,
+        annualSave: 0,
     }
 
     async componentDidMount(){
@@ -80,7 +81,7 @@ class Dashboard extends Component {
                             You've Saved
                         </h1>
                         <h1 className="no-underline text-white text-2xl text-lg p-5">
-                            £
+                            £ {this.state.annualSave}
                         </h1>
                         <Link to="/expenses">
                             <button className="no-underline text-white text-2xl text-lg border-2 p-4">
