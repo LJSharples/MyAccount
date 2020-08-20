@@ -190,7 +190,7 @@ class PersonalDetails extends Component {
                         </div>
                         <div className="flex-1 text-center px-8 py-4 m-4 rounded-lg ">
                             <button
-                                className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 hover:border-transparent hover:text-blue-500 hover:bg-white hover:border-blue-500"
                                 type="button"
                                 style={{ transition: "all .15s ease" }}
                                 onClick={this.updateUserProfile}>
@@ -382,7 +382,7 @@ class PersonalDetails extends Component {
                         </div>
                         <div className="flex-1 text-center px-8 py-4 m-4 rounded-lg ">
                         <button
-                                className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 hover:border-transparent hover:text-blue-500 hover:bg-white hover:border-blue-500"
                                 type="button"
                                 style={{ transition: "all .15s ease" }}
                                 onClick={this.updateUserCompany}>

@@ -50,41 +50,41 @@ class Dashboard extends Component {
                     </div>
                 </div>
                 <div className="flex flex-wrap -mx-1 lg:-mx-4">
-                    <div className="flex-1 text-gray-700 text-center bg-gray-400 px-8 py-4 m-4 rounded-lg shadow-lg bg-blue-500">
-                        <h1 className="no-underline text-white text-2xl text-lg p-4">
+                    <div className="flex-1 text-center px-8 py-4 m-4 rounded-lg shadow-lg bg-blue-300">
+                        <h1 className="no-underline text-blue-600 font-semibold text-2xl text-lg p-4">
                             Your Services
                         </h1>
-                        <h1 className="no-underline text-white text-2xl text-lg p-5">
+                        <h1 className="no-underline text-blue-600 font-medium text-2xl text-lg p-5">
                             Total Services: {this.state.services}
                         </h1>
                         <Link to="/services">
-                            <button className="no-underline text-white text-2xl text-lg border-2 p-4">
+                            <button className="no-underline text-blue-600 font-medium text-2xl text-lg border-2 p-4 border-blue-500 rounded hover:border-transparent hover:text-blue-600 hover:bg-white hover:border-blue-500">
                                 View Services  
                             </button>
                         </Link>
                     </div>
-                    <div className="flex-1 text-gray-700 text-center bg-gray-400 px-8 py-4 m-4 rounded-lg shadow-lg bg-pink-700 bg-opacity-85">
-                        <h1 className="no-underline text-white text-2xl text-lg p-4">
+                    <div className="flex-1 text-gray-700 text-center bg-gray-100 px-8 py-4 m-4 rounded-lg shadow-lg bg-orange-300">
+                        <h1 className="no-underline text-orange-600 font-semibold text-2xl text-lg p-4">
                             Annual Expenses
                         </h1>
-                        <h1 className="no-underline text-white text-2xl text-lg p-5">
+                        <h1 className="no-underline text-orange-600 font-medium text-2xl text-lg p-5">
                             £ {this.state.annualCost}
                         </h1>
                         <Link to="/expenses">
-                            <button className="no-underline text-white text-2xl text-lg border-2 p-4">
+                            <button className="no-underline text-orange-600 font-medium text-2xl text-lg border-2 p-4 border-orange-500 rounded hover:border-transparent hover:text-orange-600 hover:bg-white hover:border-orange-500">
                                 View Details  
                             </button>
                         </Link>
                     </div>
-                    <div className="flex-1 text-gray-700 text-center bg-gray-400 px-8 py-4 m-4 rounded-lg shadow-lg bg-green-400 bg-opacity-95">
-                        <h1 className="no-underline text-white text-2xl text-lg p-4">
+                    <div className="flex-1 text-center px-8 py-4 m-4 rounded-lg shadow-lg bg-purple-300 bg-opacity-75">
+                        <h1 className="no-underline text-purple-400 font-semibold text-2xl text-lg p-4">
                             You've Saved
                         </h1>
-                        <h1 className="no-underline text-white text-2xl text-lg p-5">
+                        <h1 className="no-underline text-purple-400 font-medium text-2xl text-lg p-5">
                             £ {this.state.annualSave}
                         </h1>
                         <Link to="/expenses">
-                            <button className="no-underline text-white text-2xl text-lg border-2 p-4">
+                            <button className="no-underline text-purple-400 font-medium text-2xl text-lg border-2 p-4 border-purple-400 rounded hover:border-transparent hover:text-purple-400 hover:bg-white hover:border-purple-400">
                                 View Details  
                             </button>
                         </Link>
@@ -102,7 +102,7 @@ class Dashboard extends Component {
                     </div>
                 </div>
                 <div className="flex flex-wrap -mx-1 lg:-mx-4">
-                    <div className="flex-1 text-gray-700 text-center bg-gray-400 px-8 py-4 m-4 rounded-lg shadow-lg bg-gray-200">
+                    <div className="flex-1 text-gray-700 text-center bg-gray-400 px-8 py-4 m-4 rounded-lg shadow-lg bg-gray-200 bg-opacity-25">
                         <h1 className="no-underline text-black text-2xl text-lg p-4">
                             Reduce your Waste Management costs
                         </h1>
@@ -110,7 +110,7 @@ class Dashboard extends Component {
                             See if you can reduce your waste manageemnt costs with a free quote from our partners.
                         </h1>
                     </div>
-                    <div className="flex-1 text-gray-700 text-center bg-gray-400 px-8 py-4 m-4 rounded-lg shadow-lg bg-gray-200">
+                    <div className="flex-1 text-gray-700 text-center bg-gray-400 px-8 py-4 m-4 rounded-lg shadow-lg bg-gray-200 bg-opacity-25">
                         <h1 className="no-underline text-black text-2xl text-lg p-4">
                             Merchant services savings
                         </h1>
@@ -118,7 +118,7 @@ class Dashboard extends Component {
                             Save money on every transaction you make with low merchant service transaction costs. Find out more.
                         </h1>
                     </div>
-                    <div className="flex-1 text-gray-700 text-center bg-gray-400 px-8 py-4 m-4 rounded-lg shadow-lg bg-gray-200">
+                    <div className="flex-1 text-gray-700 text-center bg-gray-400 px-8 py-4 m-4 rounded-lg shadow-lg bg-gray-200 bg-opacity-25">
                         <h1 className="no-underline text-black text-2xl text-lg p-4">
                         New updated business rates
                         </h1>

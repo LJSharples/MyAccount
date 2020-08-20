@@ -241,16 +241,16 @@ class Expenses extends Component {
                 </div>
                 <div className="flex flex-wrap -mx-1 lg:-mx-4">
                     <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
-                        <article className="overflow-hidden rounded-lg shadow-lg bg-blue-500">
+                        <article className="overflow-hidden rounded-lg shadow-lg bg-blue-300">
                             <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                                <h1 className="no-underline  text-white text-2xl">
+                                <h1 className="no-underline text-blue-600 font-semibold  text-white text-2xl">
                                     Monthly Expenses
                                 </h1>
                             </header>
                             <div className="flex items-center justify-between leading-none p-2 md:p-4">
                                 <div className="flex items-center no-underline  text-white" >
-                                    <p alt="Placeholder" className="block rounded-full">£</p>
-                                    <p className="ml-2 text-sm">
+                                    <p alt="Placeholder" className="block text-blue-600 font-semibold rounded-full">£</p>
+                                    <p className="ml-2 text-blue-600 font-semibold text-sm">
                                         {this.state.monthlyCost}
                                     </p>
                                 </div>
@@ -264,16 +264,16 @@ class Expenses extends Component {
                         </article>
                     </div>
                     <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
-                        <article className="overflow-hidden rounded-lg shadow-lg bg-pink-700 bg-opacity-85">
+                        <article className="overflow-hidden rounded-lg shadow-lg bg-orange-300">
                             <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                                <h1 className="no-underline text-white text-2xl">
+                                <h1 className="no-underline text-orange-600 font-semibold text-2xl">
                                     Annual Expenses
                                 </h1>
                             </header>
                             <div className="flex items-center justify-between leading-none p-2 md:p-4">
                                 <div className="flex items-center no-underline text-white">
-                                    <p alt="Placeholder" className="block rounded-full">£</p>
-                                    <p className="ml-2 text-sm">
+                                    <p alt="Placeholder" className="block text-orange-600 font-medium rounded-full">£</p>
+                                    <p className="ml-2 text-orange-600 font-medium text-sm">
                                         {this.state.annualCost}
                                     </p>
                                 </div>
@@ -287,27 +287,34 @@ class Expenses extends Component {
                         </article>
                     </div>
                     <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
-                        <article className="overflow-hidden rounded-lg shadow-lg bg-green-400 bg-opacity-95">
+                        <article className="overflow-hidden rounded-lg shadow-lg bg-purple-300 bg-opacity-75">
                             <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                                <h1 className="no-underline text-white text-2xl">
+                                <h1 className="no-underline text-purple-500 font-semibold text-2xl">
                                     Expenses Breakdown
                                 </h1>
                             </header>
                             <div className="flex items-center justify-between leading-none p-2 md:p-4">
-                                <h1 className="no-underline  text-white text-2xl">
-                                    View Details
-                                </h1>
+                                <div className="flex items-center no-underline text-white">
+                                    <p alt="Placeholder" className="block text-purple-500 font-medium rounded-full">£</p>
+                                    <p className="ml-2 text-purple-500 font-medium text-sm">
+                                        {this.state.annualCost}
+                                    </p>
+                                </div>
                             </div>
                             <div className="flex items-center justify-between leading-none p-2 md:p-4">
+                                <div className="flex items-center no-underline text-white">
+                                    <p className="ml-2 text-sm">
+                                    </p>
+                                </div>
                             </div>
                         </article>
                     </div>
                 </div>
                 <div className="flex flex-wrap -mx-1 lg:-mx-4">
                     <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2">
-                        <article className="overflow-hidden rounded-lg shadow-lg bg-blue-500 mt-24">
+                        <article className="overflow-hidden rounded-lg shadow-lg bg-blue-300 mt-24">
                             <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                                <h1 className="no-underline text-white text-2xl text-center">
+                                <h1 className="no-underline text-blue-600 font-semibold  text-2xl text-center">
                                     Monthly Expenses
                                 </h1>
                             </header>
@@ -319,9 +326,9 @@ class Expenses extends Component {
                 </div>
                 <div className="flex flex-wrap -mx-1 lg:-mx-4">
                     <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2">
-                        <article className="overflow-hidden rounded-lg shadow-lg bg-pink-700 bg-opacity-85 mt-24">
+                        <article className="overflow-hidden rounded-lg shadow-lg bg-orange-300 bg-opacity-85 mt-24">
                             <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                                <h1 className="no-underline text-white text-2xl">
+                                <h1 className="no-underline text-orange-600 font-semibold text-2xl">
                                     Annual Expenses
                                 </h1>
                             </header>
