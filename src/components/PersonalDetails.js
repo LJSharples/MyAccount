@@ -282,7 +282,12 @@ class PersonalDetails extends Component {
                                 </header>
                             </article>
                         </div>
-                        <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
+                    </div>
+                    <div className="flex flex-wrap -mx-1 lg:-mx-4">
+                        
+                        <div className="md:w-1/6 px-3">
+                        </div>
+                        <div className="md:w-4/6 px-3 mb-6 md:mb-0">
                             <article className="overflow-hidden rounded-lg">
                                 <header className="flex items-center justify-between leading-tight p-2 md:p-4">
                                     <p className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"> 
@@ -290,6 +295,8 @@ class PersonalDetails extends Component {
                                     </p>
                                 </header>
                             </article>
+                        </div>
+                        <div className="md:w-1/6 px-3">
                         </div>
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4">

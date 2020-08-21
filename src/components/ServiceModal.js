@@ -15,7 +15,7 @@ class Modal extends React.Component {
             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
               {/*header*/}
               <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t">
-                <h3 className="text-3xl font-semibold">
+                <h3 className="text-3xl text-blue-600 font-semibold">
                   Add Service
                 </h3>
                 <button
@@ -31,7 +31,7 @@ class Modal extends React.Component {
                 <div className="relative p-6 flex-auto">
                     <div className="flex flex-wrap -mx-3 mb-6">
                         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
+                            <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2" >
                                 Service Name
                             </label>
                             <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
@@ -43,7 +43,7 @@ class Modal extends React.Component {
                             </select>
                         </div>
                         <div className="w-full md:w-1/2 px-3">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                            <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
                                 Provider
                             </label>
                             <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
@@ -52,14 +52,14 @@ class Modal extends React.Component {
                     </div>
                     <div className="flex flex-wrap -mx-3 mb-6">
                         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                            <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
                                 Contract End Date
                             </label>
                             <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
                             id="contractDate" name="contractDate" onChange={event => this.props.onInput('contractDate', event)} type="date" placeholder="dd-mm-yyyy" />
                         </div>
                         <div className="w-full md:w-1/2 px-3">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                            <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
                                 Contract Length
                             </label>
                             <select className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
@@ -76,24 +76,24 @@ class Modal extends React.Component {
                     </div>
                     <div className="flex flex-wrap -mx-3 mb-6">
                         <div className="w-full px-3 border-b border-solid border-gray-300 rounded-t">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                            <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
                                 Callback
                             </label>
-                            <p className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                            <p className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
                               Add date time you would like a call from one of our partners
                             </p>
                         </div>
                     </div>
                     <div className="flex flex-wrap -mx-3 mb-6">
                         <div className="w-full md:w-1/2 px-3">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                            <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
                                 Callback Time
                             </label>
                             <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
                             id="requestCall" name="requestCall" type="time" placeholder="--:--" onChange={event => this.props.onInput('callback_time', event)}/>
                         </div>
                         <div className="w-full md:w-1/2 px-3">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                            <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
                                 Callback Date
                             </label>
                             <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
@@ -102,24 +102,24 @@ class Modal extends React.Component {
                     </div>
                     <div className="flex flex-wrap -mx-3 mb-6">
                         <div className="w-full px-3 border-b border-solid border-gray-300 rounded-t">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                            <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
                                 Costs
                             </label>
-                            <p className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                            <p className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
                               Add your yearly costs below and will estimate the monthly costs
                             </p>
                         </div>
                     </div>
                     <div className="flex flex-wrap -mx-3 mb-6">
                         <div className="w-full md:w-1/2 px-3">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                            <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
                                 Cost Per Year (£)
                             </label>
                             <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
                             id="cost_year" name="cost_year" type="number" placeholder="£0.00" min="0.01" step="0.01" max="250000" onChange={event => this.props.onInput('cost_year', event)}/>
                         </div>
                         <div className="w-full md:w-1/2 px-3">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                            <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
                                 Cost Per Month (£)
                             </label>
                             <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
@@ -138,7 +138,7 @@ class Modal extends React.Component {
                   Close
                 </button>
                 <button
-                    className="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                    className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 hover:border-transparent hover:text-blue-500 hover:bg-white hover:border-blue-500"
                     type="button"
                     style={{ transition: "all .15s ease" }}
                     onClick={this.props.submitLead}
