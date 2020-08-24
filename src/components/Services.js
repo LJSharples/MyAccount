@@ -31,11 +31,9 @@ class Services extends Component {
         const userProfile = await API.graphql(graphqlOperation(getUserDetails, { user_name: user.username}));
         this.setState({ userProfile: userProfile.data["user"]});
         this.setState({ userCompany: userProfile.data["getCompany"]});
-        console.log(this.state);
 
         //user services
         const userServices = await API.graphql(graphqlOperation(getServices, { user_name: user.username}));
-        console.log(userServices.data["getServices"].items);
 
         const columnsArray2 = [
             {
@@ -96,10 +94,7 @@ class Services extends Component {
     };
 
     onInput = (key, event) => {
-        console.log(key);
-        console.log(event.target.value);
         this.setState({ [key]: event.target.value})
-        console.log(this.state);
     };
 
     toggleModal = () => {
@@ -120,13 +115,10 @@ class Services extends Component {
             cost_year: this.state.cost_year,
             cost_month: this.state.cost_month
         }
-        console.log(data);
         try {
             await API.graphql(graphqlOperation(addService, data));
-            console.log("Success");
         } catch (err) {
             console.log("Error:")
-            console.log(data);
             console.log(err);
         }   
         this.setState({
@@ -164,12 +156,9 @@ class Services extends Component {
             id: created.substr(8)
         }
         try {
-            const newService = await API.graphql(graphqlOperation(removeService, data));
-            console.log(newService);
-            console.log("Success");
+            await API.graphql(graphqlOperation(removeService, data));
         } catch (err) {
             console.log("Error:")
-            console.log(data);
             console.log(err);
         }
         const userServices = await API.graphql(graphqlOperation(getServices, { user_name: this.state.userProfile.user_name}));

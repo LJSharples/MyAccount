@@ -26,7 +26,6 @@ class PersonalDetails extends Component {
         industry: "",
         user_name: "",
         success: false,
-        failed: false,
         timeOut: 300
     }
 
@@ -42,7 +41,6 @@ class PersonalDetails extends Component {
             phone: userProfile.data["user"].phone
         });
         this.setState({ userCompany: userProfile.data["getCompany"]})
-        console.log(userProfile.data["getCompany"])
         this.setState({
             company_name: userProfile.data["getCompany"].Data,
             address1: userProfile.data["getCompany"].address1,
@@ -56,14 +54,10 @@ class PersonalDetails extends Component {
             num_employees: userProfile.data["getCompany"].num_employees,
             industry: userProfile.data["getCompany"].industry
         });
-        console.log(this.state);
     }
 
     handleChange = ({ target }) => {
-        console.log(this.state);
-        console.log(target);
         this.setState({ [target.name]: target.value });
-        console.log(this.state);
      };
 
      setOpen = () => {
@@ -78,11 +72,8 @@ class PersonalDetails extends Component {
             last_name: this.state.last_name,
             phone: this.state.phone
         }
-        console.log(data)
         try {
-            const update = await API.graphql(graphqlOperation(updateUser, data));
-            console.log(update);
-            console.log("Success");
+            await API.graphql(graphqlOperation(updateUser, data));
             this.setState({ success: true})
             window.scrollTo(0, 0)
         } catch (err) {
@@ -110,13 +101,10 @@ class PersonalDetails extends Component {
             industry: this.state.industry
         }
         try{
-            const r = await API.graphql(graphqlOperation(updateCompany, data));
-            console.log("Success!");
-            console.log(r);
+            await API.graphql(graphqlOperation(updateCompany, data));
             this.setState({ success: true})
             window.scrollTo(0, 0)
        }catch(err){
-           console.log(err);
             console.log("Error:");
             console.log(err);
        }

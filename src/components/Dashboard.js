@@ -21,7 +21,6 @@ class Dashboard extends Component {
         if(userProfile.data["user"].full_name){
             this.setState({ full_name: userProfile.data["user"].full_name });
         }
-        console.log(userProfile)
 
         //get total services
         const userServices = await API.graphql(graphqlOperation(getServices, { user_name: user.username}));
