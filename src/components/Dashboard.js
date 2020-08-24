@@ -15,15 +15,12 @@ class Dashboard extends Component {
 
     async componentDidMount(){
         let user = await Auth.currentAuthenticatedUser();
-        console.log(this.state)
-        console.log(user)
         const userProfile = await API.graphql(graphqlOperation(getUserDetails, { user_name: user.username}));
         this.setState({ userProfile: userProfile.data["user"]})
         this.setState({ userCompany: userProfile.data["getCompany"]})
         if(userProfile.data["user"].full_name){
             this.setState({ full_name: userProfile.data["user"].full_name });
         }
-        console.log(this.state)
         console.log(userProfile)
 
         //get total services

@@ -2,19 +2,13 @@ import React, { Component } from "react";
 import { Auth, API, graphqlOperation } from "aws-amplify";
 import { MDBDataTableV5 } from 'mdbreact';
 import { getServices } from "../graphql/queries";
-import { HorizontalBar } from "react-chartjs-2"
+import { HorizontalBar, Pie } from "react-chartjs-2"
 
 class Expenses extends Component {
     state = {
         data1: {},
         data2: {},
         data3: {},
-        gasValues: [],
-        elecValues: [],
-        waterValues: [],
-        gasYearValues: [],
-        elecYearValues: [],
-        waterYearValues: [],
         annualCost: 0,
         monthlyCost: 0
     }
@@ -53,53 +47,33 @@ class Expenses extends Component {
         const gasTotal = gas.reduce((result, number) => result+number, 0);        
         const elecTotal = elec.reduce((result, number) => result+number, 0);
         const waterTotal = water.reduce((result, number) => result+number, 0);
-
-        for (let i = 0; i < 12; i++) {
-            var gas1 = this.state.gasValues.concat(gasTotal);
-            this.setState({ gasValues: gas1 })
-        }
-
-        for (let i = 0; i < 12; i++) {
-            var elec1 = this.state.elecValues.concat(elecTotal);
-            this.setState({ elecValues: elec1 })
-        }
-
-        for (let i = 0; i < 12; i++) {
-            var water1 = this.state.waterValues.concat(waterTotal);
-            this.setState({ waterValues: water1 })
-        }
         
-        var monthData = {
-            labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-            datasets: [
-                {
-                    label: "Gas",
-                    backgroundColor: 'rgba(100,255,108)',
-                    borderColor: 'rgba(100,255,108)',
-                    data: this.state.gasValues
-                },
-                {
-                    label: "Electric",
-                    backgroundColor: 'rgba(255, 206, 86)',
-                    borderColor: 'rgba(255, 206, 86)',
-                    data: this.state.elecValues
-                },
-                {
-                    label: "Water",
-                    backgroundColor: 'rgba(46,122,255)',
-                    borderColor: 'rgba(46,122,255)',
-                    data: this.state.waterValues
-                }
-            ]
-        };
-        console.log(monthData)
-        this.setState({ data1: monthData});
+        this.setState({ data1: {
+            labels: [
+                'Gas',
+                'Electric',
+                'Water'
+            ],
+            datasets: [{
+                data: [gasTotal, elecTotal, waterTotal],
+                backgroundColor: [
+                '#fc8181',
+                '#90cdf4',
+                '#fbd38d'
+                ],
+                hoverBackgroundColor: [
+                '#fc8181',
+                '#90cdf4',
+                '#fbd38d'
+                ]
+            }]
+        }
+    })
 
         //costs per Year
         const waterYear = [];
         const gasYear = [];
         const elecYear = [];
-        const years = [];
         userServices.data["getServices"].items.map(lead => {
             if (lead.service_name === "Gas" && lead.cost_year) {
                 gasYear.push(parseFloat(lead.cost_year));
@@ -108,54 +82,33 @@ class Expenses extends Component {
             } else if(lead.cost_year){
                 waterYear.push(parseFloat(lead.cost_year));
             }
-            years.push(parseInt(lead.contract_end.substring(0,4)))
         });
-        const yearList = years.filter((val,id,array) => array.indexOf(val) === id);
         //do summary 
         const gasYearTotal = gasYear.reduce((result, number) => result+number, 0);
         const elecYearTotal = elecYear.reduce((result, number) => result+number, 0);
         const waterYearTotal = waterYear.reduce((result, number) => result+number, 0);
 
-        for (let i = 0; i < 12; i++) {
-            var gas2 = this.state.gasYearValues.concat(gasYearTotal);
-            this.setState({ gasYearValues: gas2 })
-        }
-
-        for (let i = 0; i < 12; i++) {
-            var elec2 = this.state.elecYearValues.concat(elecYearTotal);
-            this.setState({ elecYearValues: elec2 })
-        }
-
-        for (let i = 0; i < 12; i++) {
-            var water2 = this.state.waterYearValues.concat(waterYearTotal);
-            this.setState({ waterYearValues: water2 })
-        }
-        
-        var YearData = {
-            labels: yearList.sort(),
-            datasets: [
-                {
-                    label: "Gas",
-                    backgroundColor: 'rgba(100,255,108)',
-                    borderColor: 'rgba(100,255,108)',
-                    data: this.state.gasYearValues
-                },
-                {
-                    label: "Electric",
-                    backgroundColor: 'rgba(255, 206, 86)',
-                    borderColor: 'rgba(255, 206, 86)',
-                    data: this.state.elecYearValues
-                },
-                {
-                    label: "Water",
-                    backgroundColor: 'rgba(46,122,255)',
-                    borderColor: 'rgba(46,122,255)',
-                    data: this.state.waterYearValues
-                }
-            ]
-        };
-        console.log(YearData)
-        this.setState({ data2: YearData});
+        this.setState({ data2: {
+                labels: [
+                    'Gas',
+                    'Electric',
+                    'Water'
+                ],
+                datasets: [{
+                    data: [gasYearTotal, elecYearTotal, waterYearTotal],
+                    backgroundColor: [
+                    '#fc8181',
+                    '#90cdf4',
+                    '#fbd38d'
+                    ],
+                    hoverBackgroundColor: [
+                    '#fc8181',
+                    '#90cdf4',
+                    '#fbd38d'
+                    ]
+                }]
+            }
+        })
 
         const columnsArray2 = [
             {
@@ -321,7 +274,7 @@ class Expenses extends Component {
                         </article>
                     </div>
                     <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2">
-                        <HorizontalBar data={this.state.data1} />
+                        <Pie data={this.state.data1} />
                     </div>
                 </div>
                 <div className="flex flex-wrap -mx-1 lg:-mx-4">
@@ -335,7 +288,7 @@ class Expenses extends Component {
                         </article>
                     </div>
                     <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2">
-                        <HorizontalBar data={this.state.data2} options={{ maintainAspectRatio: false }}/>
+                        <Pie data={this.state.data2}/>
                     </div>
                 </div>
                 <div className="flex flex-wrap -mx-1 lg:-mx-4">
