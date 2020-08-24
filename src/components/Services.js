@@ -12,9 +12,6 @@ class Services extends Component {
         column2: {},
         userProfile: {},
         userCompany: {},
-        columns2: [],
-        rows2: [],
-        isOpen: false ,
         isOpen2: false ,
         serviceName: '',
         provider: '',
@@ -27,10 +24,6 @@ class Services extends Component {
         cost_month: '',
         currentSupplier: '',
         user_name: '',
-        full_name: '',
-        first_name: '',
-        last_name: '',
-        phone: ''
     }
 
     async componentDidMount(){
@@ -38,6 +31,7 @@ class Services extends Component {
         const userProfile = await API.graphql(graphqlOperation(getUserDetails, { user_name: user.username}));
         this.setState({ userProfile: userProfile.data["user"]});
         this.setState({ userCompany: userProfile.data["getCompany"]});
+        console.log(this.state);
 
         //user services
         const userServices = await API.graphql(graphqlOperation(getServices, { user_name: user.username}));

@@ -74,14 +74,14 @@ class Dashboard extends Component {
                         </Link>
                     </div>
                     <div className="flex-1 text-center px-8 py-4 m-4 rounded-lg shadow-lg bg-purple-300 bg-opacity-75">
-                        <h1 className="no-underline text-purple-400 font-semibold text-2xl text-lg p-4">
+                        <h1 className="no-underline text-purple-600 font-semibold text-2xl text-lg p-4">
                             You've Saved
                         </h1>
-                        <h1 className="no-underline text-purple-400 font-medium text-2xl text-lg p-5">
+                        <h1 className="no-underline text-purple-600 font-medium text-2xl text-lg p-5">
                             £ {this.state.annualSave}
                         </h1>
                         <Link to="/expenses">
-                            <button className="no-underline text-purple-400 font-medium text-2xl text-lg border-2 p-4 border-purple-400 rounded hover:border-transparent hover:text-purple-400 hover:bg-white hover:border-purple-400">
+                            <button className="no-underline text-purple-600 font-medium text-2xl text-lg border-2 p-4 border-purple-400 rounded hover:border-transparent hover:text-purple-400 hover:bg-white hover:border-purple-400">
                                 View Details  
                             </button>
                         </Link>

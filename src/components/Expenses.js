@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Auth, API, graphqlOperation } from "aws-amplify";
 import { MDBDataTableV5 } from 'mdbreact';
 import { getServices } from "../graphql/queries";
-import { HorizontalBar, Pie } from "react-chartjs-2"
+import { Pie } from "react-chartjs-2"
 
 class Expenses extends Component {
     state = {
