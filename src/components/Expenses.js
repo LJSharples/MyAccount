@@ -114,6 +114,10 @@ class Expenses extends Component {
             {
                 label: "Ref",
                 field: 'id',
+                attributes: {
+                  'aria-controls': 'DataTable',
+                  'aria-label': 'id',
+                },
             },
             {
                 label: "Service Name",
@@ -291,13 +295,9 @@ class Expenses extends Component {
                         <Pie data={this.state.data2}/>
                     </div>
                 </div>
-                <div className="flex flex-wrap -mx-1 lg:-mx-4">
-                    <div className="my-1 px-1 w-full lg:my-4 lg:px-4">
-                        <article className="overflow-hidden rounded-lg">
-                            <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                                <MDBDataTableV5 btn autoWidth hover striped responsive entriesOptions={[5, 20, 25]} entries={5} pagesAmount={4} pagingTop searchTop searchBottom={false} data={this.state.data3}/>
-                            </header>
-                        </article>
+                <div className="flex flex-wrap -mx-1 lg:-mx-2">
+                    <div className="flex-1 text-center px-10 py-8 m-8 rounded-lg ">
+                        <MDBDataTableV5 btn autoWidth hover striped responsive entriesOptions={[5, 20, 25]} entries={5} pagesAmount={4} pagingTop searchTop searchBottom={false} data={this.state.data3}/>
                     </div>
                 </div>
             </div>	
