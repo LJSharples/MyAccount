@@ -2,14 +2,18 @@ import React from "react";
 import { Storage } from "aws-amplify";
 
 class FileUpload extends React.Component {
-    onUpload(e){
+    async onUpload(e){
         const file = e.target.files[0];
-        const fileName = '';
-        Storage.put(fileName, file, {
+        const fileName = file.name;
+        await Storage.put(fileName, file, {
             level: 'private',
-            contentType: 'text/plain'
+            contentType: file.type
         })
-        .then(result => console.log(result))
+        .then(
+            result => {
+                console.log(result)
+                this.props.fileUploadKey(result.key)
+            })
         .catch(err => console.log(err));
     }
 
@@ -19,3 +23,5 @@ class FileUpload extends React.Component {
         )
     }
 }
+
+export default FileUpload

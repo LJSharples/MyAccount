@@ -11,6 +11,8 @@ const awsmobile = {
     "aws_content_delivery_bucket": "account.managedbills.com-dev",
     "aws_content_delivery_bucket_region": "eu-west-2",
     "aws_content_delivery_url": "http://account.managedbills.com-dev.s3-website.eu-west-2.amazonaws.com",
+    "aws_user_files_s3_bucket": "managedbillsupload100003-dev",
+    "aws_user_files_s3_bucket_region": "eu-west-2",
     "aws_appsync_graphqlEndpoint": "https://qa3cou2ygnbtfgcwewn4jgiezy.appsync-api.eu-west-2.amazonaws.com/graphql",
     "aws_appsync_region": "eu-west-2",
     "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS",

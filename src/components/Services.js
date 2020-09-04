@@ -4,6 +4,7 @@ import { addService, removeService } from "../graphql/mutations";
 import { Auth, API, graphqlOperation } from "aws-amplify";
 import { MDBDataTableV5, MDBBtn } from 'mdbreact';
 import ServiceModal from "./ServiceModal";
+import FileUpload from "./FileUpload";
 
 class Services extends Component {
     state = {
@@ -24,6 +25,7 @@ class Services extends Component {
         cost_month: '',
         currentSupplier: '',
         user_name: '',
+        uploaded_documents: ''
     }
 
     async componentDidMount(){
@@ -34,7 +36,7 @@ class Services extends Component {
 
         //user services
         const userServices = await API.graphql(graphqlOperation(getServices, { user_name: user.username}));
-
+        console.log(userServices)
         const columnsArray2 = [
             {
                 label: "Ref",
@@ -101,6 +103,11 @@ class Services extends Component {
         this.setState({ [key]: event.target.value})
     };
 
+    fileUploadKey = (key) => {
+        this.setState({ 'uploaded_documents': key})
+        console.log(this.state)
+    }
+
     toggleModal = () => {
         this.setState({
           isOpen2: !this.state.isOpen2
@@ -117,7 +124,8 @@ class Services extends Component {
             contract_length: this.state.contractLength,
             current_supplier: this.state.currentSupplier,
             cost_year: this.state.cost_year,
-            cost_month: this.state.cost_month
+            cost_month: this.state.cost_month,
+            uploaded_documents: this.state.uploaded_documents
         }
         try {
             await API.graphql(graphqlOperation(addService, data));
@@ -219,7 +227,7 @@ class Services extends Component {
                                         >
                                             Add Service
                                         </button>
-                                        <ServiceModal show={this.state.isOpen2} onClose={this.toggleModal} onInput={this.onInput} submitLead={this.submitService}>
+                                        <ServiceModal show={this.state.isOpen2} onClose={this.toggleModal} onInput={this.onInput} submitLead={this.submitService} fileUploadKey={this.fileUploadKey}>
                                         </ServiceModal>
                                     </h1>
                                 </header>

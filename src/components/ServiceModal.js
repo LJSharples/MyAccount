@@ -1,4 +1,5 @@
 import React from "react";
+import FileUpload from "./FileUpload";
 
 class Modal extends React.Component {
   render() {
@@ -72,6 +73,16 @@ class Modal extends React.Component {
                                 <option>48 Months</option>
                                 <option>60 Months</option>
                             </select>
+                        </div>
+                    </div>
+                    <div className="flex flex-wrap -mx-3 mb-6">
+                        <div className="w-full md:w-1/2 px-3">
+                            <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
+                                File Upload
+                            </label>
+                            <FileUpload fileUploadKey={this.props.fileUploadKey}/>
+                        </div>
+                        <div className="w-full md:w-1/2 px-3">
                         </div>
                     </div>
                     <div className="flex flex-wrap -mx-3 mb-6">
