@@ -1,25 +1,37 @@
 import React from "react";
 import { Storage } from "aws-amplify";
+import Dropzone from "react-dropzone";
 
 class FileUpload extends React.Component {
     async onUpload(e){
-        const file = e.target.files[0];
-        const fileName = file.name;
-        await Storage.put(fileName, file, {
-            level: 'private',
-            contentType: file.type
-        })
-        .then(
-            result => {
-                console.log(result)
-                this.props.fileUploadKey(result.key)
+        const files = e;
+        console.log(files)
+        files.map((file) => {
+            Storage.put(file.name, file, {
+                level: 'private',
+                contentType: file.type
             })
-        .catch(err => console.log(err));
+            .then(
+                result => {
+                    console.log(result)
+                    this.props.fileUploadKey(result.key)
+                })
+            .catch(err => console.log(err));
+        })
     }
 
     render(){
         return (
-            <input type="file" onChange={(evt) => this.onUpload(evt)}/>
+            <Dropzone onDrop={acceptedFiles => this.onUpload(acceptedFiles)}>
+                {({getRootProps, getInputProps}) => (
+                    <section>
+                        <div {...getRootProps()}>
+                            <input {...getInputProps()} />
+                            <p>Drag 'n' drop some files here, or click to select files</p>
+                        </div>
+                    </section>
+                )}
+            </Dropzone>
         )
     }
 }

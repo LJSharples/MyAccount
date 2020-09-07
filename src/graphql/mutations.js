@@ -126,6 +126,7 @@ export const addService = /* GraphQL */ `
     $current_supplier: String
     $cost_month: String
     $cost_year: String
+    $uploaded_documents: String
   ) {
     addService(
       user_name: $user_name
@@ -137,6 +138,7 @@ export const addService = /* GraphQL */ `
       current_supplier: $current_supplier
       cost_month: $cost_month
       cost_year: $cost_year
+      uploaded_documents: $uploaded_documents
     ) {
       user_name
       status
@@ -148,6 +150,7 @@ export const addService = /* GraphQL */ `
       cost_year
       current_supplier
       request_costs
+      uploaded_documents
     }
   }
 `;

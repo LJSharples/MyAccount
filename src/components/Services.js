@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { getServices, getUserDetails } from "../graphql/queries";
 import { addService, removeService } from "../graphql/mutations";
-import { Auth, API, graphqlOperation } from "aws-amplify";
+import { Auth, API, graphqlOperation, Storage } from "aws-amplify";
 import { MDBDataTableV5, MDBBtn } from 'mdbreact';
 import ServiceModal from "./ServiceModal";
 import FileUpload from "./FileUpload";
@@ -25,7 +25,7 @@ class Services extends Component {
         cost_month: '',
         currentSupplier: '',
         user_name: '',
-        uploaded_documents: ''
+        uploaded_documents: []
     }
 
     async componentDidMount(){
@@ -80,7 +80,7 @@ class Services extends Component {
                 provider: lead.current_supplier,
                 contract_end: lead.contract_end,
                 cost_year: lead.cost_year,
-                attachments: lead.callback_time,
+                attachments: <MDBBtn color="purple" outline size="sm" onClick={() => this.downloadFile(lead.uploaded_documents)}>{lead.uploaded_documents}</MDBBtn>,
                 handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.deleteService(lead.PK)}>Delete</MDBBtn>
 
             }
@@ -104,8 +104,10 @@ class Services extends Component {
     };
 
     fileUploadKey = (key) => {
-        this.setState({ 'uploaded_documents': key})
-        console.log(this.state)
+        this.setState(prevState => ({
+            uploaded_documents: [...prevState.uploaded_documents, key]
+        }))
+
     }
 
     toggleModal = () => {
@@ -127,8 +129,10 @@ class Services extends Component {
             cost_month: this.state.cost_month,
             uploaded_documents: this.state.uploaded_documents
         }
+        console.log(data)
         try {
-            await API.graphql(graphqlOperation(addService, data));
+            const re = await API.graphql(graphqlOperation(addService, data));
+            console.log(re);
         } catch (err) {
             console.log("Error:")
             console.log(err);
@@ -147,7 +151,7 @@ class Services extends Component {
                 provider: lead.current_supplier,
                 contract_end: lead.contract_end,
                 cost_year: lead.cost_year,
-                attachments: lead.callback_time,
+                attachments: <MDBBtn color="purple" outline size="sm" onClick={() => this.downloadFile(lead.uploaded_documents)}>{lead.uploaded_documents}</MDBBtn>,
                 handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.deleteService(lead.PK)}>Delete</MDBBtn>
 
             }
@@ -196,6 +200,15 @@ class Services extends Component {
             rows: valuesArray2
         };
         this.onChangeText('data2', data2);
+    }
+
+    downloadFile = async (key) => {
+        await Storage.get(key, { level: 'private'})
+        .then(result => {
+            console.log(result)
+            window.open(result, "_blank")
+        })
+        .catch(err => console.log(err));
     }
     
     render(){

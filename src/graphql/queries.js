@@ -87,6 +87,7 @@ export const getServices = /* GraphQL */ `
         cost_year
         current_supplier
         request_costs
+        uploaded_documents
         id
         PK
       }
