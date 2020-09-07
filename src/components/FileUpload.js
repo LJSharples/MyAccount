@@ -3,9 +3,7 @@ import { Storage } from "aws-amplify";
 import Dropzone from "react-dropzone";
 
 class FileUpload extends React.Component {
-    async onUpload(e){
-        const files = e;
-        console.log(files)
+    async onUpload(files){
         files.map((file) => {
             Storage.put(file.name, file, {
                 level: 'private',

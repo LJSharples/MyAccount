@@ -4,13 +4,13 @@ import { addService, removeService } from "../graphql/mutations";
 import { Auth, API, graphqlOperation, Storage } from "aws-amplify";
 import { MDBDataTableV5, MDBBtn } from 'mdbreact';
 import ServiceModal from "./ServiceModal";
-import FileUpload from "./FileUpload";
 
 class Services extends Component {
     state = {
         data: {},
         data2: {},
         column2: {},
+        rows2: {},
         userProfile: {},
         userCompany: {},
         isOpen2: false ,
@@ -18,9 +18,7 @@ class Services extends Component {
         provider: '',
         contractDate: '',
         contractLength: '',
-        billUpload: '',
         callback_time: '',
-        callback_date: '',
         cost_year: '',
         cost_month: '',
         currentSupplier: '',
@@ -74,13 +72,18 @@ class Services extends Component {
         const valuesArray2 = [];
         
         userServices.data["getServices"].items.map(lead => {
+            let bills = []
+            if(lead.uploaded_documents && lead.uploaded_documents.length > 0){
+                let str = lead.uploaded_documents.slice(1,-1)
+                bills = str.split(',')
+            }
             const newValue2 = {
                 id: lead.id,
                 service_name: lead.service_name,
                 provider: lead.current_supplier,
                 contract_end: lead.contract_end,
                 cost_year: lead.cost_year,
-                attachments: <MDBBtn color="purple" outline size="sm" onClick={() => this.downloadFile(lead.uploaded_documents)}>{lead.uploaded_documents}</MDBBtn>,
+                attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
                 handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.deleteService(lead.PK)}>Delete</MDBBtn>
 
             }
@@ -91,6 +94,7 @@ class Services extends Component {
             columns: columnsArray2,
             rows: valuesArray2
         };
+        this.onChangeText('rows2', valuesArray2);
         this.onChangeText('column2', columnsArray2);
         this.onChangeText('data2', data2);
     }
@@ -145,13 +149,18 @@ class Services extends Component {
         const valuesArray2 = [];
         
         userServices.data["getServices"].items.map(lead => {
+            let bills = []
+            if(lead.uploaded_documents && lead.uploaded_documents.length > 0){
+                let str = lead.uploaded_documents.slice(1,-1)
+                bills = str.split(',')
+            }
             const newValue2 = {
                 id: lead.id,
                 service_name: lead.service_name,
                 provider: lead.current_supplier,
                 contract_end: lead.contract_end,
                 cost_year: lead.cost_year,
-                attachments: <MDBBtn color="purple" outline size="sm" onClick={() => this.downloadFile(lead.uploaded_documents)}>{lead.uploaded_documents}</MDBBtn>,
+                attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
                 handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.deleteService(lead.PK)}>Delete</MDBBtn>
 
             }
@@ -182,13 +191,18 @@ class Services extends Component {
         const valuesArray2 = [];
         
         userServices.data["getServices"].items.map(lead => {
+            let bills = []
+            if(lead.uploaded_documents && lead.uploaded_documents.length > 0){
+                let str = lead.uploaded_documents.slice(1,-1)
+                bills = str.split(',')
+            }
             const newValue2 = {
                 id: lead.id,
                 service_name: lead.service_name,
                 provider: lead.current_supplier,
                 contract_end: lead.contract_end,
                 cost_year: lead.cost_year,
-                attachments: lead.callback_time,
+                attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
                 handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.deleteService(lead.PK)}>Delete</MDBBtn>
 
             }
@@ -203,6 +217,7 @@ class Services extends Component {
     }
 
     downloadFile = async (key) => {
+        console.log(key)
         await Storage.get(key, { level: 'private'})
         .then(result => {
             console.log(result)
@@ -261,6 +276,7 @@ class Services extends Component {
                                         pagingTop
                                         searchTop
                                         searchBottom={false}
+                                        theadColor="#63b3ed"
                                         data={this.state.data2}/>
                                 </header>
                             </article>
