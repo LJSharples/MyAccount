@@ -1,11 +1,5 @@
 {
-	"auth": {
-		"mbaccountad243adc": {
-			"service": "Cognito",
-			"providerPlugin": "awscloudformation",
-			"dependsOn": []
-		}
-	},
+	"auth": {},
 	"hosting": {
 		"S3AndCloudFront": {
 			"service": "S3AndCloudFront",

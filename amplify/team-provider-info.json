@@ -10,11 +10,6 @@
             "StackName": "amplify-mbaccount-dev-100003",
             "StackId": "arn:aws:cloudformation:eu-west-2:539357699548:stack/amplify-mbaccount-dev-100003/e9273e00-c80b-11ea-b2ac-0a967d6d9d80",
             "AmplifyAppId": "d2lxiqyckp9chu"
-        },
-        "categories": {
-            "auth": {
-                "mbaccountad243adc": {}
-            }
         }
     }
 }

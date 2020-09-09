@@ -9,8 +9,8 @@ class Services extends Component {
     state = {
         data: {},
         data2: {},
-        column2: {},
-        rows2: {},
+        column2: [],
+        rows2: [],
         userProfile: {},
         userCompany: {},
         isOpen2: false ,
@@ -37,16 +37,12 @@ class Services extends Component {
         console.log(userServices)
         const columnsArray2 = [
             {
-                label: "Ref",
-                field: 'id',
-                attributes: {
-                  'aria-controls': 'DataTable',
-                  'aria-label': 'id',
-                },
-            },
-            {
                 label: "Service Name",
                 field: 'service_name',
+                attributes: {
+                  'aria-controls': 'DataTable',
+                  'aria-label': 'service_name',
+                },
             },
             {
                 label: "Service Provider",
@@ -78,7 +74,6 @@ class Services extends Component {
                 bills = str.split(',')
             }
             const newValue2 = {
-                id: lead.id,
                 service_name: lead.service_name,
                 provider: lead.current_supplier,
                 contract_end: lead.contract_end,
@@ -96,6 +91,7 @@ class Services extends Component {
         };
         this.onChangeText('rows2', valuesArray2);
         this.onChangeText('column2', columnsArray2);
+        console.log(data2)
         this.onChangeText('data2', data2);
     }
 
@@ -155,7 +151,6 @@ class Services extends Component {
                 bills = str.split(',')
             }
             const newValue2 = {
-                id: lead.id,
                 service_name: lead.service_name,
                 provider: lead.current_supplier,
                 contract_end: lead.contract_end,
@@ -197,7 +192,6 @@ class Services extends Component {
                 bills = str.split(',')
             }
             const newValue2 = {
-                id: lead.id,
                 service_name: lead.service_name,
                 provider: lead.current_supplier,
                 contract_end: lead.contract_end,
@@ -267,19 +261,45 @@ class Services extends Component {
                             <article className="overflow-hidden rounded-lg">
                                 <header className="flex items-center justify-between leading-tight p-2 md:p-4">
                                     <MDBDataTableV5 
-                                        btn 
-                                        autoWidth 
-                                        hover
-                                        entriesOptions={[5, 20, 25]}
-                                        entries={5}
-                                        pagesAmount={4}
-                                        pagingTop
-                                        searchTop
-                                        searchBottom={false}
-                                        theadColor="#63b3ed"
-                                        data={this.state.data2}/>
+                                        hover 
+                                        autoWidth
+                                        entriesOptions={[5, 20, 25]} 
+                                        entries={5} 
+                                        pagesAmount={4} 
+                                        theadColor="blue"
+                                        data={this.state.data2}/>;
                                 </header>
                             </article>
+                        </div>
+                    </div>
+                    <div className="flex flex-wrap -mx-1 lg:-mx-8">
+                        <div className="text-gray-700 text-center px-4 py-2 m-2 rounded-lg">
+                        </div>
+                        <div className="flex-1 items-center justify-between leading-tight text-center px-20 py-10 m-10 rounded-lg">
+                            <table className="table-auto">
+                                <thead className="bg-blue-400">
+                                    <tr>
+                                        {this.state.column2.map(header => {
+                                            return <th className="px-4 py-2" key={header.label}>{header.label}</th>
+                                        })}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                        {this.state.rows2.map(row => {
+                                            return( 
+                                            <tr>
+                                                <td className="border px-4 py-2">{row.service_name}</td>
+                                                <td className="border px-4 py-2">{row.provider}</td>
+                                                <td className="border px-4 py-2">{row.contract_end}</td>
+                                                <td className="border px-4 py-2">{row.cost_year}</td>
+                                                <td className="border px-4 py-2">{row.attachments}</td>
+                                                <td class="border px-4 py-2">{row.handle}</td>
+                                            </tr>)
+                                        })}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="text-gray-700 text-center px-4 py-2 m-2 rounded-lg ">
                         </div>
                     </div>
                 </div>	

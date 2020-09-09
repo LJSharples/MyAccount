@@ -112,16 +112,12 @@ class Expenses extends Component {
 
         const columnsArray2 = [
             {
-                label: "Ref",
-                field: 'id',
+                label: "Service Name",
+                field: 'service_name',
                 attributes: {
                   'aria-controls': 'DataTable',
                   'aria-label': 'id',
                 },
-            },
-            {
-                label: "Service Name",
-                field: 'service_name',
             },
             {
                 label: "Contract Length",
@@ -144,7 +140,6 @@ class Expenses extends Component {
         
         userServices.data["getServices"].items.map(lead => {
             const newValue2 = {
-                id: lead.id,
                 service_name: lead.service_name,
                 contract_length: lead.contract_length,
                 contract_end: lead.contract_end,
