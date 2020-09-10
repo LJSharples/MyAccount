@@ -330,7 +330,6 @@ class Expenses extends Component {
                                 columns={this.state.columns}
                                 data={this.state.rows}
                                 pagination="true"
-                                responsive="true"
                                 customStyles={this.state.customStyle}/>
                         </div>
                         <div className="text-gray-700 text-center px-4 py-2 m-2 rounded-lg ">

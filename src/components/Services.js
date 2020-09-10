@@ -45,6 +45,7 @@ class Services extends Component {
               style: {
                 fontSize: '17px',
                 color:"#718096",
+                hoverColor:"#718096",
                 paddingLeft: '0 8px',
               },
             },
