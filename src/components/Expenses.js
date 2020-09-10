@@ -1,16 +1,42 @@
 import React, { Component } from "react";
 import { Auth, API, graphqlOperation } from "aws-amplify";
-import { MDBDataTableV5 } from 'mdbreact';
 import { getServices } from "../graphql/queries";
-import { Pie } from "react-chartjs-2"
+import { Pie } from "react-chartjs-2";
+import DataTable from "react-data-table-component";
 
 class Expenses extends Component {
     state = {
         data1: {},
         data2: {},
-        data3: {},
+        columns: [],
+        rows: [],
         annualCost: 0,
-        monthlyCost: 0
+        monthlyCost: 0,
+        customStyle: {
+            rows: {
+              style: {
+                minHeight: '72px', // override the row height
+              }
+            },
+            headCells: {
+              style: {
+                fontSize: '20px',
+                fontWeight: '500',
+                textTransform: 'uppercase',
+                textAlign: 'center',
+                color: '#ffffff',
+                paddingLeft: '0 8px',
+                backgroundColor: '#63b3ed'
+              },
+            },
+            cells: {
+              style: {
+                fontSize: '17px',
+                color:"#718096",
+                paddingLeft: '0 8px',
+              },
+            },
+        }
     }
 
     async componentDidMount(){
@@ -110,30 +136,37 @@ class Expenses extends Component {
             }
         })
 
+        
         const columnsArray2 = [
             {
-                label: "Service Name",
-                field: 'service_name',
-                attributes: {
-                  'aria-controls': 'DataTable',
-                  'aria-label': 'id',
-                },
+                name: 'Service Name',
+                selector: 'service_name',
+                sortable: true,
+                center: true
             },
             {
-                label: "Contract Length",
-                field: 'contract_length',
+                name: 'Contract Length',
+                selector: 'contract_length',
+                sortable: true,
+                center: true
             },
             {
-                label: "Contract End",
-                field: 'contract_end',
+                name: 'Contract End Date',
+                selector: 'contract_end',
+                sortable: true,
+                center: true
             },
             {
-                label: "Cost Per Year",
-                field: 'cost_year',
+                name: 'Cost per year',
+                selector: 'cost_year',
+                sortable: true,
+                center: true
             },
             {
-                label: "Cost Per Month",
-                field: 'cost_month',
+                name: 'Cost per Month',
+                selector: 'cost_month',
+                sortable: true,
+                center: true
             },
         ];
         const valuesArray2 = [];
@@ -148,10 +181,9 @@ class Expenses extends Component {
             }
             valuesArray2.push(newValue2);
         })
-        this.setState({ data3: {
-            columns: columnsArray2,
-            rows: valuesArray2
-        }})
+        this.setState({ columns: columnsArray2})
+        this.setState({ rows: valuesArray2})
+        console.log(this.state)
     }
 
     render(){
@@ -290,11 +322,20 @@ class Expenses extends Component {
                         <Pie data={this.state.data2}/>
                     </div>
                 </div>
-                <div className="flex flex-wrap -mx-1 lg:-mx-2">
-                    <div className="flex-1 text-center px-10 py-8 m-8 rounded-lg ">
-                        <MDBDataTableV5 btn autoWidth hover striped responsive entriesOptions={[5, 20, 25]} entries={5} pagesAmount={4} pagingTop searchTop searchBottom={false} data={this.state.data3}/>
+                    <div className="flex flex-wrap -mx-1 lg:-mx-2">
+                        <div className="text-gray-700 text-center px-4 py-2 m-2 rounded-lg">
+                        </div>
+                        <div className="flex-1 items-center justify-between leading-tight text-center px-20 py-10 m-10 rounded-lg">
+                            <DataTable
+                                columns={this.state.columns}
+                                data={this.state.rows}
+                                pagination="true"
+                                responsive="true"
+                                customStyles={this.state.customStyle}/>
+                        </div>
+                        <div className="text-gray-700 text-center px-4 py-2 m-2 rounded-lg ">
+                        </div>
                     </div>
-                </div>
             </div>	
         )
     }

@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import { getServices, getUserDetails } from "../graphql/queries";
 import { addService, removeService } from "../graphql/mutations";
 import { Auth, API, graphqlOperation, Storage } from "aws-amplify";
-import { MDBDataTableV5, MDBBtn } from 'mdbreact';
+import { MDBBtn } from 'mdbreact';
 import ServiceModal from "./ServiceModal";
+import DataTable from "react-data-table-component";
 
 class Services extends Component {
     state = {
         data: {},
-        data2: {},
         column2: [],
         rows2: [],
         userProfile: {},
@@ -23,7 +23,32 @@ class Services extends Component {
         cost_month: '',
         currentSupplier: '',
         user_name: '',
-        uploaded_documents: []
+        uploaded_documents: [],
+        customStyle: {
+            rows: {
+              style: {
+                minHeight: '72px', // override the row height
+              }
+            },
+            headCells: {
+              style: {
+                fontSize: '20px',
+                fontWeight: '500',
+                textTransform: 'uppercase',
+                textAlign: 'center',
+                color: '#ffffff',
+                paddingLeft: '0 8px',
+                backgroundColor: '#63b3ed'
+              },
+            },
+            cells: {
+              style: {
+                fontSize: '17px',
+                color:"#718096",
+                paddingLeft: '0 8px',
+              },
+            },
+        }
     }
 
     async componentDidMount(){
@@ -37,33 +62,41 @@ class Services extends Component {
         console.log(userServices)
         const columnsArray2 = [
             {
-                label: "Service Name",
-                field: 'service_name',
-                attributes: {
-                  'aria-controls': 'DataTable',
-                  'aria-label': 'service_name',
-                },
+                name: 'Service Name',
+                selector: 'service_name',
+                sortable: true,
+                center: true
             },
             {
-                label: "Service Provider",
-                field: 'provider',
+                name: 'Service Provider',
+                selector: 'provider',
+                sortable: true,
+                center: true
             },
             {
-                label: "Contract End Date",
-                field: 'contract_end',
+                name: 'Contract End Date',
+                selector: 'contract_end',
+                sortable: true,
+                center: true
             },
             {
-                label: "Cost per year",
-                field: 'cost_year',
+                name: 'Cost per year',
+                selector: 'cost_year',
+                sortable: true,
+                center: true
             },
             {
-                label: "Attachments",
-                field: 'attachments',
+                name: 'Attachments',
+                selector: 'attachments',
+                sortable: true,
+                center: true
             },
             {
-                label: "Actions",
-                field: 'handle',
-            }
+                name: 'Actions',
+                selector: 'handle',
+                sortable: true,
+                right: true,
+            },
         ];
         const valuesArray2 = [];
         
@@ -84,15 +117,8 @@ class Services extends Component {
             }
             valuesArray2.push(newValue2);
         })
-
-        const data2 = {
-            columns: columnsArray2,
-            rows: valuesArray2
-        };
         this.onChangeText('rows2', valuesArray2);
         this.onChangeText('column2', columnsArray2);
-        console.log(data2)
-        this.onChangeText('data2', data2);
     }
 
     onChangeText = (key, value) => {
@@ -161,12 +187,7 @@ class Services extends Component {
             }
             valuesArray2.push(newValue2);
         })
-
-        const data2 = {
-            columns: this.state.column2,
-            rows: valuesArray2
-        };
-        this.onChangeText('data2', data2);
+        this.onChangeText('rows2', valuesArray2);
         //window.location.reload(false);
     }
 
@@ -203,11 +224,7 @@ class Services extends Component {
             valuesArray2.push(newValue2);
         })
 
-        const data2 = {
-            columns: this.state.column2,
-            rows: valuesArray2
-        };
-        this.onChangeText('data2', data2);
+        this.onChangeText('rows2', valuesArray2);
     }
 
     downloadFile = async (key) => {
@@ -224,7 +241,7 @@ class Services extends Component {
         return (
             <>
                 <div className="container my-12 mx-auto px-4 md:px-12">
-                    <div className="flex flex-wrap -mx-1 lg:-mx-4">
+                    <div className="flex flex-wrap -mx-1 lg:-mx-2">
                         <div className="my-1 px-1 w-full lg:my-4 lg:px-4">
                             <article className="overflow-hidden rounded-lg">
                                 <header className="flex items-center justify-between leading-tight p-2 md:p-4">
@@ -256,48 +273,15 @@ class Services extends Component {
                             </article>
                         </div>
                     </div>
-                    <div className="flex flex-wrap -mx-1 lg:-mx-4">
-                        <div className="my-1 px-1 w-full lg:my-4 lg:px-4">
-                            <article className="overflow-hidden rounded-lg">
-                                <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                                    <MDBDataTableV5 
-                                        hover 
-                                        autoWidth
-                                        entriesOptions={[5, 20, 25]} 
-                                        entries={5} 
-                                        pagesAmount={4} 
-                                        theadColor="blue"
-                                        data={this.state.data2}/>;
-                                </header>
-                            </article>
-                        </div>
-                    </div>
-                    <div className="flex flex-wrap -mx-1 lg:-mx-8">
+                    <div className="flex flex-wrap -mx-1 lg:-mx-2">
                         <div className="text-gray-700 text-center px-4 py-2 m-2 rounded-lg">
                         </div>
                         <div className="flex-1 items-center justify-between leading-tight text-center px-20 py-10 m-10 rounded-lg">
-                            <table className="table-auto">
-                                <thead className="bg-blue-400">
-                                    <tr>
-                                        {this.state.column2.map(header => {
-                                            return <th className="px-4 py-2" key={header.label}>{header.label}</th>
-                                        })}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                        {this.state.rows2.map(row => {
-                                            return( 
-                                            <tr>
-                                                <td className="border px-4 py-2">{row.service_name}</td>
-                                                <td className="border px-4 py-2">{row.provider}</td>
-                                                <td className="border px-4 py-2">{row.contract_end}</td>
-                                                <td className="border px-4 py-2">{row.cost_year}</td>
-                                                <td className="border px-4 py-2">{row.attachments}</td>
-                                                <td class="border px-4 py-2">{row.handle}</td>
-                                            </tr>)
-                                        })}
-                                </tbody>
-                            </table>
+                            <DataTable
+                                columns={this.state.column2}
+                                data={this.state.rows2}
+                                pagination="true"
+                                customStyles={this.state.customStyle}/>
                         </div>
                         <div className="text-gray-700 text-center px-4 py-2 m-2 rounded-lg ">
                         </div>
