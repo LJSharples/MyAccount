@@ -107,10 +107,11 @@ class Services extends Component {
                 let str = lead.uploaded_documents.slice(1,-1)
                 bills = str.split(',')
             }
+            var date = new Date(lead.contract_end);
             const newValue2 = {
                 service_name: lead.service_name,
                 provider: lead.current_supplier,
-                contract_end: lead.contract_end,
+                contract_end: date.toLocaleString(),
                 cost_year: lead.cost_year,
                 attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
                 handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.deleteService(lead.PK)}>Delete</MDBBtn>

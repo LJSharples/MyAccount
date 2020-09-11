@@ -172,10 +172,11 @@ class Expenses extends Component {
         const valuesArray2 = [];
         
         userServices.data["getServices"].items.map(lead => {
+            var date = new Date(lead.contract_end);
             const newValue2 = {
                 service_name: lead.service_name,
                 contract_length: lead.contract_length,
-                contract_end: lead.contract_end,
+                contract_end: date.toLocaleString(),
                 cost_year: lead.cost_year,
                 cost_month: lead.cost_month,
             }
