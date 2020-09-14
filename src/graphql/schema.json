@@ -939,6 +939,16 @@
                             "description": null,
                             "args": [
                                 {
+                                    "name": "user_name",
+                                    "description": null,
+                                    "type": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    },
+                                    "defaultValue": null
+                                },
+                                {
                                     "name": "full_name",
                                     "description": null,
                                     "type": {
@@ -993,6 +1003,16 @@
                             "args": [
                                 {
                                     "name": "user_name",
+                                    "description": null,
+                                    "type": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    },
+                                    "defaultValue": null
+                                },
+                                {
+                                    "name": "company_name",
                                     "description": null,
                                     "type": {
                                         "kind": "SCALAR",

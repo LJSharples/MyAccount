@@ -3,12 +3,14 @@
 
 export const addProfile = /* GraphQL */ `
   mutation AddProfile(
+    $user_name: String
     $full_name: String
     $first_name: String
     $last_name: String
     $phone: String
   ) {
     addProfile(
+      user_name: $user_name
       full_name: $full_name
       first_name: $first_name
       last_name: $last_name
@@ -19,30 +21,13 @@ export const addProfile = /* GraphQL */ `
       first_name
       last_name
       phone
-      company {
-        user_name
-        site_id
-        address1
-        address2
-        city
-        company_number
-        postcode
-        region
-        years_trading
-        user {
-          user_name
-          full_name
-          first_name
-          last_name
-          phone
-        }
-      }
     }
   }
 `;
 export const addCompany = /* GraphQL */ `
   mutation AddCompany(
     $user_name: String
+    $company_name: String
     $site_id: Int
     $address1: String
     $address2: String
@@ -54,6 +39,7 @@ export const addCompany = /* GraphQL */ `
   ) {
     addCompany(
       user_name: $user_name
+      company_name: $company_name 
       site_id: $site_id
       address1: $address1
       address2: $address2
@@ -72,24 +58,7 @@ export const addCompany = /* GraphQL */ `
       postcode
       region
       years_trading
-      user {
-        user_name
-        full_name
-        first_name
-        last_name
-        phone
-        company {
-          user_name
-          site_id
-          address1
-          address2
-          city
-          company_number
-          postcode
-          region
-          years_trading
-        }
-      }
+      
     }
   }
 `;

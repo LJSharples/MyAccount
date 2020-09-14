@@ -19,15 +19,15 @@ class Expenses extends Component {
               }
             },
             headCells: {
-              style: {
-                fontSize: '20px',
-                fontWeight: '500',
-                textTransform: 'uppercase',
-                textAlign: 'center',
-                color: '#ffffff',
-                paddingLeft: '0 8px',
-                backgroundColor: '#63b3ed'
-              },
+                style: {
+                    fontSize: '0.875rem',
+                    fontWeight: '700',
+                    textTransform: 'uppercase',
+                    textAlign: 'center',
+                    color: '#ffffff',
+                    paddingLeft: '0 8px',
+                    backgroundColor: '#63b3ed'
+                },
             },
             cells: {
               style: {
@@ -154,16 +154,17 @@ class Expenses extends Component {
                 name: 'Contract End Date',
                 selector: 'contract_end',
                 sortable: true,
-                center: true
+                center: true,
+                grow: 2,
             },
             {
-                name: 'Cost per year',
+                name: 'Cost per year (£)',
                 selector: 'cost_year',
                 sortable: true,
                 center: true
             },
             {
-                name: 'Cost per Month',
+                name: 'Cost per Month (£)',
                 selector: 'cost_month',
                 sortable: true,
                 center: true

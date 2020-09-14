@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { getUserDetails, } from "../graphql/queries";
 import { Auth, API, graphqlOperation } from "aws-amplify";
-import { updateUser, updateCompany } from '../graphql/mutations';
+import { updateUser, updateCompany, addProfile, addCompany } from '../graphql/mutations';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { Collapse, IconButton } from '@material-ui/core';
 
@@ -26,34 +26,47 @@ class PersonalDetails extends Component {
         industry: "",
         user_name: "",
         success: false,
-        timeOut: 300
+        timeOut: 300,
+        createUser: false,
+        createCompany: false
     }
 
     async componentDidMount(){
         let user = await Auth.currentAuthenticatedUser();
+        this.setState({ user_name: user.username })
+        console.log(user)
         const userProfile = await API.graphql(graphqlOperation(getUserDetails, { user_name: user.username}));
-        this.setState({ userProfile: userProfile.data["user"]})
-        this.setState({
-            user_name: userProfile.data["user"].user_name,
-            full_name: userProfile.data["user"].full_name,
-            first_name: userProfile.data["user"].first_name,
-            last_name: userProfile.data["user"].last_name,
-            phone: userProfile.data["user"].phone
-        });
-        this.setState({ userCompany: userProfile.data["getCompany"]})
-        this.setState({
-            company_name: userProfile.data["getCompany"].Data,
-            address1: userProfile.data["getCompany"].address1,
-            address2: userProfile.data["getCompany"].address2,
-            city: userProfile.data["getCompany"].city,
-            postcode: userProfile.data["getCompany"].postcode,
-            region: userProfile.data["getCompany"].region,
-            company_number: userProfile.data["getCompany"].company_number,
-            years_trading: userProfile.data["getCompany"].years_trading,
-            yearly_turnover: userProfile.data["getCompany"].yearly_turnover,
-            num_employees: userProfile.data["getCompany"].num_employees,
-            industry: userProfile.data["getCompany"].industry
-        });
+        console.log(userProfile)
+        if(userProfile.data["user"] && userProfile.data["user"].full_name){
+            this.setState({ userProfile: userProfile.data["user"]})
+            this.setState({
+                user_name: user.username,
+                full_name: userProfile.data["user"].full_name,
+                first_name: userProfile.data["user"].first_name,
+                last_name: userProfile.data["user"].last_name,
+                phone: userProfile.data["user"].phone
+            });
+        } else{
+            this.setState({ createUser: true});
+        }
+        if(userProfile.data["getCompany"] && userProfile.data["getCompany"].Data){
+            this.setState({ userCompany: userProfile.data["getCompany"]})
+            this.setState({
+                company_name: userProfile.data["getCompany"].Data,
+                address1: userProfile.data["getCompany"].address1,
+                address2: userProfile.data["getCompany"].address2,
+                city: userProfile.data["getCompany"].city,
+                postcode: userProfile.data["getCompany"].postcode,
+                region: userProfile.data["getCompany"].region,
+                company_number: userProfile.data["getCompany"].company_number,
+                years_trading: userProfile.data["getCompany"].years_trading,
+                yearly_turnover: userProfile.data["getCompany"].yearly_turnover,
+                num_employees: userProfile.data["getCompany"].num_employees,
+                industry: userProfile.data["getCompany"].industry
+            });
+        } else{
+            this.setState({ createCompany: true});
+        }
     }
 
     handleChange = ({ target }) => {
@@ -67,18 +80,31 @@ class PersonalDetails extends Component {
      updateUserProfile = async () => {
         const data = {
             user_name: this.state.user_name,
-            full_name: this.state.full_name,
+            full_name: this.state.first_name + " " + this.state.last_name,
             first_name: this.state.first_name,
             last_name: this.state.last_name,
             phone: this.state.phone
         }
-        try {
-            await API.graphql(graphqlOperation(updateUser, data));
-            this.setState({ success: true})
-            window.scrollTo(0, 0)
-        } catch (err) {
-            console.log("Error:")
-            console.log(err);
+        if(this.state.createUser){
+            console.log(data);
+            try {
+                await API.graphql(graphqlOperation(addProfile, data));
+                this.setState({ success: true})
+                window.scrollTo(0, 0)
+            } catch (err) {
+                console.log("Error:")
+                console.log(err);
+            }
+        } else {
+            console.log(data);
+            try {
+                await API.graphql(graphqlOperation(updateUser, data));
+                this.setState({ success: true})
+                window.scrollTo(0, 0)
+            } catch (err) {
+                console.log("Error:")
+                console.log(err);
+            }
         }
         setTimeout(function() { //Start the timer
              this.setState({success: false}) //After 1 second, set render to true
@@ -100,14 +126,26 @@ class PersonalDetails extends Component {
             yearly_turnover: this.state.yearly_turnover,
             industry: this.state.industry
         }
-        try{
-            await API.graphql(graphqlOperation(updateCompany, data));
-            this.setState({ success: true})
-            window.scrollTo(0, 0)
-       }catch(err){
-            console.log("Error:");
-            console.log(err);
-       }
+        if(this.state.createCompany){
+            console.log(data);
+            try{
+                await API.graphql(graphqlOperation(addCompany, data));
+                this.setState({ success: true})
+                window.scrollTo(0, 0)
+           }catch(err){
+                console.log("Error:");
+                console.log(err);
+           }
+        } else {
+            try{
+                await API.graphql(graphqlOperation(updateCompany, data));
+                this.setState({ success: true})
+                window.scrollTo(0, 0)
+           }catch(err){
+                console.log("Error:");
+                console.log(err);
+           }
+        }
        setTimeout(function() { //Start the timer
             this.setState({success: false}) //After 1 second, set render to true
         }.bind(this), 3000)

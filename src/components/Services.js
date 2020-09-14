@@ -32,8 +32,8 @@ class Services extends Component {
             },
             headCells: {
               style: {
-                fontSize: '20px',
-                fontWeight: '500',
+                fontSize: '0.875rem',
+                fontWeight: '700',
                 textTransform: 'uppercase',
                 textAlign: 'center',
                 color: '#ffffff',
@@ -78,10 +78,11 @@ class Services extends Component {
                 name: 'Contract End Date',
                 selector: 'contract_end',
                 sortable: true,
-                center: true
+                center: true,
+                grow: 2,
             },
             {
-                name: 'Cost per year',
+                name: 'Cost per year (£)',
                 selector: 'cost_year',
                 sortable: true,
                 center: true
@@ -90,13 +91,15 @@ class Services extends Component {
                 name: 'Attachments',
                 selector: 'attachments',
                 sortable: true,
-                center: true
+                responsive: true,
+                center: true,
+                grow: 3,
             },
             {
                 name: 'Actions',
                 selector: 'handle',
                 sortable: true,
-                right: true,
+                center: true,
             },
         ];
         const valuesArray2 = [];
@@ -283,6 +286,7 @@ class Services extends Component {
                                 columns={this.state.column2}
                                 data={this.state.rows2}
                                 pagination="true"
+                                responsive
                                 customStyles={this.state.customStyle}/>
                         </div>
                         <div className="text-gray-700 text-center px-4 py-2 m-2 rounded-lg ">
