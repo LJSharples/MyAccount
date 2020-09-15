@@ -50,8 +50,9 @@ export default function Navbar( props ) {
                                     <li className="nav-item">
                                         <Link to={'/my-details'} className="px-3 py-2 flex items-center text-lg uppercase font-bold leading-snug text-white hover:opacity-75">My Details</Link>
                                     </li>
-                                    <li className="nav-item">
-                                        <button onClick={props.signOut} className="inline-block text-lg px-4 py-2 ml-12 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">Logout</button>     
+                                    <li className="nav-item">   
+                                        <a className="inline-block text-lg px-4 py-2 ml-12 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0"
+                                        href={"http://login.managedbills.com/?logout"}>Logout</a>
                                     </li>
                                 </ul>
                             </div>

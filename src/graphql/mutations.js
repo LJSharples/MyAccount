@@ -36,6 +36,9 @@ export const addCompany = /* GraphQL */ `
     $postcode: String
     $region: String
     $years_trading: String
+    $num_employees: String
+    $yearly_turnover: String
+    $industry: String
   ) {
     addCompany(
       user_name: $user_name
@@ -48,6 +51,9 @@ export const addCompany = /* GraphQL */ `
       postcode: $postcode
       region: $region
       years_trading: $years_trading
+      num_employees: $num_employees
+      yearly_turnover: $yearly_turnover
+      industry: $industry
     ) {
       user_name
       site_id

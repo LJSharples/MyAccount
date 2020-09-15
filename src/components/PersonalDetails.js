@@ -26,6 +26,7 @@ class PersonalDetails extends Component {
         industry: "",
         user_name: "",
         success: false,
+        check: false,
         timeOut: 300,
         createUser: false,
         createCompany: false
@@ -48,8 +49,9 @@ class PersonalDetails extends Component {
             });
         } else{
             this.setState({ createUser: true});
+            this.setState({ check: true});
         }
-        if(userProfile.data["getCompany"] && userProfile.data["getCompany"].Data){
+        if(userProfile.data["getCompany"] && userProfile.data["getCompany"].address1){
             this.setState({ userCompany: userProfile.data["getCompany"]})
             this.setState({
                 company_name: userProfile.data["getCompany"].Data,
@@ -66,6 +68,7 @@ class PersonalDetails extends Component {
             });
         } else{
             this.setState({ createCompany: true});
+            this.setState({ check: true});
         }
     }
 
@@ -75,6 +78,10 @@ class PersonalDetails extends Component {
 
      setOpen = () => {
          this.setState({ success: false});
+     }
+
+     setOpen2 = () => {
+         this.setState({ check: false});
      }
 
      updateUserProfile = async () => {
@@ -91,6 +98,7 @@ class PersonalDetails extends Component {
                 await API.graphql(graphqlOperation(addProfile, data));
                 this.setState({ success: true})
                 window.scrollTo(0, 0)
+                this.setOpen2()
             } catch (err) {
                 console.log("Error:")
                 console.log(err);
@@ -131,6 +139,7 @@ class PersonalDetails extends Component {
             try{
                 await API.graphql(graphqlOperation(addCompany, data));
                 this.setState({ success: true})
+                this.setOpen2()
                 window.scrollTo(0, 0)
            }catch(err){
                 console.log("Error:");
@@ -183,6 +192,26 @@ class PersonalDetails extends Component {
                             >
                                 <AlertTitle>Success</AlertTitle>
                                 Your update was successful — <strong>Your details have been updated!</strong>
+                            </Alert>
+                        </Collapse>
+                        <Collapse in={this.state.check} timeout="auto" unmountOnExit>
+                            <Alert severity="success" action={
+                                    <IconButton
+                                    aria-label="close"
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => {
+                                        this.setOpen2();
+                                    }}
+                                    >
+                                        <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                                        ×
+                                        </span>
+                                    </IconButton>
+                                }
+                            >
+                                <AlertTitle>Welcome</AlertTitle>
+                                Please complete your profile — <strong>Fill in the following sections!</strong>
                             </Alert>
                         </Collapse>
                     </div>
