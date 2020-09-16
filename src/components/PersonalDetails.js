@@ -35,9 +35,7 @@ class PersonalDetails extends Component {
     async componentDidMount(){
         let user = await Auth.currentAuthenticatedUser();
         this.setState({ user_name: user.username })
-        console.log(user)
         const userProfile = await API.graphql(graphqlOperation(getUserDetails, { user_name: user.username}));
-        console.log(userProfile)
         if(userProfile.data["user"] && userProfile.data["user"].full_name){
             this.setState({ userProfile: userProfile.data["user"]})
             this.setState({
@@ -74,17 +72,17 @@ class PersonalDetails extends Component {
 
     handleChange = ({ target }) => {
         this.setState({ [target.name]: target.value });
-     };
+    };
 
-     setOpen = () => {
+    setOpen = () => {
          this.setState({ success: false});
-     }
+    }
 
-     setOpen2 = () => {
+    setOpen2 = () => {
          this.setState({ check: false});
-     }
+    }
 
-     updateUserProfile = async () => {
+    updateUserProfile = async () => {
         const data = {
             user_name: this.state.user_name,
             full_name: this.state.first_name + " " + this.state.last_name,
@@ -104,7 +102,6 @@ class PersonalDetails extends Component {
                 console.log(err);
             }
         } else {
-            console.log(data);
             try {
                 await API.graphql(graphqlOperation(updateUser, data));
                 this.setState({ success: true})
@@ -135,7 +132,6 @@ class PersonalDetails extends Component {
             industry: this.state.industry
         }
         if(this.state.createCompany){
-            console.log(data);
             try{
                 await API.graphql(graphqlOperation(addCompany, data));
                 this.setState({ success: true})

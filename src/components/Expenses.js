@@ -185,7 +185,6 @@ class Expenses extends Component {
         })
         this.setState({ columns: columnsArray2})
         this.setState({ rows: valuesArray2})
-        console.log(this.state)
     }
 
     render(){

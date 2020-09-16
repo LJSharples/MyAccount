@@ -16,7 +16,6 @@ class Dashboard extends Component {
 
     async componentDidMount(){
         let user = await Auth.currentAuthenticatedUser();
-        console.log(user)
         const userProfile = await API.graphql(graphqlOperation(getUserDetails, { user_name: user.username}));
         console.log(userProfile)
         if(userProfile.data["user"] && userProfile.data["user"].user_name){
