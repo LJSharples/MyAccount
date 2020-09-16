@@ -19,7 +19,7 @@ export class InternalApp extends Component {
         const url = "http://login.managedbills.com/?logout"
         //&r=begbies add if user attribute is set
         if(user.attributes['custom:affiliation'] !== undefined){
-            url = "http://login.managedbills.com/?logout" + user.attributes['custom:affiliation']
+            url = "http://login.managedbills.com/?logout&r=" + user.attributes['custom:affiliation']
         }
         this.setState({url: url});
     }
