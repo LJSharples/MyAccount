@@ -60,7 +60,6 @@ class Services extends Component {
 
         //user services
         const userServices = await API.graphql(graphqlOperation(getServices, { user_name: user.username}));
-        console.log(userServices)
         const columnsArray2 = [
             {
                 name: 'Service Name',
