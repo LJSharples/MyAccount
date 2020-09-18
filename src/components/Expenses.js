@@ -12,6 +12,7 @@ class Expenses extends Component {
         rows: [],
         annualCost: 0,
         monthlyCost: 0,
+        moneySaved: 0,
         customStyle: {
             rows: {
               style: {
@@ -43,7 +44,7 @@ class Expenses extends Component {
         let user = await Auth.currentAuthenticatedUser();
         //user services
         const userServices = await API.graphql(graphqlOperation(getServices, { user_name: user.username}));
-
+        console.log(userServices)
         //summary expenses
         let sum = userServices.data["getServices"].items.reduce(function(prev, current) {
             return prev + +current.cost_year
@@ -67,6 +68,9 @@ class Expenses extends Component {
                 elec.push(parseFloat(lead.cost_month));
             } else if(lead.cost_month) {
                 water.push(parseFloat(lead.cost_month));
+            }
+            if(lead.new_cost_month && lead.new_cost_year){
+                this.generateMoneySaved(lead.cost_year, lead.new_cost_year)
             }
         });
         //do summary 
@@ -187,6 +191,13 @@ class Expenses extends Component {
         this.setState({ rows: valuesArray2})
     }
 
+    generateMoneySaved = (oldYear, newYear) => {
+        if(newYear > oldYear){
+            var money = oldYear - newYear
+            this.setState({ moneySaved: this.state.moneySaved + money})
+        }
+    }
+
     render(){
         return (
             <div className="container my-12 mx-auto px-4 md:px-12">
@@ -213,7 +224,7 @@ class Expenses extends Component {
                                 <div className="flex items-center no-underline text-blue-700">
                                     <p alt="Placeholder" className="block rounded-full">£</p>
                                     <p className="ml-2 text-sm">
-                                        
+                                        {this.state.moneySaved}
                                     </p>
                                 </div>
                             </div>

@@ -32,10 +32,24 @@ class Dashboard extends Component {
                 return prev + +current.cost_year
             }, 0);
             this.setState({annualCost: sum})
+
+            userServices.data["getServices"].items.map(lead => {
+                if(lead.new_cost_month && lead.new_cost_year){
+                    this.generateMoneySaved(lead.cost_year, lead.new_cost_year)
+                }
+            });
         } else {
             this.setState({ redirect: true});
         }
     }
+
+    generateMoneySaved = (oldYear, newYear) => {
+        if(newYear > oldYear){
+            var money = oldYear - newYear
+            this.setState({ annualSave: this.state.annualSave + money})
+        }
+    }
+
     render(){
         if(this.state.redirect){
             return <Redirect to="/my-details"/>

@@ -85,6 +85,8 @@ export const getServices = /* GraphQL */ `
         contract_length
         cost_month
         cost_year
+        new_cost_month
+        new_cost_year
         current_supplier
         request_costs
         uploaded_documents

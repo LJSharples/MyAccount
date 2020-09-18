@@ -641,6 +641,30 @@
                             "deprecationReason": null
                         },
                         {
+                            "name": "new_cost_month",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "new_cost_year",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
                             "name": "cost_month",
                             "description": null,
                             "args": [],
@@ -2531,13 +2555,28 @@
                     "onField": false
                 },
                 {
-                    "name": "aws_api_key",
-                    "description": "Tells the service this field/object has access authorized by an API key.",
+                    "name": "aws_cognito_user_pools",
+                    "description": "Tells the service this field/object has access authorized by a Cognito User Pools token.",
                     "locations": [
                         "OBJECT",
                         "FIELD_DEFINITION"
                     ],
-                    "args": [],
+                    "args": [
+                        {
+                            "name": "cognito_groups",
+                            "description": "List of cognito user pool groups which have access on this field",
+                            "type": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                }
+                            },
+                            "defaultValue": null
+                        }
+                    ],
                     "onOperation": false,
                     "onFragment": false,
                     "onField": false
@@ -2595,8 +2634,8 @@
                     "onField": false
                 },
                 {
-                    "name": "aws_iam",
-                    "description": "Tells the service this field/object has access authorized by sigv4 signing.",
+                    "name": "aws_api_key",
+                    "description": "Tells the service this field/object has access authorized by an API key.",
                     "locations": [
                         "OBJECT",
                         "FIELD_DEFINITION"
@@ -2633,28 +2672,13 @@
                     "onField": false
                 },
                 {
-                    "name": "aws_cognito_user_pools",
-                    "description": "Tells the service this field/object has access authorized by a Cognito User Pools token.",
+                    "name": "aws_iam",
+                    "description": "Tells the service this field/object has access authorized by sigv4 signing.",
                     "locations": [
                         "OBJECT",
                         "FIELD_DEFINITION"
                     ],
-                    "args": [
-                        {
-                            "name": "cognito_groups",
-                            "description": "List of cognito user pool groups which have access on this field",
-                            "type": {
-                                "kind": "LIST",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
-                                }
-                            },
-                            "defaultValue": null
-                        }
-                    ],
+                    "args": [],
                     "onOperation": false,
                     "onFragment": false,
                     "onField": false
