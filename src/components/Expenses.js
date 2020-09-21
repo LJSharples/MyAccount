@@ -79,26 +79,26 @@ class Expenses extends Component {
         const waterTotal = water.reduce((result, number) => result+number, 0);
         
         this.setState({ data1: {
-            labels: [
-                'Gas',
-                'Electric',
-                'Water'
-            ],
-            datasets: [{
-                data: [gasTotal, elecTotal, waterTotal],
-                backgroundColor: [
-                '#fc8181',
-                '#90cdf4',
-                '#fbd38d'
+                labels: [
+                    'Gas',
+                    'Electric',
+                    'Water'
                 ],
-                hoverBackgroundColor: [
-                '#fc8181',
-                '#90cdf4',
-                '#fbd38d'
-                ]
-            }]
-        }
-    })
+                datasets: [{
+                    data: [gasTotal, elecTotal, waterTotal],
+                    backgroundColor: [
+                    '#fc8181',
+                    '#90cdf4',
+                    '#fbd38d'
+                    ],
+                    hoverBackgroundColor: [
+                    '#fc8181',
+                    '#90cdf4',
+                    '#fbd38d'
+                    ]
+                }]
+            }
+        })
 
         //costs per Year
         const waterYear = [];
@@ -159,29 +159,32 @@ class Expenses extends Component {
                 selector: 'contract_end',
                 sortable: true,
                 center: true,
-                grow: 2,
+                hide: 'md',
             },
             {
                 name: 'Cost per year (£)',
                 selector: 'cost_year',
                 sortable: true,
-                center: true
+                center: true,
+                hide: 'sm',
             },
             {
                 name: 'Cost per Month (£)',
                 selector: 'cost_month',
                 sortable: true,
-                center: true
+                center: true,
+                hide: 'sm',
             },
         ];
         const valuesArray2 = [];
         
         userServices.data["getServices"].items.map(lead => {
             var date = new Date(lead.contract_end);
+            var dateString = date.toLocaleString();
             const newValue2 = {
                 service_name: lead.service_name,
                 contract_length: lead.contract_length,
-                contract_end: date.toLocaleString(),
+                contract_end: dateString.substring(0, 10),
                 cost_year: lead.cost_year,
                 cost_month: lead.cost_month,
             }

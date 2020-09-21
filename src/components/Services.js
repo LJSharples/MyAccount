@@ -78,13 +78,14 @@ class Services extends Component {
                 selector: 'contract_end',
                 sortable: true,
                 center: true,
-                grow: 2,
+                hide: 'sm',
             },
             {
                 name: 'Cost per year (£)',
                 selector: 'cost_year',
                 sortable: true,
-                center: true
+                center: true,
+                hide: 'sm',
             },
             {
                 name: 'Attachments',
@@ -93,12 +94,14 @@ class Services extends Component {
                 responsive: true,
                 center: true,
                 grow: 3,
+                hide: 'md',
             },
             {
                 name: 'Actions',
                 selector: 'handle',
                 sortable: true,
                 center: true,
+                hide: 'md',
             },
         ];
         const valuesArray2 = [];
@@ -110,10 +113,11 @@ class Services extends Component {
                 bills = str.split(',')
             }
             var date = new Date(lead.contract_end);
+            var dateString = date.toLocaleString()
             const newValue2 = {
                 service_name: lead.service_name,
                 provider: lead.current_supplier,
-                contract_end: date.toLocaleString(),
+                contract_end: dateString.substring(0, 10),
                 cost_year: lead.cost_year,
                 attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
                 handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.deleteService(lead.PK)}>Delete</MDBBtn>
