@@ -61,13 +61,43 @@ class Expenses extends Component {
         const water = [];
         const gas = [];
         const elec = [];
+        const oil = [];
+        const energyReduction = [];
+        const wasteManagement = [];
+        const businessRatesReview = [];
+        const fuelCards = [];
+        const telecommsBroadband = [];
+        const cyberSecurity = [];
+        const printers = [];
+        const merchantServices = [];
+        const insolvency = [];
         userServices.data["getServices"].items.map(lead => {
             if (lead.service_name === "Gas" && lead.cost_month) {
                 gas.push(parseFloat(lead.cost_month));
             } else if(lead.service_name === "Electric" && lead.cost_month) {
                 elec.push(parseFloat(lead.cost_month));
-            } else if(lead.cost_month) {
+            } else if(lead.service_name === "Water" && lead.cost_month) {
                 water.push(parseFloat(lead.cost_month));
+            } else if(lead.service_name === "Oil" && lead.cost_month) {
+                oil.push(parseFloat(lead.cost_month));
+            } else if(lead.service_name === "Energy Reduction" && lead.cost_month) {
+                energyReduction.push(parseFloat(lead.cost_month));
+            } else if(lead.service_name === "Waste Management" && lead.cost_month) {
+                wasteManagement.push(parseFloat(lead.cost_month));
+            } else if(lead.service_name === "Business Rates Review" && lead.cost_month) {
+                businessRatesReview.push(parseFloat(lead.cost_month));
+            } else if(lead.service_name === "Fuel Cards" && lead.cost_month) {
+                fuelCards.push(parseFloat(lead.cost_month));
+            } else if(lead.service_name === "Telecomms & Broadband" && lead.cost_month) {
+                telecommsBroadband.push(parseFloat(lead.cost_month));
+            } else if(lead.service_name === "Cyber Security" && lead.cost_month) {
+                cyberSecurity.push(parseFloat(lead.cost_month));
+            } else if(lead.service_name === "Printers" && lead.cost_month) {
+                printers.push(parseFloat(lead.cost_month));
+            } else if(lead.service_name === "Merchant Services" && lead.cost_month) {
+                merchantServices.push(parseFloat(lead.cost_month));
+            } else if(lead.service_name === "Insolvency" && lead.cost_month) {
+                insolvency.push(parseFloat(lead.cost_month));
             }
             if(lead.new_cost_month && lead.new_cost_year){
                 this.generateMoneySaved(lead.cost_year, lead.new_cost_year)
@@ -77,24 +107,78 @@ class Expenses extends Component {
         const gasTotal = gas.reduce((result, number) => result+number, 0);        
         const elecTotal = elec.reduce((result, number) => result+number, 0);
         const waterTotal = water.reduce((result, number) => result+number, 0);
+        const oilTotal = oil.reduce((result, number) => result+number, 0);
+        const energyReductionTotal = energyReduction.reduce((result, number) => result+number, 0);
+        const wasteManagementTotal = wasteManagement.reduce((result, number) => result+number, 0);
+        const businessRatesTotal = businessRatesReview.reduce((result, number) => result+number, 0);
+        const fuelCardsTotal = fuelCards.reduce((result, number) => result+number, 0);
+        const telecommsTotal = telecommsBroadband.reduce((result, number) => result+number, 0);
+        const cyberSecurityTotal = cyberSecurity.reduce((result, number) => result+number, 0);
+        const printersTotal = printers.reduce((result, number) => result+number, 0);
+        const merchantServicesTotal = merchantServices.reduce((result, number) => result+number, 0);
+        const insolvencyTotal = insolvency.reduce((result, number) => result+number, 0);
         
         this.setState({ data1: {
                 labels: [
                     'Gas',
                     'Electric',
-                    'Water'
+                    'Water',
+                    'Oil',
+                    'Energy Reduction',
+                    'Waste Management',
+                    'Business Rates',
+                    'Fuel Cards',
+                    'Telecomms & Broadband',
+                    'Cyber Security',
+                    'Printers',
+                    'Merchant Services',
+                    'Insolvency'
                 ],
                 datasets: [{
-                    data: [gasTotal, elecTotal, waterTotal],
+                    data: [
+                        gasTotal, 
+                        elecTotal, 
+                        waterTotal,
+                        oilTotal, 
+                        energyReductionTotal,
+                        wasteManagementTotal,
+                        businessRatesTotal,
+                        fuelCardsTotal,
+                        telecommsTotal,
+                        cyberSecurityTotal,
+                        printersTotal,
+                        merchantServicesTotal,
+                        insolvencyTotal
+                    ],
                     backgroundColor: [
                     '#fc8181',
+                    '#fcc981',
                     '#90cdf4',
-                    '#fbd38d'
+                    '#d490f4',
+                    '#fbd38d',
+                    '#dafb8d',
+                    '#9ffb8d',
+                    '#fb8dea',
+                    '#8dcffb',
+                    '#8dfbac',
+                    '#fb8dd1',
+                    '#ffb8e8',
+                    '#97e8bb'
                     ],
                     hoverBackgroundColor: [
                     '#fc8181',
+                    '#fcc981',
                     '#90cdf4',
-                    '#fbd38d'
+                    '#d490f4',
+                    '#fbd38d',
+                    '#dafb8d',
+                    '#9ffb8d',
+                    '#fb8dea',
+                    '#8dcffb',
+                    '#8dfbac',
+                    '#fb8dd1',
+                    '#ffb8e8',
+                    '#97e8bb'
                     ]
                 }]
             }
@@ -104,6 +188,16 @@ class Expenses extends Component {
         const waterYear = [];
         const gasYear = [];
         const elecYear = [];
+        const oilYear = [];
+        const energyReductionYear = [];
+        const wasteManagementYear = [];
+        const businessRatesReviewYear = [];
+        const fuelCardsYear = [];
+        const telecommsBroadbandYear = [];
+        const cyberSecurityYear = [];
+        const printersYear = [];
+        const merchantServicesYear = [];
+        const insolvencyYear = [];
         userServices.data["getServices"].items.map(lead => {
             if (lead.service_name === "Gas" && lead.cost_year) {
                 gasYear.push(parseFloat(lead.cost_year));
@@ -111,31 +205,105 @@ class Expenses extends Component {
                 elecYear.push(parseFloat(lead.cost_year));
             } else if(lead.cost_year){
                 waterYear.push(parseFloat(lead.cost_year));
+            } else if(lead.service_name === "Oil" && lead.cost_year) {
+                oilYear.push(parseFloat(lead.cost_year));
+            } else if(lead.service_name === "Energy Reduction" && lead.cost_year) {
+                energyReductionYear.push(parseFloat(lead.cost_year));
+            } else if(lead.service_name === "Waste Management" && lead.cost_year) {
+                wasteManagementYear.push(parseFloat(lead.cost_year));
+            } else if(lead.service_name === "Business Rates Review" && lead.cost_year) {
+                businessRatesReviewYear.push(parseFloat(lead.cost_year));
+            } else if(lead.service_name === "Fuel Cards" && lead.cost_year) {
+                fuelCardsYear.push(parseFloat(lead.cost_year));
+            } else if(lead.service_name === "Telecomms & Broadband" && lead.cost_year) {
+                telecommsBroadbandYear.push(parseFloat(lead.cost_year));
+            } else if(lead.service_name === "Cyber Security" && lead.cost_year) {
+                cyberSecurityYear.push(parseFloat(lead.cost_year));
+            } else if(lead.service_name === "Printers" && lead.cost_year) {
+                printersYear.push(parseFloat(lead.cost_year));
+            } else if(lead.service_name === "Merchant Services" && lead.cost_year) {
+                merchantServicesYear.push(parseFloat(lead.cost_year));
+            } else if(lead.service_name === "Insolvency" && lead.cost_year) {
+                insolvencyYear.push(parseFloat(lead.cost_year));
             }
         });
         //do summary 
         const gasYearTotal = gasYear.reduce((result, number) => result+number, 0);
         const elecYearTotal = elecYear.reduce((result, number) => result+number, 0);
         const waterYearTotal = waterYear.reduce((result, number) => result+number, 0);
+        const oilYearTotal = oilYear.reduce((result, number) => result+number, 0);
+        const energyReductionYearTotal = energyReductionYear.reduce((result, number) => result+number, 0);
+        const wasteManagementYearTotal = wasteManagementYear.reduce((result, number) => result+number, 0);
+        const businessRatesYearTotal = businessRatesReviewYear.reduce((result, number) => result+number, 0);
+        const fuelCardsYearTotal = fuelCardsYear.reduce((result, number) => result+number, 0);
+        const telecommsYearTotal = telecommsBroadbandYear.reduce((result, number) => result+number, 0);
+        const cyberSecurityYearTotal = cyberSecurityYear.reduce((result, number) => result+number, 0);
+        const printersYearTotal = printersYear.reduce((result, number) => result+number, 0);
+        const merchantServicesYearTotal = merchantServicesYear.reduce((result, number) => result+number, 0);
+        const insolvencyYearTotal = insolvencyYear.reduce((result, number) => result+number, 0);
 
         this.setState({ data2: {
                 labels: [
                     'Gas',
                     'Electric',
-                    'Water'
+                    'Water',
+                    'Oil',
+                    'Energy Reduction',
+                    'Waste Management',
+                    'Business Rates',
+                    'Fuel Cards',
+                    'Telecomms & Broadband',
+                    'Cyber Security',
+                    'Printers',
+                    'Merchant Services',
+                    'Insolvency'
                 ],
                 datasets: [{
-                    data: [gasYearTotal, elecYearTotal, waterYearTotal],
-                    backgroundColor: [
-                    '#fc8181',
-                    '#90cdf4',
-                    '#fbd38d'
+                    data: [
+                        gasYearTotal, 
+                        elecYearTotal, 
+                        waterYearTotal,
+                        oilYearTotal, 
+                        energyReductionYearTotal,
+                        wasteManagementYearTotal,
+                        businessRatesYearTotal,
+                        fuelCardsYearTotal,
+                        telecommsYearTotal,
+                        cyberSecurityYearTotal,
+                        printersYearTotal,
+                        merchantServicesYearTotal,
+                        insolvencyYearTotal
                     ],
-                    hoverBackgroundColor: [
-                    '#fc8181',
-                    '#90cdf4',
-                    '#fbd38d'
-                    ]
+                    backgroundColor: [
+                        '#fc8181',
+                        '#fcc981',
+                        '#90cdf4',
+                        '#d490f4',
+                        '#fbd38d',
+                        '#dafb8d',
+                        '#9ffb8d',
+                        '#fb8dea',
+                        '#8dcffb',
+                        '#8dfbac',
+                        '#fb8dd1',
+                        '#ffb8e8',
+                        '#97e8bb'
+                        ],
+                        hoverBackgroundColor: [
+                        '#fc8181',
+                        '#fcc981',
+                        '#90cdf4',
+                        '#d490f4',
+                        '#fbd38d',
+                        '#dafb8d',
+                        '#9ffb8d',
+                        '#fb8dea',
+                        '#8dcffb',
+                        '#8dfbac',
+                        '#fb8dd1',
+                        '#ffb8e8',
+                        '#97e8bb'
+                        ]
                 }]
             }
         })
