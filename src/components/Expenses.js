@@ -44,7 +44,6 @@ class Expenses extends Component {
         let user = await Auth.currentAuthenticatedUser();
         //user services
         const userServices = await API.graphql(graphqlOperation(getServices, { user_name: user.username}));
-        console.log(userServices)
         //summary expenses
         let sum = userServices.data["getServices"].items.reduce(function(prev, current) {
             return prev + +current.cost_year
@@ -117,39 +116,50 @@ class Expenses extends Component {
         const printersTotal = printers.reduce((result, number) => result+number, 0);
         const merchantServicesTotal = merchantServices.reduce((result, number) => result+number, 0);
         const insolvencyTotal = insolvency.reduce((result, number) => result+number, 0);
-        
+        const monthTotals = [
+            gasTotal, 
+            elecTotal, 
+            waterTotal,
+            oilTotal, 
+            energyReductionTotal,
+            wasteManagementTotal,
+            businessRatesTotal,
+            fuelCardsTotal,
+            telecommsTotal,
+            cyberSecurityTotal,
+            printersTotal,
+            merchantServicesTotal,
+            insolvencyTotal
+        ];
+
+        const labelsData = [
+            'Gas',
+            'Electricity',
+            'Water',
+            'Oil',
+            'Energy reduction',
+            'Waste Management',
+            'Business Rates',
+            'Fuel Cards',
+            'Telecoms & Broadband',
+            'Cyber Security',
+            'Printers',
+            'Merchant Services',
+            'Insolvency'
+        ]
+        const newLabels = []
+        const NewMonthTotal = monthTotals.filter(function(e, index){
+            if(e > 0){
+                //get index and value from existing labels and add to new 
+                let newLabel = labelsData[index];
+                newLabels.push(newLabel);
+                return e
+            }
+        });
         this.setState({ data1: {
-                labels: [
-                    'Gas',
-                    'Electric',
-                    'Water',
-                    'Oil',
-                    'Energy Reduction',
-                    'Waste Management',
-                    'Business Rates',
-                    'Fuel Cards',
-                    'Telecomms & Broadband',
-                    'Cyber Security',
-                    'Printers',
-                    'Merchant Services',
-                    'Insolvency'
-                ],
+                labels: newLabels,
                 datasets: [{
-                    data: [
-                        gasTotal, 
-                        elecTotal, 
-                        waterTotal,
-                        oilTotal, 
-                        energyReductionTotal,
-                        wasteManagementTotal,
-                        businessRatesTotal,
-                        fuelCardsTotal,
-                        telecommsTotal,
-                        cyberSecurityTotal,
-                        printersTotal,
-                        merchantServicesTotal,
-                        insolvencyTotal
-                    ],
+                    data: NewMonthTotal,
                     backgroundColor: [
                     '#fc8181',
                     '#fcc981',
@@ -199,6 +209,7 @@ class Expenses extends Component {
         const merchantServicesYear = [];
         const insolvencyYear = [];
         userServices.data["getServices"].items.map(lead => {
+            console.log(lead);
             if (lead.service_name === "Gas" && lead.cost_year) {
                 gasYear.push(parseFloat(lead.cost_year));
             } else if(lead.service_name === "Electric" && lead.cost_year) {
@@ -209,6 +220,7 @@ class Expenses extends Component {
                 oilYear.push(parseFloat(lead.cost_year));
             } else if(lead.service_name === "Energy Reduction" && lead.cost_year) {
                 energyReductionYear.push(parseFloat(lead.cost_year));
+                console.log(energyReductionYear)
             } else if(lead.service_name === "Waste Management" && lead.cost_year) {
                 wasteManagementYear.push(parseFloat(lead.cost_year));
             } else if(lead.service_name === "Business Rates Review" && lead.cost_year) {
@@ -241,39 +253,33 @@ class Expenses extends Component {
         const printersYearTotal = printersYear.reduce((result, number) => result+number, 0);
         const merchantServicesYearTotal = merchantServicesYear.reduce((result, number) => result+number, 0);
         const insolvencyYearTotal = insolvencyYear.reduce((result, number) => result+number, 0);
+        const yearTotals = [
+            gasYearTotal, 
+            elecYearTotal, 
+            waterYearTotal,
+            oilYearTotal, 
+            energyReductionYearTotal,
+            wasteManagementYearTotal,
+            businessRatesYearTotal,
+            fuelCardsYearTotal,
+            telecommsYearTotal,
+            cyberSecurityYearTotal,
+            printersYearTotal,
+            merchantServicesYearTotal,
+            insolvencyYearTotal
+        ];
+        const NewYearTotal = yearTotals.filter(function(e, index){
+            if(e > 0){
+                return e
+            }
+        });
+        console.log(yearTotals)
+        console.log(NewYearTotal)
 
         this.setState({ data2: {
-                labels: [
-                    'Gas',
-                    'Electric',
-                    'Water',
-                    'Oil',
-                    'Energy Reduction',
-                    'Waste Management',
-                    'Business Rates',
-                    'Fuel Cards',
-                    'Telecomms & Broadband',
-                    'Cyber Security',
-                    'Printers',
-                    'Merchant Services',
-                    'Insolvency'
-                ],
+                labels: newLabels,
                 datasets: [{
-                    data: [
-                        gasYearTotal, 
-                        elecYearTotal, 
-                        waterYearTotal,
-                        oilYearTotal, 
-                        energyReductionYearTotal,
-                        wasteManagementYearTotal,
-                        businessRatesYearTotal,
-                        fuelCardsYearTotal,
-                        telecommsYearTotal,
-                        cyberSecurityYearTotal,
-                        printersYearTotal,
-                        merchantServicesYearTotal,
-                        insolvencyYearTotal
-                    ],
+                    data: NewYearTotal,
                     backgroundColor: [
                         '#fc8181',
                         '#fcc981',
@@ -307,6 +313,7 @@ class Expenses extends Component {
                 }]
             }
         })
+        console.log(this.state.data2)
 
         
         const columnsArray2 = [

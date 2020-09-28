@@ -43,7 +43,7 @@ class Modal extends React.Component {
                                     <option>Oil</option>
                                     <option>Water</option>
                                     <option>Energy Reduction</option>
-                                    <option>Waste management</option>
+                                    <option>Waste Management</option>
                                     <option>Business Rates Review</option>
                                     <option>Fuel Cards</option>
                                     <option>Telecomms & Broadband</option>
