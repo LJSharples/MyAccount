@@ -38,7 +38,7 @@ class Modal extends React.Component {
                                 <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
                                 id="serviceName" name="serviceName" type="text" onChange={event => this.props.onInput('serviceName', event)}>
                                     <option>Please Select a service</option>
-                                    <option>Electricity</option>
+                                    <option>Electric</option>
                                     <option>Gas</option>
                                     <option>Oil</option>
                                     <option>Water</option>

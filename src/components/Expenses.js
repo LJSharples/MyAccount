@@ -70,33 +70,60 @@ class Expenses extends Component {
         const printers = [];
         const merchantServices = [];
         const insolvency = [];
+        //cost per year
+        const waterYear = [];
+        const gasYear = [];
+        const elecYear = [];
+        const oilYear = [];
+        const energyReductionYear = [];
+        const wasteManagementYear = [];
+        const businessRatesReviewYear = [];
+        const fuelCardsYear = [];
+        const telecommsBroadbandYear = [];
+        const cyberSecurityYear = [];
+        const printersYear = [];
+        const merchantServicesYear = [];
+        const insolvencyYear = [];
         userServices.data["getServices"].items.map(lead => {
             if (lead.service_name === "Gas" && lead.cost_month) {
                 gas.push(parseFloat(lead.cost_month));
+                gasYear.push(parseFloat(lead.cost_year));
             } else if(lead.service_name === "Electric" && lead.cost_month) {
                 elec.push(parseFloat(lead.cost_month));
+                elecYear.push(parseFloat(lead.cost_year));
             } else if(lead.service_name === "Water" && lead.cost_month) {
                 water.push(parseFloat(lead.cost_month));
+                waterYear.push(parseFloat(lead.cost_year));
             } else if(lead.service_name === "Oil" && lead.cost_month) {
                 oil.push(parseFloat(lead.cost_month));
+                oilYear.push(parseFloat(lead.cost_year));
             } else if(lead.service_name === "Energy Reduction" && lead.cost_month) {
                 energyReduction.push(parseFloat(lead.cost_month));
+                energyReductionYear.push(parseFloat(lead.cost_year));
             } else if(lead.service_name === "Waste Management" && lead.cost_month) {
                 wasteManagement.push(parseFloat(lead.cost_month));
+                wasteManagementYear.push(parseFloat(lead.cost_year));
             } else if(lead.service_name === "Business Rates Review" && lead.cost_month) {
                 businessRatesReview.push(parseFloat(lead.cost_month));
+                businessRatesReviewYear.push(parseFloat(lead.cost_year));
             } else if(lead.service_name === "Fuel Cards" && lead.cost_month) {
                 fuelCards.push(parseFloat(lead.cost_month));
+                fuelCardsYear.push(parseFloat(lead.cost_year));
             } else if(lead.service_name === "Telecomms & Broadband" && lead.cost_month) {
                 telecommsBroadband.push(parseFloat(lead.cost_month));
+                telecommsBroadbandYear.push(parseFloat(lead.cost_year));
             } else if(lead.service_name === "Cyber Security" && lead.cost_month) {
                 cyberSecurity.push(parseFloat(lead.cost_month));
+                cyberSecurityYear.push(parseFloat(lead.cost_year));
             } else if(lead.service_name === "Printers" && lead.cost_month) {
                 printers.push(parseFloat(lead.cost_month));
+                printersYear.push(parseFloat(lead.cost_year));
             } else if(lead.service_name === "Merchant Services" && lead.cost_month) {
                 merchantServices.push(parseFloat(lead.cost_month));
+                merchantServicesYear.push(parseFloat(lead.cost_year));
             } else if(lead.service_name === "Insolvency" && lead.cost_month) {
                 insolvency.push(parseFloat(lead.cost_month));
+                insolvencyYear.push(parseFloat(lead.cost_year));
             }
             if(lead.new_cost_month && lead.new_cost_year){
                 this.generateMoneySaved(lead.cost_year, lead.new_cost_year)
@@ -193,52 +220,6 @@ class Expenses extends Component {
                 }]
             }
         })
-
-        //costs per Year
-        const waterYear = [];
-        const gasYear = [];
-        const elecYear = [];
-        const oilYear = [];
-        const energyReductionYear = [];
-        const wasteManagementYear = [];
-        const businessRatesReviewYear = [];
-        const fuelCardsYear = [];
-        const telecommsBroadbandYear = [];
-        const cyberSecurityYear = [];
-        const printersYear = [];
-        const merchantServicesYear = [];
-        const insolvencyYear = [];
-        userServices.data["getServices"].items.map(lead => {
-            console.log(lead);
-            if (lead.service_name === "Gas" && lead.cost_year) {
-                gasYear.push(parseFloat(lead.cost_year));
-            } else if(lead.service_name === "Electric" && lead.cost_year) {
-                elecYear.push(parseFloat(lead.cost_year));
-            } else if(lead.cost_year){
-                waterYear.push(parseFloat(lead.cost_year));
-            } else if(lead.service_name === "Oil" && lead.cost_year) {
-                oilYear.push(parseFloat(lead.cost_year));
-            } else if(lead.service_name === "Energy Reduction" && lead.cost_year) {
-                energyReductionYear.push(parseFloat(lead.cost_year));
-                console.log(energyReductionYear)
-            } else if(lead.service_name === "Waste Management" && lead.cost_year) {
-                wasteManagementYear.push(parseFloat(lead.cost_year));
-            } else if(lead.service_name === "Business Rates Review" && lead.cost_year) {
-                businessRatesReviewYear.push(parseFloat(lead.cost_year));
-            } else if(lead.service_name === "Fuel Cards" && lead.cost_year) {
-                fuelCardsYear.push(parseFloat(lead.cost_year));
-            } else if(lead.service_name === "Telecomms & Broadband" && lead.cost_year) {
-                telecommsBroadbandYear.push(parseFloat(lead.cost_year));
-            } else if(lead.service_name === "Cyber Security" && lead.cost_year) {
-                cyberSecurityYear.push(parseFloat(lead.cost_year));
-            } else if(lead.service_name === "Printers" && lead.cost_year) {
-                printersYear.push(parseFloat(lead.cost_year));
-            } else if(lead.service_name === "Merchant Services" && lead.cost_year) {
-                merchantServicesYear.push(parseFloat(lead.cost_year));
-            } else if(lead.service_name === "Insolvency" && lead.cost_year) {
-                insolvencyYear.push(parseFloat(lead.cost_year));
-            }
-        });
         //do summary 
         const gasYearTotal = gasYear.reduce((result, number) => result+number, 0);
         const elecYearTotal = elecYear.reduce((result, number) => result+number, 0);
