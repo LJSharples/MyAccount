@@ -102,6 +102,8 @@ export const addService = /* GraphQL */ `
     $cost_month: String
     $cost_year: String
     $uploaded_documents: String
+    $permission: String
+    $affiliate_id: String
   ) {
     addService(
       user_name: $user_name
@@ -114,6 +116,8 @@ export const addService = /* GraphQL */ `
       cost_month: $cost_month
       cost_year: $cost_year
       uploaded_documents: $uploaded_documents
+      permission: $permission
+      affiliate_id: $affiliate_id
     ) {
       user_name
       status

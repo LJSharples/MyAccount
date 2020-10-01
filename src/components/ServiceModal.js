@@ -145,6 +145,21 @@ class Modal extends React.Component {
                                 id="cost_month" name="cost_month" type="number" placeholder="£0.00" min="0.01" step="0.01" max="2500" onChange={event => this.props.onInput('cost_month', event)}/>
                             </div>
                         </div>
+                        <div className="flex flex-wrap -mx-3 mb-6">
+                            <div className="w-full px-3 border-b border-solid border-gray-300 rounded-t">
+                                <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
+                                    Permission
+                                </label>
+                            </div>
+                        </div>
+                        <div className="flex flex-wrap -mx-3 mb-6">
+                            <div className="w-full px-3">
+                                <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
+                                    Yes, I’d like to share my service details with the suppliers and affiliate who introduced me.
+                                </label>
+                                <input id="permission" name="permission" type="checkbox" onChange={event => this.props.onActivate('permission', event)}/>
+                            </div>
+                        </div>
                     </div>
                 {/*footer*/}
                 <div className="flex items-center justify-end p-6 border-t border-solid border-gray-300 rounded-b">

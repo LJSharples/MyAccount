@@ -13,6 +13,7 @@ class Services extends Component {
         rows2: [],
         userProfile: {},
         userCompany: {},
+        affiliateId: '',
         isOpen2: false ,
         serviceName: '',
         provider: '',
@@ -24,6 +25,7 @@ class Services extends Component {
         currentSupplier: '',
         user_name: '',
         uploaded_documents: [],
+        permission: false,
         customStyle: {
             rows: {
               style: {
@@ -54,7 +56,9 @@ class Services extends Component {
 
     async componentDidMount(){
         let user = await Auth.currentAuthenticatedUser();
+        const currentUserInfo = await Auth.currentUserInfo();
         const userProfile = await API.graphql(graphqlOperation(getUserDetails, { user_name: user.username}));
+        this.setState({ affiliateId: currentUserInfo.attributes['custom:affiliate_id'] });
         this.setState({ userProfile: userProfile.data["user"]});
         this.setState({ userCompany: userProfile.data["getCompany"]});
 
@@ -134,7 +138,17 @@ class Services extends Component {
     };
 
     onInput = (key, event) => {
+        console.log(key);
+        console.log(this.state);
         this.setState({ [key]: event.target.value})
+    };
+
+    onActivate = () => {
+        console.log(this.state.permission)
+        this.setState(prevState => ({
+            permission: !prevState.permission
+        }));
+        console.log(this.state.permission)
     };
 
     fileUploadKey = (key) => {
@@ -161,7 +175,9 @@ class Services extends Component {
             current_supplier: this.state.currentSupplier,
             cost_year: this.state.cost_year,
             cost_month: this.state.cost_month,
-            uploaded_documents: this.state.uploaded_documents
+            uploaded_documents: this.state.uploaded_documents,
+            permission: this.state.permission,
+            affiliate_id: this.state.affiliateId
         }
         console.log(data)
         try {
@@ -274,7 +290,7 @@ class Services extends Component {
                                         >
                                             Add Service
                                         </button>
-                                        <ServiceModal show={this.state.isOpen2} onClose={this.toggleModal} onInput={this.onInput} submitLead={this.submitService} fileUploadKey={this.fileUploadKey}>
+                                        <ServiceModal show={this.state.isOpen2} onClose={this.toggleModal} onInput={this.onInput} submitLead={this.submitService} fileUploadKey={this.fileUploadKey} onActivate={this.onActivate}>
                                         </ServiceModal>
                                     </h1>
                                 </header>
