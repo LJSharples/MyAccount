@@ -18,7 +18,7 @@ export default function Navbar( props ) {
                                 
                                 <div className="flex items-center flex-shrink-0 text-white mr-6">
                                     <img className="fill-current h-8 w-8 mr-2" width="54" height="54" src={MyAccount} alt="ManagedBills"/>
-                                    <span className="font-semibold text-xl tracking-tight"><Link to={'/'} className="text-lg font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase text-white">My Account</Link></span>
+                                    <span className="font-semibold text-xl tracking-tight"><Link to={'/'} className="text-lg font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap text-white">My Account</Link></span>
                                 </div>
 
                                 <button
@@ -39,16 +39,16 @@ export default function Navbar( props ) {
                             >
                                 <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
                                     <li className="nav-item">
-                                        <Link to={'/'} className="px-3 py-2 flex items-center text-lg uppercase font-bold leading-snug text-white hover:opacity-75">Dashboard</Link>
+                                        <Link to={'/'} className="px-3 py-2 flex items-center text-lg font-bold leading-snug text-white hover:opacity-75">Dashboard</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link to={'/services'} className="px-3 py-2 flex items-center text-lg uppercase font-bold leading-snug text-white hover:opacity-75">Services</Link>
+                                        <Link to={'/services'} className="px-3 py-2 flex items-center text-lg font-bold leading-snug text-white hover:opacity-75">Services</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link to={'/expenses'} className="px-3 py-2 flex items-center text-lg uppercase font-bold leading-snug text-white hover:opacity-75">Expenses</Link>
+                                        <Link to={'/expenses'} className="px-3 py-2 flex items-center text-lg font-bold leading-snug text-white hover:opacity-75">Expenses</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link to={'/my-details'} className="px-3 py-2 flex items-center text-lg uppercase font-bold leading-snug text-white hover:opacity-75">My Details</Link>
+                                        <Link to={'/my-details'} className="px-3 py-2 flex items-center text-lg font-bold leading-snug text-white hover:opacity-75">My Details</Link>
                                     </li>
                                     <li className="nav-item">   
                                         <a className="inline-block text-lg px-4 py-2 ml-12 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0"

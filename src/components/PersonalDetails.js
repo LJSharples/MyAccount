@@ -164,7 +164,7 @@ class PersonalDetails extends Component {
                         <div className="my-1 px-1 w-full lg:my-4 lg:px-4 lg:w-1/3">
                             <article className="overflow-hidden rounded-lg">
                                 <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                                    <h1 className="text-lg no-underline hover:underline text-black text-2xl">
+                                    <h1 className="no-underline text-blue-600 text-3xl font-bold ">
                                         My Details
                                     </h1>
                                 </header>
@@ -257,7 +257,7 @@ class PersonalDetails extends Component {
                         <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
                             <article className="overflow-hidden rounded-lg">
                                 <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                                    <h1 className="text-lg no-underline hover:underline text-black text-2xl">
+                                    <h1 className="no-underline text-blue-600 text-2xl font-bold">
                                         About your company
                                     </h1>
                                 </header>
@@ -327,7 +327,7 @@ class PersonalDetails extends Component {
                         <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
                             <article className="overflow-hidden rounded-lg">
                                 <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                                    <h1 className="text-lg no-underline hover:underline text-black text-2xl">
+                                    <h1 className="no-underline text-blue-600 text-2xl font-bold">
                                         Additional information
                                     </h1>
                                 </header>

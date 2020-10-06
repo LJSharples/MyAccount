@@ -282,7 +282,7 @@ class Services extends Component {
                         <div className="my-1 px-1 w-full lg:my-4 lg:px-4">
                             <article className="overflow-hidden rounded-lg">
                                 <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                                    <h1 className="no-underline text-black text-2xl text-lg text-blue-600">
+                                    <h1 className="no-underline text-blue-600 text-3xl font-bold ">
                                         Services 
                                     </h1>
                                 </header>
@@ -292,13 +292,15 @@ class Services extends Component {
                             <div className="flex flex-wrap -mx-1 lg:-mx-4">
                                 <div className="flex-1 text-center px-8 py-4 m-4 rounded-lg">
                                     <h2 className="no-underline text-black text-2xl text-lg text-blue-600">
-                                    Manage all of your service in one place. Add existing services, track services in progress and view your ended deals.
-
+                                    Manage all of your service in one place.
+                                    </h2>
+                                    <h2 className="no-underline text-black text-2xl text-lg text-blue-600">
+                                    Add existing services, track services in progress and view your ended deals.
                                     </h2>
                                 </div>
                                 <div className="flex-1 text-center px-8 py-4 m-4 rounded-lg">
                                     <button
-                                        className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 hover:border-transparent hover:text-blue-500 hover:bg-white hover:border-blue-500"
+                                        className="bg-blue-500 text-white active:bg-blue-600 font-bold text-lg px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 hover:border-transparent hover:text-blue-500 hover:bg-white hover:border-blue-500"
                                         type="button"
                                         style={{ transition: "all .15s ease" }}
                                         onClick={this.toggleModal}
