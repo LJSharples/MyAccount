@@ -1,6 +1,12 @@
 import React from "react";
 import FileUpload from "./FileUpload";
 
+//class ValidationForm extends React.Component{
+//    state = {
+//       serviceError: "Please select a service"
+//};
+
+
 class Modal extends React.Component {
     render() {
         // Render nothing if the "show" prop is false
@@ -10,6 +16,9 @@ class Modal extends React.Component {
 
         return (
             <>
+
+
+
             <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
                 {/*content*/}
@@ -37,20 +46,20 @@ class Modal extends React.Component {
                                 </label>
                                 <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
                                 id="serviceName" name="serviceName" type="text" onChange={event => this.props.onInput('serviceName', event)}>
-                                    <option>Please Select a service</option>
-                                    <option>Electric</option>
-                                    <option>Gas</option>
-                                    <option>Oil</option>
-                                    <option>Water</option>
-                                    <option>Energy Reduction</option>
-                                    <option>Waste Management</option>
-                                    <option>Business Rates Review</option>
-                                    <option>Fuel Cards</option>
-                                    <option>Telecomms & Broadband</option>
-                                    <option>Cyber Security</option>
-                                    <option>Printers</option>
-                                    <option>Merchant Services</option>
-                                    <option>Insolvency</option>
+                                    <option value="DEFAULT">Please Select a service</option>
+                                    <option value="Electric">Electric</option>
+                                    <option value="Gas">Gas</option>
+                                    <option value="Oil">Oil</option>
+                                    <option value="Water">Water</option>
+                                    <option value="Energy Reduction">Energy Reduction</option>
+                                    <option value="Waste Management">Waste Management</option>
+                                    <option value="Business Rates Review">Business Rates Review</option>
+                                    <option value="Fuel Cards">Fuel Cards</option>
+                                    <option value="Telecomms & Broadband">Telecomms & Broadband</option>
+                                    <option value="Cyber Security">Cyber Security</option>
+                                    <option value="Printers">Printers</option>
+                                    <option value="Merchant Services">Merchant Services</option>
+                                    <option value="Insolvency">Insolvency</option>
                                 </select>
                             </div>
                             <div className="w-full md:w-1/2 px-3">
