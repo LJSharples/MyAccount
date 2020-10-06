@@ -66,6 +66,7 @@ class PersonalDetails extends Component {
             });
         } else{
             this.setState({ createCompany: true});
+            this.setState({ check: true});
         }
     }
 

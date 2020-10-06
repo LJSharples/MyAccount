@@ -4,6 +4,7 @@ import { addService, removeService } from "../graphql/mutations";
 import { Auth, API, graphqlOperation, Storage } from "aws-amplify";
 import { MDBBtn } from 'mdbreact';
 import ServiceModal from "./ServiceModal";
+import DeleteModal from "./DeleteModal";
 import DataTable from "react-data-table-component";
 
 class Services extends Component {
@@ -15,6 +16,7 @@ class Services extends Component {
         userCompany: {},
         affiliateId: '',
         isOpen2: false ,
+        isOpen3: false ,
         serviceName: '',
         provider: '',
         contractDate: '',
@@ -24,6 +26,7 @@ class Services extends Component {
         cost_month: '',
         currentSupplier: '',
         user_name: '',
+        selectedKey: '',
         uploaded_documents: [],
         permission: false,
         customStyle: {
@@ -124,7 +127,7 @@ class Services extends Component {
                 contract_end: dateString.substring(0, 10),
                 cost_year: lead.cost_year,
                 attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
-                handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.deleteService(lead.PK)}>Delete</MDBBtn>
+                handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
 
             }
             valuesArray2.push(newValue2);
@@ -161,6 +164,13 @@ class Services extends Component {
     toggleModal = () => {
         this.setState({
           isOpen2: !this.state.isOpen2
+        });
+    }
+
+    toggleModal2 = (key) => {
+        this.setState({
+          isOpen3: !this.state.isOpen3,
+          selectedKey: key.substr(8)
         });
     }
 
@@ -206,7 +216,7 @@ class Services extends Component {
                 contract_end: lead.contract_end,
                 cost_year: lead.cost_year,
                 attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
-                handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.deleteService(lead.PK)}>Delete</MDBBtn>
+                handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
 
             }
             valuesArray2.push(newValue2);
@@ -215,10 +225,11 @@ class Services extends Component {
         //window.location.reload(false);
     }
 
-    deleteService = async (created) => {
+    deleteService = async () => {
         const data = {
             user_name: this.state.userProfile.user_name,
-            id: created.substr(8)
+            id: this.state.selectedKey,
+            status: 'CUSTOMER DELETED'
         }
         try {
             await API.graphql(graphqlOperation(removeService, data));
@@ -229,7 +240,9 @@ class Services extends Component {
         const userServices = await API.graphql(graphqlOperation(getServices, { user_name: this.state.userProfile.user_name}));
 
         const valuesArray2 = [];
-        
+        this.setState({
+            isOpen3: !this.state.isOpen3,
+        });
         userServices.data["getServices"].items.map(lead => {
             let bills = []
             if(lead.uploaded_documents && lead.uploaded_documents.length > 0){
@@ -242,7 +255,7 @@ class Services extends Component {
                 contract_end: lead.contract_end,
                 cost_year: lead.cost_year,
                 attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
-                handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.deleteService(lead.PK)}>Delete</MDBBtn>
+                handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
 
             }
             valuesArray2.push(newValue2);
@@ -274,27 +287,28 @@ class Services extends Component {
                                     </h1>
                                 </header>
                                 <footer className="flex items-center p-2 md:p-4">
-                                    <h2 className="no-underline text-black text-2xl text-lg text-blue-600">
-                                        Manage all of your service in one place. Add existing services, track services in progress and view your ended deals.
-                                    </h2>
                                 </footer>
                             </article>
-                            <article className="overflow-hidden rounded-lg">
-                                <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                                    <h1 className="text-lg">
-                                        <button
-                                            className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 hover:border-transparent hover:text-blue-500 hover:bg-white hover:border-blue-500"
-                                            type="button"
-                                            style={{ transition: "all .15s ease" }}
-                                            onClick={this.toggleModal}
-                                        >
-                                            Add Service
-                                        </button>
-                                        <ServiceModal show={this.state.isOpen2} onClose={this.toggleModal} onInput={this.onInput} submitLead={this.submitService} fileUploadKey={this.fileUploadKey} onActivate={this.onActivate}>
-                                        </ServiceModal>
-                                    </h1>
-                                </header>
-                            </article>
+                            <div className="flex flex-wrap -mx-1 lg:-mx-4">
+                                <div className="flex-1 text-center px-8 py-4 m-4 rounded-lg">
+                                    <h2 className="no-underline text-black text-2xl text-lg text-blue-600">
+                                    Manage all of your service in one place. Add existing services, track services in progress and view your ended deals.
+
+                                    </h2>
+                                </div>
+                                <div className="flex-1 text-center px-8 py-4 m-4 rounded-lg">
+                                    <button
+                                        className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 hover:border-transparent hover:text-blue-500 hover:bg-white hover:border-blue-500"
+                                        type="button"
+                                        style={{ transition: "all .15s ease" }}
+                                        onClick={this.toggleModal}
+                                    >
+                                        Add Service
+                                    </button>
+                                    <ServiceModal show={this.state.isOpen2} onClose={this.toggleModal} onInput={this.onInput} submitLead={this.submitService} fileUploadKey={this.fileUploadKey} onActivate={this.onActivate}>
+                                    </ServiceModal>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-2">
@@ -307,6 +321,7 @@ class Services extends Component {
                                 pagination="true"
                                 responsive
                                 customStyles={this.state.customStyle}/>
+                            <DeleteModal show={this.state.isOpen3} onClose={this.toggleModal2} deleteService={this.deleteService}/>
                         </div>
                         <div className="text-gray-700 text-center px-4 py-2 m-2 rounded-lg ">
                         </div>

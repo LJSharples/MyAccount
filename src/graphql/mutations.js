@@ -199,10 +199,12 @@ export const removeService = /* GraphQL */ `
   mutation removeService(
     $user_name: String
     $id: String
+    $status: String
   ){
     deleteService(
       id: $id
       user_name: $user_name
+      status: $status
   ){
     user_name
     id
