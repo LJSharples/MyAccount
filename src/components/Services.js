@@ -6,12 +6,15 @@ import { MDBBtn } from 'mdbreact';
 import ServiceModal from "./ServiceModal";
 import DeleteModal from "./DeleteModal";
 import DataTable from "react-data-table-component";
+import TabPanel from './TabPanel';
 
 class Services extends Component {
     state = {
         data: {},
         column2: [],
-        rows2: [],
+        rowsCurrent: [],
+        rowsActive: [],
+        rowsEnded: [],
         userProfile: {},
         userCompany: {},
         affiliateId: '',
@@ -111,28 +114,40 @@ class Services extends Component {
                 hide: 'md',
             },
         ];
-        const valuesArray2 = [];
+        const currentArray = [];
+        const activeArray = [];
+        const endedArray = [];
+        var date = new Date().getDate();
         
         userServices.data["getServices"].items.map(lead => {
-            let bills = []
-            if(lead.uploaded_documents && lead.uploaded_documents.length > 0){
-                let str = lead.uploaded_documents.slice(1,-1)
-                bills = str.split(',')
-            }
-            var date = new Date(lead.contract_end);
-            var dateString = date.toLocaleString()
-            const newValue2 = {
-                service_name: lead.service_name,
-                provider: lead.current_supplier,
-                contract_end: dateString.substring(0, 10),
-                cost_year: lead.cost_year,
-                attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
-                handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
+            if(lead.status === "CUSTOMER DELETED"){
 
+            } else {
+                let bills = []
+                if(lead.uploaded_documents && lead.uploaded_documents.length > 0){
+                    let str = lead.uploaded_documents.slice(1,-1)
+                    bills = str.split(',')
+                }
+                var date = new Date(lead.contract_end);
+                var dateString = date.toLocaleString()
+                const newValue2 = {
+                    service_name: lead.service_name,
+                    provider: lead.current_supplier,
+                    contract_end: dateString.substring(0, 10),
+                    cost_year: lead.cost_year,
+                    attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
+                    handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
+    
+                }
+                if(lead.new_cost_month && lead.new_cost_year){
+                    activeArray.push(newValue2)
+                } else if(lead.contract_end < date){
+                    endedArray.push(newValue2)
+                }
+                currentArray.push(newValue2);
             }
-            valuesArray2.push(newValue2);
         })
-        this.onChangeText('rows2', valuesArray2);
+        this.onChangeText('rowsCurrent', currentArray);
         this.onChangeText('column2', columnsArray2);
     }
 
@@ -170,8 +185,12 @@ class Services extends Component {
     toggleModal2 = (key) => {
         this.setState({
           isOpen3: !this.state.isOpen3,
-          selectedKey: key.substr(8)
         });
+        if(this.isOpen3 === false){
+            this.setState({
+                selectedKey: key.substr(8)
+            })
+        }
     }
 
     submitService = async () => {
@@ -221,7 +240,7 @@ class Services extends Component {
             }
             valuesArray2.push(newValue2);
         })
-        this.onChangeText('rows2', valuesArray2);
+        this.onChangeText('rowsCurrent', valuesArray2);
         //window.location.reload(false);
     }
 
@@ -261,7 +280,7 @@ class Services extends Component {
             valuesArray2.push(newValue2);
         })
 
-        this.onChangeText('rows2', valuesArray2);
+        this.onChangeText('rowsCurrent', valuesArray2);
     }
 
     downloadFile = async (key) => {
@@ -275,6 +294,111 @@ class Services extends Component {
     }
     
     render(){
+
+        const Tabs = ({ color,  }) => {
+            const [openTab, setOpenTab] = React.useState(1);
+            return (
+              <>
+                <div className="flex flex-wrap">
+                  <div className="w-full">
+                    <ul
+                      className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row"
+                      role="tablist"
+                    >
+                      <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                        <a
+                          className={
+                            "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                            (openTab === 1
+                              ? "text-white bg-" + color + "-600"
+                              : "text-" + color + "-600 bg-white")
+                          }
+                          onClick={e => {
+                            e.preventDefault();
+                            setOpenTab(1);
+                          }}
+                          data-toggle="tab"
+                          href="#link1"
+                          role="tablist"
+                        >
+                          Current Contracts
+                        </a>
+                      </li>
+                      <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                        <a
+                          className={
+                            "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                            (openTab === 2
+                              ? "text-white bg-" + color + "-600"
+                              : "text-" + color + "-600 bg-white")
+                          }
+                          onClick={e => {
+                            e.preventDefault();
+                            setOpenTab(2);
+                          }}
+                          data-toggle="tab"
+                          href="#link2"
+                          role="tablist"
+                        >
+                           Active Contracts
+                        </a>
+                      </li>
+                      <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                        <a
+                          className={
+                            "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                            (openTab === 3
+                              ? "text-white bg-" + color + "-600"
+                              : "text-" + color + "-600 bg-white")
+                          }
+                          onClick={e => {
+                            e.preventDefault();
+                            setOpenTab(3);
+                          }}
+                          data-toggle="tab"
+                          href="#link3"
+                          role="tablist"
+                        >
+                           Ended Contracts
+                        </a>
+                      </li>
+                    </ul>
+                    <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
+                      <div className="px-4 py-5 flex-auto">
+                        <div className="tab-content tab-space">
+                          <div className={openTab === 1 ? "block" : "hidden"} id="link1">
+                            <DataTable
+                                columns={this.state.column2}
+                                data={this.state.rowsCurrent}
+                                pagination="true"
+                                responsive
+                                customStyles={this.state.customStyle}/>
+                          </div>
+                          <div className={openTab === 2 ? "block" : "hidden"} id="link2">
+                            <DataTable
+                                columns={this.state.column2}
+                                data={this.state.rowsActive}
+                                pagination="true"
+                                responsive
+                                customStyles={this.state.customStyle}/>
+                          </div>
+                          <div className={openTab === 3 ? "block" : "hidden"} id="link3">
+                            <DataTable
+                                columns={this.state.column2}
+                                data={this.state.rowsEnded}
+                                pagination="true"
+                                responsive
+                                customStyles={this.state.customStyle}/>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            );
+        };          
+                
         return (
             <>
                 <div className="container my-12 mx-auto px-4 md:px-12">
@@ -317,12 +441,17 @@ class Services extends Component {
                         <div className="text-gray-700 text-center px-4 py-2 m-2 rounded-lg">
                         </div>
                         <div className="flex-1 items-center justify-between leading-tight text-center px-20 py-10 m-10 rounded-lg">
-                            <DataTable
-                                columns={this.state.column2}
-                                data={this.state.rows2}
-                                pagination="true"
-                                responsive
-                                customStyles={this.state.customStyle}/>
+                            <>
+                                <Tabs color="blue" />
+                            </>
+                        </div>
+                        <div className="text-gray-700 text-center px-4 py-2 m-2 rounded-lg ">
+                        </div>
+                    </div>
+                    <div className="flex flex-wrap -mx-1 lg:-mx-2">
+                        <div className="text-gray-700 text-center px-4 py-2 m-2 rounded-lg">
+                        </div>
+                        <div className="flex-1 items-center justify-between leading-tight text-center px-20 py-10 m-10 rounded-lg">
                             <DeleteModal show={this.state.isOpen3} onClose={this.toggleModal2} deleteService={this.deleteService}/>
                         </div>
                         <div className="text-gray-700 text-center px-4 py-2 m-2 rounded-lg ">

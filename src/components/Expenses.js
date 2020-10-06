@@ -45,6 +45,7 @@ class Expenses extends Component {
         //user services
         const userServices = await API.graphql(graphqlOperation(getServices, { user_name: user.username}));
         //summary expenses
+        console.log(userServices)
         let sum = userServices.data["getServices"].items.reduce(function(prev, current) {
             return prev + +current.cost_year
         }, 0);
