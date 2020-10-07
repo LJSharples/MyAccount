@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Auth } from "aws-amplify";
 import NavBar from "./NavBar";
+import Footer from "./Footer";
 
 export class InternalApp extends Component {
 
@@ -28,6 +29,7 @@ export class InternalApp extends Component {
         if(this.props.authState === "signedIn"){
             return (
                 <NavBar signOut={this.signOut} url={this.state.url}/>
+
             )
         } else {
             return null;

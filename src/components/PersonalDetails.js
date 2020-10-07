@@ -4,6 +4,7 @@ import { Auth, API, graphqlOperation } from "aws-amplify";
 import { updateUser, updateCompany, addProfile, addCompany } from '../graphql/mutations';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { Collapse, IconButton } from '@material-ui/core';
+import Footer from "./Footer";
 
 class PersonalDetails extends Component {
     state = {
@@ -449,9 +450,10 @@ class PersonalDetails extends Component {
                         </div>
                         <div className="flex-1 text-center px-8 py-4 m-4 rounded-lg">
                         </div>
-                    </div>
+                    </div><Footer/>
                 </div>
             </form>
+             
         )
     }
 }

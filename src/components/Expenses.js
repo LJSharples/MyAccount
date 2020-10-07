@@ -3,6 +3,7 @@ import { Auth, API, graphqlOperation } from "aws-amplify";
 import { getServices } from "../graphql/queries";
 import { Pie } from "react-chartjs-2";
 import DataTable from "react-data-table-component";
+import Footer from "./Footer";
 
 class Expenses extends Component {
     state = {
@@ -517,6 +518,7 @@ class Expenses extends Component {
                         <div className="text-gray-700 text-center px-4 py-2 m-2 rounded-lg ">
                         </div>
                     </div>
+                    <Footer/>
             </div>	
         )
     }

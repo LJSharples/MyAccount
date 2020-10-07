@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { getUserDetails, getServices } from "../graphql/queries";
 import { Auth, API, graphqlOperation } from "aws-amplify";
 import { Link, Redirect } from 'react-router-dom';
+import Footer from "./Footer";
 
 class Dashboard extends Component {
     state = {
@@ -148,7 +149,9 @@ class Dashboard extends Component {
                             </h1>
                         </div>
                     </div>
-                </div>
+                    <Footer/>
+                </div>                    
+                                
             )
         }
     }
