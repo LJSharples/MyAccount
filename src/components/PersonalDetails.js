@@ -245,7 +245,7 @@ class PersonalDetails extends Component {
                                 type="button"
                                 style={{ transition: "all .15s ease" }}
                                 onClick={this.updateUserProfile}>
-                                Update Profile
+                                    Update My Details
                             </button>
                         </div>
                         <div className="flex-1 text-center px-8 py-4 m-4 rounded-lg">
@@ -444,7 +444,7 @@ class PersonalDetails extends Component {
                                 type="button"
                                 style={{ transition: "all .15s ease" }}
                                 onClick={this.updateUserCompany}>
-                                Update Company
+                                Update Company Details
                             </button>
                         </div>
                         <div className="flex-1 text-center px-8 py-4 m-4 rounded-lg">

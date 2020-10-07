@@ -286,28 +286,53 @@ class Services extends Component {
           isOpen2: !this.state.isOpen2
         });
         const userServices = await API.graphql(graphqlOperation(getServices, { user_name: this.state.userProfile.user_name}));
-
-        const valuesArray2 = [];
-        
+        const currentArray = [];
+        const activeArray = [];
+        const endedArray = [];
+        var dateCurrent = new Date();
+        var t = dateCurrent.toLocaleString();
         userServices.data["getServices"].items.map(lead => {
-            let bills = []
-            if(lead.uploaded_documents && lead.uploaded_documents.length > 0){
-                let str = lead.uploaded_documents.slice(1,-1)
-                bills = str.split(',')
-            }
-            const newValue2 = {
-                service_name: lead.service_name,
-                provider: lead.current_supplier,
-                contract_end: lead.contract_end,
-                cost_year: lead.cost_year,
-                attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
-                handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
+            if(lead.status === "CUSTOMER DELETED"){
 
+            } else {
+                let bills = []
+                if(lead.uploaded_documents && lead.uploaded_documents.length > 0){
+                    let str = lead.uploaded_documents.slice(1,-1)
+                    bills = str.split(',')
+                }
+                var date = new Date(lead.contract_end);
+                var dateString = date.toLocaleString();
+                const newValue2 = {
+                    service_name: lead.service_name,
+                    provider: lead.current_supplier,
+                    contract_end: dateString.substring(0, 10),
+                    cost_year: lead.cost_year,
+                    attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
+                    handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
+
+                }
+                if(dateString < t){
+                    endedArray.push(newValue2)
+                } else if(lead.status === "CURRENT" || lead.status === "LIVE"){
+                    activeArray.push(newValue2)
+                }else if(lead.status !== "CURRENT" || lead.status !== "LIVE"){
+                    const newValue = {
+                        service_name: lead.service_name,
+                        provider: lead.current_supplier,
+                        contract_end: dateString.substring(0, 10),
+                        cost_year: lead.cost_year,
+                        status: lead.status,
+                        attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
+                        handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
+        
+                    }
+                    currentArray.push(newValue)
+                }
             }
-            valuesArray2.push(newValue2);
         })
-        this.onChangeText('rowsCurrent', valuesArray2);
-        //window.location.reload(false);
+        this.onChangeText('rowsCurrent', currentArray);
+        this.onChangeText('rowsActive', activeArray);
+        this.onChangeText('rowsEnded', endedArray);
     }
 
     deleteService = async () => {
@@ -316,6 +341,7 @@ class Services extends Component {
             id: this.state.selectedKey,
             status: 'CUSTOMER DELETED'
         }
+        console.log(data)
         try {
             await API.graphql(graphqlOperation(removeService, data));
         } catch (err) {
@@ -323,30 +349,54 @@ class Services extends Component {
             console.log(err);
         }
         const userServices = await API.graphql(graphqlOperation(getServices, { user_name: this.state.userProfile.user_name}));
-
-        const valuesArray2 = [];
-        this.setState({
-            isOpen3: !this.state.isOpen3,
-        });
+        console.log(userServices.data["getServices"].items);
+        const currentArray = [];
+        const activeArray = [];
+        const endedArray = [];
+        var dateCurrent = new Date();
+        var t = dateCurrent.toLocaleString();
         userServices.data["getServices"].items.map(lead => {
-            let bills = []
-            if(lead.uploaded_documents && lead.uploaded_documents.length > 0){
-                let str = lead.uploaded_documents.slice(1,-1)
-                bills = str.split(',')
-            }
-            const newValue2 = {
-                service_name: lead.service_name,
-                provider: lead.current_supplier,
-                contract_end: lead.contract_end,
-                cost_year: lead.cost_year,
-                attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
-                handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
+            if(lead.status === "CUSTOMER DELETED"){
 
+            } else {
+                let bills = []
+                if(lead.uploaded_documents && lead.uploaded_documents.length > 0){
+                    let str = lead.uploaded_documents.slice(1,-1)
+                    bills = str.split(',')
+                }
+                var date = new Date(lead.contract_end);
+                var dateString = date.toLocaleString();
+                const newValue2 = {
+                    service_name: lead.service_name,
+                    provider: lead.current_supplier,
+                    contract_end: dateString.substring(0, 10),
+                    cost_year: lead.cost_year,
+                    attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
+                    handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
+
+                }
+                if(dateString < t){
+                    endedArray.push(newValue2)
+                } else if(lead.status === "CURRENT" || lead.status === "LIVE"){
+                    activeArray.push(newValue2)
+                }else if(lead.status !== "CURRENT" || lead.status !== "LIVE"){
+                    const newValue = {
+                        service_name: lead.service_name,
+                        provider: lead.current_supplier,
+                        contract_end: dateString.substring(0, 10),
+                        cost_year: lead.cost_year,
+                        status: lead.status,
+                        attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
+                        handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
+        
+                    }
+                    currentArray.push(newValue)
+                }
             }
-            valuesArray2.push(newValue2);
         })
-
-        this.onChangeText('rowsCurrent', valuesArray2);
+        this.onChangeText('rowsCurrent', currentArray);
+        this.onChangeText('rowsActive', activeArray);
+        this.onChangeText('rowsEnded', endedArray);
     }
 
     downloadFile = async (key) => {
