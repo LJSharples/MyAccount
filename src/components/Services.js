@@ -158,13 +158,6 @@ class Services extends Component {
                 grow: 3,
                 hide: 'md',
             },
-            {
-                name: 'Actions',
-                selector: 'handle',
-                sortable: true,
-                center: true,
-                hide: 'md',
-            },
         ];
         const currentArray = [];
         const activeArray = [];
@@ -203,9 +196,7 @@ class Services extends Component {
                         contract_end: dateString.substring(0, 10),
                         cost_year: lead.cost_year,
                         status: lead.status,
-                        attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
-                        handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
-        
+                        attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),        
                     }
                     currentArray.push(newValue)
                 }
@@ -259,7 +250,7 @@ class Services extends Component {
     submitService = async () => {
         const data = {
             user_name: this.state.userProfile.user_name,
-            status: "FROMMVP",
+            status: "CURRENT",
             service_name: this.state.serviceName,
             callback_time: this.state.callback_time,
             contract_end: this.state.contractDate,
@@ -385,9 +376,7 @@ class Services extends Component {
                         contract_end: dateString.substring(0, 10),
                         cost_year: lead.cost_year,
                         status: lead.status,
-                        attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
-                        handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
-        
+                        attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),        
                     }
                     currentArray.push(newValue)
                 }

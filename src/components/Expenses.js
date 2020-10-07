@@ -4,6 +4,7 @@ import { getServices } from "../graphql/queries";
 import { Pie } from "react-chartjs-2";
 import DataTable from "react-data-table-component";
 import Footer from "./Footer";
+import Tooltip from '@material-ui/core/Tooltip';
 
 class Expenses extends Component {
     state = {
@@ -14,6 +15,7 @@ class Expenses extends Component {
         annualCost: 0,
         monthlyCost: 0,
         moneySaved: 0,
+        toolTipText: "Note: The expense amounts are estimates if your service costs are variable and subject to change each month",
         customStyle: {
             rows: {
               style: {
@@ -366,6 +368,10 @@ class Expenses extends Component {
         }
     }
 
+    scroll = () =>{
+        window.scrollTo(0,1000)
+    }
+
     render(){
         return (
             <div className="container my-12 mx-auto px-4 md:px-12">
@@ -407,9 +413,11 @@ class Expenses extends Component {
                     <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
                         <article className="overflow-hidden rounded-lg shadow-lg bg-blue-300">
                             <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                                <h1 className="no-underline text-blue-600 font-semibold  text-white text-2xl">
-                                    Monthly Expenses
-                                </h1>
+                                <Tooltip title={this.state.toolTipText} arrow>
+                                    <h1 className="no-underline text-blue-600 font-semibold  text-white text-2xl">
+                                        Monthly Expenses
+                                    </h1>
+                                </Tooltip>
                             </header>
                             <div className="flex items-center justify-between leading-none p-2 md:p-4">
                                 <div className="flex items-center no-underline  text-white" >
@@ -430,9 +438,11 @@ class Expenses extends Component {
                     <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
                         <article className="overflow-hidden rounded-lg shadow-lg bg-orange-300">
                             <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                                <h1 className="no-underline text-orange-600 font-semibold text-2xl">
-                                    Annual Expenses
-                                </h1>
+                                <Tooltip title={this.state.toolTipText} arrow>
+                                    <h1 className="no-underline text-orange-600 font-semibold text-2xl">
+                                        Annual Expenses
+                                    </h1>
+                                </Tooltip>
                             </header>
                             <div className="flex items-center justify-between leading-none p-2 md:p-4">
                                 <div className="flex items-center no-underline text-white">
@@ -451,7 +461,7 @@ class Expenses extends Component {
                         </article>
                     </div>
                     <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
-                        <article className="overflow-hidden rounded-lg shadow-lg bg-purple-300 bg-opacity-75">
+                        <article className="overflow-hidden rounded-lg shadow-lg bg-purple-300 bg-opacity-75" onClick={this.scroll}>
                             <header className="flex items-center justify-between leading-tight p-2 md:p-4">
                                 <h1 className="no-underline text-purple-500 font-semibold text-2xl">
                                     Expenses Breakdown
@@ -459,9 +469,8 @@ class Expenses extends Component {
                             </header>
                             <div className="flex items-center justify-between leading-none p-2 md:p-4">
                                 <div className="flex items-center no-underline text-white">
-                                    <p alt="Placeholder" className="block text-purple-500 font-semibold text-2xl">£</p>
+                                    <p alt="Placeholder" className="block text-purple-500 font-semibold text-2xl"></p>
                                     <p className="ml-2 text-purple-500 font-semibold text-2xl">
-                                        {this.state.annualCost}
                                     </p>
                                 </div>
                             </div>
