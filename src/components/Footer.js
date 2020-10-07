@@ -1,11 +1,11 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import Help from './Help';
 
 export default function Footer( props ) {
     const [navbarOpen, setNavbarOpen] = React.useState(false);
     return (
         <>
-            <Router>
                 <div>
                     <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-gray-100 mb-3">
                         <div className="container px-4 mx-auto flex flex-wrap items-center justify-center">
@@ -30,10 +30,7 @@ export default function Footer( props ) {
                             </div>
                         </div>
                     </nav>
-                    <Switch>
-                    </Switch>
                 </div>
-            </Router>
         </>
     );
 }

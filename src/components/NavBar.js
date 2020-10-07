@@ -7,6 +7,7 @@ import PersonalDetails from './PersonalDetails';
 import MyAccount from "../MyAccount.png"
 import GetQuote from "./GetQuote";
 import Quote from "./Quote";
+import Help from './Help';
 
 export default function Navbar( props ) {
     const [navbarOpen, setNavbarOpen] = React.useState(false);
@@ -69,6 +70,7 @@ export default function Navbar( props ) {
                         <Route path='/expenses' component={Expenses} />
                         <Route path='/my-details' component={PersonalDetails} />
                         <Route path='/get-quote' component={Quote} />
+                        <Route path='/help' component={Help} />
                     </Switch>
                 </div>
             </Router>
