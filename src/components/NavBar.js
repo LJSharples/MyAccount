@@ -5,6 +5,8 @@ import Services from './Services';
 import Expenses from './Expenses';
 import PersonalDetails from './PersonalDetails';
 import MyAccount from "../MyAccount.png"
+import GetQuote from "./GetQuote";
+import Quote from "./Quote";
 
 export default function Navbar( props ) {
     const [navbarOpen, setNavbarOpen] = React.useState(false);
@@ -50,6 +52,9 @@ export default function Navbar( props ) {
                                     <li className="nav-item">
                                         <Link to={'/my-details'} className="px-3 py-2 flex items-center text-lg font-bold leading-snug text-white hover:opacity-75">My Details</Link>
                                     </li>
+                                    <li className="nav-item">
+                                        <Link to={'/get-quote'} className="px-3 py-2 flex items-center text-lg font-bold leading-snug text-white hover:opacity-75">Get Quote</Link>
+                                    </li>
                                     <li className="nav-item">   
                                         <a className="inline-block text-lg px-4 py-2 ml-12 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0"
                                         href={props.url}>Logout</a>
@@ -63,6 +68,7 @@ export default function Navbar( props ) {
                         <Route path='/services' component={Services} />
                         <Route path='/expenses' component={Expenses} />
                         <Route path='/my-details' component={PersonalDetails} />
+                        <Route path='/get-quote' component={Quote} />
                     </Switch>
                 </div>
             </Router>
