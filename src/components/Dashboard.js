@@ -29,7 +29,10 @@ class Dashboard extends Component {
             this.setState({services: userServices.data['getServices'].items.length});
 
             let sum = userServices.data["getServices"].items.reduce(function(prev, current) {
-                return prev + +current.cost_year
+                if(current.status === "CURRENT" || current.status === "LIVE"){
+                    return prev + +current.cost_year 
+                 }
+                 return prev
             }, 0);
             this.setState({annualCost: sum})
 
@@ -90,7 +93,7 @@ class Dashboard extends Component {
                             </h1>
                             <Link to="/expenses">
                                 <button className="no-underline text-orange-600 font-medium text-2xl text-lg border-2 p-4 border-orange-500 rounded hover:border-transparent hover:text-orange-600 hover:bg-white hover:border-orange-500">
-                                    View Details  
+                                    View Expenses  
                                 </button>
                             </Link>
                         </div>
@@ -103,7 +106,7 @@ class Dashboard extends Component {
                             </h1>
                             <Link to="/expenses">
                                 <button className="no-underline text-purple-600 font-medium text-2xl text-lg border-2 p-4 border-purple-400 rounded hover:border-transparent hover:text-purple-400 hover:bg-white hover:border-purple-400">
-                                    View Details  
+                                    View Savings  
                                 </button>
                             </Link>
                         </div>

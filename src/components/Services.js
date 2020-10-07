@@ -6,11 +6,11 @@ import { MDBBtn } from 'mdbreact';
 import ServiceModal from "./ServiceModal";
 import DeleteModal from "./DeleteModal";
 import DataTable from "react-data-table-component";
-import TabPanel from './TabPanel';
 
 class Services extends Component {
     state = {
         data: {},
+        column: [],
         column2: [],
         rowsCurrent: [],
         rowsActive: [],
@@ -70,7 +70,7 @@ class Services extends Component {
 
         //user services
         const userServices = await API.graphql(graphqlOperation(getServices, { user_name: user.username}));
-        const columnsArray2 = [
+        const columnsArray = [
             {
                 name: 'Service Name',
                 selector: 'service_name',
@@ -114,11 +114,63 @@ class Services extends Component {
                 hide: 'md',
             },
         ];
+        const columnsArray2 = [
+            {
+                name: 'Service Name',
+                selector: 'service_name',
+                sortable: true,
+                center: true
+            },
+            {
+                name: 'Service Provider',
+                selector: 'provider',
+                sortable: true,
+                center: true
+            },
+            {
+                name: 'Contract End Date',
+                selector: 'contract_end',
+                sortable: true,
+                center: true,
+                hide: 'sm',
+            },
+            {
+                name: 'Cost per year (£)',
+                selector: 'cost_year',
+                sortable: true,
+                center: true,
+                hide: 'sm',
+            },
+            {
+                name: 'Status',
+                selector: 'status',
+                sortable: true,
+                center: true,
+                hide: 'sm',
+            },
+            {
+                name: 'Attachments',
+                selector: 'attachments',
+                sortable: true,
+                responsive: true,
+                center: true,
+                grow: 3,
+                hide: 'md',
+            },
+            {
+                name: 'Actions',
+                selector: 'handle',
+                sortable: true,
+                center: true,
+                hide: 'md',
+            },
+        ];
         const currentArray = [];
         const activeArray = [];
         const endedArray = [];
-        var date = new Date().getDate();
-        
+        var dateCurrent = new Date();
+        var t = dateCurrent.toLocaleString();
+
         userServices.data["getServices"].items.map(lead => {
             if(lead.status === "CUSTOMER DELETED"){
 
@@ -129,7 +181,7 @@ class Services extends Component {
                     bills = str.split(',')
                 }
                 var date = new Date(lead.contract_end);
-                var dateString = date.toLocaleString()
+                var dateString = date.toLocaleString();
                 const newValue2 = {
                     service_name: lead.service_name,
                     provider: lead.current_supplier,
@@ -139,15 +191,29 @@ class Services extends Component {
                     handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
     
                 }
-                if(lead.new_cost_month && lead.new_cost_year){
-                    activeArray.push(newValue2)
-                } else if(lead.contract_end < date){
+                if(dateString < t){
                     endedArray.push(newValue2)
+                } else if(lead.status === "CURRENT" || lead.status === "LIVE"){
+                    activeArray.push(newValue2)
+                }else if(lead.status !== "CURRENT" || lead.status !== "LIVE"){
+                    const newValue = {
+                        service_name: lead.service_name,
+                        provider: lead.current_supplier,
+                        contract_end: dateString.substring(0, 10),
+                        cost_year: lead.cost_year,
+                        status: lead.status,
+                        attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
+                        handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
+        
+                    }
+                    currentArray.push(newValue)
                 }
-                currentArray.push(newValue2);
             }
         })
         this.onChangeText('rowsCurrent', currentArray);
+        this.onChangeText('rowsActive', activeArray);
+        this.onChangeText('rowsEnded', endedArray);
+        this.onChangeText('column', columnsArray);
         this.onChangeText('column2', columnsArray2);
     }
 
@@ -321,7 +387,7 @@ class Services extends Component {
                           href="#link1"
                           role="tablist"
                         >
-                          Current Contracts
+                          Live Contracts
                         </a>
                       </li>
                       <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
@@ -340,7 +406,7 @@ class Services extends Component {
                           href="#link2"
                           role="tablist"
                         >
-                           Active Contracts
+                           In Progress
                         </a>
                       </li>
                       <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
@@ -368,8 +434,8 @@ class Services extends Component {
                         <div className="tab-content tab-space">
                           <div className={openTab === 1 ? "block" : "hidden"} id="link1">
                             <DataTable
-                                columns={this.state.column2}
-                                data={this.state.rowsCurrent}
+                                columns={this.state.column}
+                                data={this.state.rowsActive}
                                 pagination="true"
                                 responsive
                                 customStyles={this.state.customStyle}/>
@@ -377,14 +443,14 @@ class Services extends Component {
                           <div className={openTab === 2 ? "block" : "hidden"} id="link2">
                             <DataTable
                                 columns={this.state.column2}
-                                data={this.state.rowsActive}
+                                data={this.state.rowsCurrent}
                                 pagination="true"
                                 responsive
                                 customStyles={this.state.customStyle}/>
                           </div>
                           <div className={openTab === 3 ? "block" : "hidden"} id="link3">
                             <DataTable
-                                columns={this.state.column2}
+                                columns={this.state.column}
                                 data={this.state.rowsEnded}
                                 pagination="true"
                                 responsive
@@ -438,14 +504,12 @@ class Services extends Component {
                         </div>
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-2">
-                        <div className="text-gray-700 text-center px-4 py-2 m-2 rounded-lg">
-                        </div>
-                        <div className="flex-1 items-center justify-between leading-tight text-center px-20 py-10 m-10 rounded-lg">
-                            <>
-                                <Tabs color="blue" />
-                            </>
-                        </div>
-                        <div className="text-gray-700 text-center px-4 py-2 m-2 rounded-lg ">
+                        <div className="my-1 px-1 w-full lg:my-4 lg:px-4">
+                            <article className="overflow-hidden rounded-lg">
+                                <>
+                                    <Tabs color="blue" />
+                                </>
+                            </article>
                         </div>
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-2">
