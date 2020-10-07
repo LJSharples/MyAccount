@@ -7,7 +7,7 @@ import FileUpload from "./FileUpload";
 //};
 
 
-class Modal extends React.Component {
+class GetQuote extends React.Component {
     render() {
         // Render nothing if the "show" prop is false
         if(!this.props.show) {
@@ -26,7 +26,7 @@ class Modal extends React.Component {
                 {/*header*/}
                 <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t">
                     <h3 className="text-3xl text-blue-600 font-semibold">
-                    Add Service
+                    Get A Quote
                     </h3>
                     <button
                     className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
@@ -67,7 +67,7 @@ class Modal extends React.Component {
                                     Provider
                                 </label>
                                 <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-                                id="currentSupplier" name="currentSupplier" required type="text" placeholder="Enter your current supplier" onChange={event => this.props.onInput('currentSupplier', event)}/>
+                                id="currentSupplier" name="currentSupplier" type="text" placeholder="Enter your current supplier" onChange={event => this.props.onInput('currentSupplier', event)}/>
                             </div>
                         </div>
                         <div className="flex flex-wrap -mx-3 mb-6">
@@ -97,7 +97,7 @@ class Modal extends React.Component {
                         <div className="flex flex-wrap -mx-3 mb-6">
                             <div className="w-full px-3 rounded-t">
                                 <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
-                                    File Upload
+                                    Existing Bill Upload
                                 </label>
                                 <FileUpload fileUploadKey={this.props.fileUploadKey}/>
                             </div>
@@ -186,7 +186,7 @@ class Modal extends React.Component {
                         style={{ transition: "all .15s ease" }}
                         onClick={this.props.submitLead}
                     >
-                        Add Service
+                        Get Quote
                     </button>
                 </div>
                 </div>
@@ -198,4 +198,4 @@ class Modal extends React.Component {
     }
 }
 
-export default Modal;
+export default GetQuote;
