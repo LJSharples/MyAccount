@@ -263,8 +263,6 @@ class Expenses extends Component {
                 return e
             }
         });
-        console.log(yearTotals)
-        console.log(NewYearTotal)
 
         this.setState({ data2: {
                 labels: newLabels,
@@ -303,7 +301,6 @@ class Expenses extends Component {
                 }]
             }
         })
-        console.log(this.state.data2)
 
         
         const columnsArray2 = [
