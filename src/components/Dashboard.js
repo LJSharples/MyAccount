@@ -27,7 +27,13 @@ class Dashboard extends Component {
 
             //get total services
             const userServices = await API.graphql(graphqlOperation(getServices, { user_name: user.username}));
-            this.setState({services: userServices.data['getServices'].items.length});
+            let serviceSum = userServices.data["getServices"].items.reduce(function(prev, current) {
+                if(current.status === "CURRENT" || current.status === "LIVE"){
+                    return prev + +1 
+                 }
+                 return prev
+            }, 0);
+            this.setState({services: serviceSum});
 
             let sum = userServices.data["getServices"].items.reduce(function(prev, current) {
                 if(current.status === "CURRENT" || current.status === "LIVE"){
