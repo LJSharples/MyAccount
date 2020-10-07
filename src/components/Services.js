@@ -251,12 +251,8 @@ class Services extends Component {
     toggleModal2 = (key) => {
         this.setState({
           isOpen3: !this.state.isOpen3,
+          selectedKey: key
         });
-        if(this.isOpen3 === false){
-            this.setState({
-                selectedKey: key.substr(8)
-            })
-        }
     }
 
     submitService = async () => {
@@ -336,14 +332,16 @@ class Services extends Component {
     }
 
     deleteService = async () => {
+        const id = this.state.selectedKey
         const data = {
             user_name: this.state.userProfile.user_name,
-            id: this.state.selectedKey,
+            id: id.substr(8),
             status: 'CUSTOMER DELETED'
         }
         console.log(data)
         try {
             await API.graphql(graphqlOperation(removeService, data));
+            this.setState({ isOpen3: !this.state.isOpen3 })
         } catch (err) {
             console.log("Error:")
             console.log(err);
