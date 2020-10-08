@@ -7,6 +7,8 @@ import GetQuote from "./GetQuote";
 import DeleteModal from "./DeleteModal";
 import DataTable from "react-data-table-component";
 import Footer from "./Footer";
+import { Alert, AlertTitle } from '@material-ui/lab';
+import { Collapse, IconButton } from '@material-ui/core';
 
 class Quote extends Component {
     state = {
@@ -32,7 +34,8 @@ class Quote extends Component {
         user_name: '',
         selectedKey: '',
         uploaded_documents: [],
-        permission: false,
+        permission: true,
+        success: false,
         customStyle: {
             rows: {
               style: {
@@ -256,6 +259,10 @@ class Quote extends Component {
         });
     }
 
+    setOpen = () => {
+         this.setState({ success: false});
+    }
+
     submitService = async () => {
         const data = {
             user_name: this.state.userProfile.user_name,
@@ -275,6 +282,8 @@ class Quote extends Component {
         try {
             const re = await API.graphql(graphqlOperation(addService, data));
             console.log(re);
+            this.setState({ success: true})
+            window.scrollTo(0, 0)
         } catch (err) {
             console.log("Error:")
             console.log(err);
@@ -282,54 +291,6 @@ class Quote extends Component {
         this.setState({
           isOpen2: !this.state.isOpen2
         });
-        const userServices = await API.graphql(graphqlOperation(getServices, { user_name: this.state.userProfile.user_name}));
-        const currentArray = [];
-        const activeArray = [];
-        const endedArray = [];
-        var dateCurrent = new Date();
-        var t = dateCurrent.toLocaleString();
-        userServices.data["getServices"].items.map(lead => {
-            if(lead.status === "CUSTOMER DELETED"){
-
-            } else {
-                let bills = []
-                if(lead.uploaded_documents && lead.uploaded_documents.length > 0){
-                    let str = lead.uploaded_documents.slice(1,-1)
-                    bills = str.split(',')
-                }
-                var date = new Date(lead.contract_end);
-                var dateString = date.toLocaleString();
-                const newValue2 = {
-                    service_name: lead.service_name,
-                    provider: lead.current_supplier,
-                    contract_end: dateString.substring(0, 10),
-                    cost_year: lead.cost_year,
-                    attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
-                    handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
-
-                }
-                if(dateString < t){
-                    endedArray.push(newValue2)
-                } else if(lead.status === "CURRENT" || lead.status === "LIVE"){
-                    activeArray.push(newValue2)
-                }else if(lead.status !== "CURRENT" || lead.status !== "LIVE"){
-                    const newValue = {
-                        service_name: lead.service_name,
-                        provider: lead.current_supplier,
-                        contract_end: dateString.substring(0, 10),
-                        cost_year: lead.cost_year,
-                        status: lead.status,
-                        attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
-                        handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
-        
-                    }
-                    currentArray.push(newValue)
-                }
-            }
-        })
-        this.onChangeText('rowsCurrent', currentArray);
-        this.onChangeText('rowsActive', activeArray);
-        this.onChangeText('rowsEnded', endedArray);
     }
 
     deleteService = async () => {
@@ -528,6 +489,26 @@ class Quote extends Component {
                                 <footer className="flex items-center p-2 md:p-4">
                                 </footer>
                             </article>
+                            <Collapse in={this.state.success} timeout="auto" unmountOnExit>
+                                <Alert severity="success" action={
+                                        <IconButton
+                                        aria-label="close"
+                                        color="inherit"
+                                        size="small"
+                                        onClick={() => {
+                                            this.setOpen();
+                                        }}
+                                        >
+                                            <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                                            ×
+                                            </span>
+                                        </IconButton>
+                                    }
+                                >
+                                    <AlertTitle>Success</AlertTitle>
+                                    Thank You — <strong>Your request has been sent!</strong>
+                                </Alert>
+                            </Collapse>
                             <div className="flex flex-wrap -mx-1 lg:-mx-4">
                                 <div className="flex-1 text-center px-8 py-4 m-4 rounded-lg">
                                     <h2 className="no-underline text-black text-2xl text-lg text-blue-600">
@@ -535,12 +516,18 @@ class Quote extends Component {
                                     </h2>
                                     <br></br>
                                     <h2 className="no-underline text-black text-2xl text-lg text-blue-600">
-                                    Just click <strong>'Get Quote'</strong> to get started.
+                                    Just click <strong>'Get Quote'</strong> to get started or
+                                    </h2>
+                                    <h2 className="no-underline text-black text-2xl text-lg text-blue-600">
+                                    call our Team <strong>'01244 391 500'</strong>.
                                     </h2>
                                 </div>
-                                <div className="flex-1 text-center px-8 py-4 m-4 rounded-lg">
+                                <div className="flex-1 text-center px-8 py-4 m-4 rounded-lg shadow-lg bg-green-200 bg-opacity-75">
+                                    <h1 className="no-underline text-purple-300 text-opacity-0 font-semibold text-xs p-4">
+                                        Get Quote
+                                    </h1>
                                     <button
-                                        className="bg-blue-500 text-white active:bg-blue-600 font-bold text-lg px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 hover:border-transparent hover:text-blue-500 hover:bg-white hover:border-blue-500"
+                                        className="bg-blue-500 text-white active:bg-blue-600 font-bold text-2xl px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 hover:border-transparent hover:text-blue-500 hover:bg-white hover:border-blue-500"
                                         type="button"
                                         style={{ transition: "all .15s ease" }}
                                         onClick={this.toggleModal}

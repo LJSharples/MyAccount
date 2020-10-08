@@ -5,6 +5,9 @@ import Amplify from "aws-amplify";
 import awsconfig from "./aws-exports";
 import AuthWrapper from "./components/AuthWrapper";
 import "./css/tailwind.css";
+import TagManager from 'react-gtm-module'
+ 
+
 
 Amplify.configure({
   Auth: {
@@ -13,10 +16,20 @@ Amplify.configure({
     region: 'eu-west-2', // (required) - Amazon Cognito Region
     userPoolId: 'eu-west-2_zuXp6xWTL', // (optional) - Amazon Cognito User Pool ID
     userPoolWebClientId: '2kd0vl8jbjjn9ahuaidj0b6nhu', // (optional) - Amazon Cognito Web Client ID (App client secret needs to be disabled)
-    
+    cookieStorage: {
+      // - Cookie domain (only required if cookieStorage is provided)
+      domain: '.managedbills.com',
+      secure: false
+    },  
   },
 });
 Amplify.configure(awsconfig);
+
+const tagManagerArgs = {
+  gtmId: 'GTM-KFBJ3WV'
+}
+
+TagManager.initialize(tagManagerArgs)
 
 function App() {
   return (

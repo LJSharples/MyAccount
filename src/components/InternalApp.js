@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Auth } from "aws-amplify";
 import NavBar from "./NavBar";
-import Footer from "./Footer";
 
 export class InternalApp extends Component {
 

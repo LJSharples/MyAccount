@@ -5,6 +5,10 @@ import { Pie } from "react-chartjs-2";
 import DataTable from "react-data-table-component";
 import Footer from "./Footer";
 import Tooltip from '@material-ui/core/Tooltip';
+import {
+    createMuiTheme,
+    MuiThemeProvider
+  } from "@material-ui/core/styles";
 
 class Expenses extends Component {
     state = {
@@ -15,7 +19,8 @@ class Expenses extends Component {
         annualCost: 0,
         monthlyCost: 0,
         moneySaved: 0,
-        toolTipText: "Note: The expense amounts are estimates if your service costs are variable and subject to change each month",
+        toolTipText: "The expense amounts are estimates if your service costs are variable and subject to change each month",
+        toolTipText2: "Some services are variable, therefore these savings are estimated based on figures provided by you or the suppliers.",
         customStyle: {
             rows: {
               style: {
@@ -373,6 +378,17 @@ class Expenses extends Component {
     }
 
     render(){
+
+        const theme = createMuiTheme({
+            overrides: {
+              MuiTooltip: {
+                tooltip: {
+                  fontSize: "1em",
+                }
+              }
+            }
+        });
+          
         return (
             <div className="container my-12 mx-auto px-4 md:px-12">
                 <div className="flex flex-wrap -mx-1 lg:-mx-4">
@@ -388,85 +404,7 @@ class Expenses extends Component {
                     <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
                     </div>
                     <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
-                        <article className="overflow-hidden rounded-lg shadow-lg bg-blue-200">
-                            <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                                <h1 className="no-underline text-blue-600 font-semibold  text-white text-2xl">
-                                    Savings To Date
-                                </h1>
-                            </header>
-                            <div className="flex items-center justify-between leading-none p-2 md:p-4">
-                                <div className="flex items-center no-underline text-blue-700">
-                                    <p alt="Placeholder" className="block text-blue-600 font-semibold text-2xl">£</p>
-                                    <p className="block text-blue-600 font-semibold text-2xl">
-                                        {this.state.moneySaved}
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="flex items-center justify-between leading-none p-2 md:p-4">
-                                <p className=" flex items-center no-underline text-blue-700 ml-2 text-sm">
-                                </p>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-                <div className="flex flex-wrap -mx-1 lg:-mx-4">
-                    <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
-                        <article className="overflow-hidden rounded-lg shadow-lg bg-blue-300">
-                            <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                                <Tooltip title={this.state.toolTipText} arrow>
-                                    <h1 className="no-underline text-blue-600 font-semibold  text-white text-2xl">
-                                        Monthly Expenses
-                                    </h1>
-                                </Tooltip>
-                            </header>
-                            <div className="flex items-center justify-between leading-none p-2 md:p-4">
-                                <div className="flex items-center no-underline  text-white" >
-                                    <p alt="Placeholder" className="block text-blue-600 font-semibold text-2xl">£</p>
-                                    <p className="ml-2 text-blue-600 font-semibold text-2xl">
-                                        {this.state.monthlyCost}
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="flex items-center justify-between leading-none p-2 md:p-4">
-                                <div className="flex items-center no-underline text-white">
-                                    <p className="ml-2 text-sm">
-                                    </p>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                    <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
-                        <article className="overflow-hidden rounded-lg shadow-lg bg-orange-300">
-                            <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                                <Tooltip title={this.state.toolTipText} arrow>
-                                    <h1 className="no-underline text-orange-600 font-semibold text-2xl">
-                                        Annual Expenses
-                                    </h1>
-                                </Tooltip>
-                            </header>
-                            <div className="flex items-center justify-between leading-none p-2 md:p-4">
-                                <div className="flex items-center no-underline text-white">
-                                    <p alt="Placeholder" className="block text-orange-600 font-semibold text-2xl">£</p>
-                                    <p className="ml-2 text-orange-600 font-semibold text-2xl">
-                                        {this.state.annualCost}
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="flex items-center justify-between leading-none p-2 md:p-4">
-                                <div className="flex items-center no-underline text-white">
-                                    <p className="ml-2 text-sm">
-                                    </p>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                    <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
                         <article className="overflow-hidden rounded-lg shadow-lg bg-purple-300 bg-opacity-75" onClick={this.scroll}>
-                            <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                                <h1 className="no-underline text-purple-500 font-semibold text-2xl">
-                                    Expenses Breakdown
-                                </h1>
-                            </header>
                             <div className="flex items-center justify-between leading-none p-2 md:p-4">
                                 <div className="flex items-center no-underline text-white">
                                     <p alt="Placeholder" className="block text-purple-500 font-semibold text-2xl"></p>
@@ -474,6 +412,11 @@ class Expenses extends Component {
                                     </p>
                                 </div>
                             </div>
+                            <header className="flex items-center text-center justify-between leading-tight p-2 md:p-4">
+                                <h1 className="no-underline text-center text-purple-500 font-semibold text-2xl">
+                                    View Your Expenses Breakdown
+                                </h1>
+                            </header>
                             <div className="flex items-center justify-between leading-none p-2 md:p-4">
                                 <div className="flex items-center no-underline text-white">
                                     <p className="ml-2 text-sm">
@@ -484,47 +427,131 @@ class Expenses extends Component {
                     </div>
                 </div>
                 <div className="flex flex-wrap -mx-1 lg:-mx-4">
-                    <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2">
-                        <article className="overflow-hidden rounded-lg shadow-lg bg-blue-300 mt-24">
+                    <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
+                        <Tooltip title={this.state.toolTipText} arrow>
+                            <article className="overflow-hidden rounded-lg shadow-lg bg-blue-300">
+                                <header className="flex items-center justify-between leading-tight p-2 md:p-4">
+                                        <h1 className="no-underline text-blue-600 font-semibold  text-white text-2xl">
+                                            Monthly Expenses
+                                        </h1>
+                                </header>
+                                <div className="flex items-center justify-between leading-none p-2 md:p-4">
+                                    <div className="flex items-center no-underline  text-white" >
+                                        <p alt="Placeholder" className="block text-blue-600 font-semibold text-2xl">£</p>
+                                        <p className="ml-2 text-blue-600 font-semibold text-2xl">
+                                            {this.state.monthlyCost}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center justify-between leading-none p-2 md:p-4">
+                                    <div className="flex items-center no-underline text-white">
+                                        <p className="ml-2 text-sm">
+                                        </p>
+                                    </div>
+                                </div>
+                            </article>
+                        </Tooltip>
+                    </div>
+                    <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
+                        <Tooltip title={this.state.toolTipText} arrow>
+                            <article className="overflow-hidden rounded-lg shadow-lg bg-orange-300">
+                                <header className="flex items-center justify-between leading-tight p-2 md:p-4">
+                                        <h1 className="no-underline text-orange-600 font-semibold text-2xl">
+                                            Annual Expenses
+                                        </h1>
+                                </header>
+                                <div className="flex items-center justify-between leading-none p-2 md:p-4">
+                                    <div className="flex items-center no-underline text-white">
+                                        <p alt="Placeholder" className="block text-orange-600 font-semibold text-2xl">£</p>
+                                        <p className="ml-2 text-orange-600 font-semibold text-2xl">
+                                            {this.state.annualCost}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center justify-between leading-none p-2 md:p-4">
+                                    <div className="flex items-center no-underline text-white">
+                                        <p className="ml-2 text-sm">
+                                        </p>
+                                    </div>
+                                </div>
+                            </article>
+                        </Tooltip>
+                    </div>
+                    <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
+                        <MuiThemeProvider theme={theme}>
+                            <Tooltip title={this.state.toolTipText2} arrow>
+                                <article className="overflow-hidden rounded-lg shadow-lg bg-blue-200">
+                                    <header className="flex items-center justify-between leading-tight p-2 md:p-4">
+                                        <h1 className="no-underline  text-blue-600 font-semibold  text-white text-2xl">
+                                            Savings To Date
+                                        </h1>
+                                    </header>
+                                    <div className="flex items-center justify-between leading-none p-2 md:p-4">
+                                        <div className="flex items-center no-underline text-blue-700">
+                                            <p alt="Placeholder" className="block text-blue-600 font-semibold text-2xl">£</p>
+                                            <p className="block text-blue-600 font-semibold text-2xl">
+                                                {this.state.moneySaved}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center justify-between leading-none p-2 md:p-4">
+                                        <p className=" flex items-center no-underline text-blue-700 ml-2 text-sm">
+                                        </p>
+                                    </div>
+                                </article>
+                            </Tooltip>
+                        </MuiThemeProvider>
+                    </div>
+                </div>
+                <div className="flex flex-wrap -mx-1 lg:-mx-4">
+                    <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
+                        <article className="overflow-hidden rounded-lg shadow-lg bg-blue-300">
                             <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                                <h1 className="no-underline text-blue-600 font-semibold  text-2xl text-center">
-                                    Monthly Expenses
-                                </h1>
+                                    <h1 className="no-underline text-blue-600 font-semibold  text-white text-2xl">
+                                        Monthly Expenses
+                                    </h1>
                             </header>
                         </article>
                     </div>
-                    <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2">
+                    <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-2/3">
                         <Pie data={this.state.data1} />
                     </div>
                 </div>
                 <div className="flex flex-wrap -mx-1 lg:-mx-4">
-                    <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2">
-                        <article className="overflow-hidden rounded-lg shadow-lg bg-orange-300 bg-opacity-85 mt-24">
+                    <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
+                        <article className="overflow-hidden rounded-lg shadow-lg bg-orange-300 bg-opacity-85">
                             <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                                <h1 className="no-underline text-orange-600 font-semibold text-2xl">
-                                    Annual Expenses
-                                </h1>
+                                    <h1 className="no-underline text-orange-600 font-semibold  text-white text-2xl">
+                                        Annual Expenses
+                                    </h1>
                             </header>
                         </article>
                     </div>
-                    <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2">
-                        <Pie data={this.state.data2}/>
+                    <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-2/3">
+                        <Pie data={this.state.data2} />
                     </div>
                 </div>
-                    <div className="flex flex-wrap -mx-1 lg:-mx-2">
-                        <div className="text-gray-700 text-center px-4 py-2 m-2 rounded-lg">
-                        </div>
-                        <div className="flex-1 items-center justify-between leading-tight text-center px-20 py-10 m-10 rounded-lg">
-                            <DataTable
-                                columns={this.state.columns}
-                                data={this.state.rows}
-                                pagination="true"
-                                customStyles={this.state.customStyle}/>
-                        </div>
-                        <div className="text-gray-700 text-center px-4 py-2 m-2 rounded-lg ">
-                        </div>
+                <div className="flex flex-wrap -mx-1 lg:-mx-4">
+                    <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
+                        <article className="overflow-hidden rounded-lg shadow-lg bg-purple-300 bg-opacity-75">
+                            <header className="flex items-center justify-between leading-tight p-2 md:p-4">
+                                    <h1 className="no-underline text-purple-500 font-semibold  text-white text-2xl">
+                                        Expenses Breakdown
+                                    </h1>
+                            </header>
+                        </article>
                     </div>
-                    <Footer/>
+                    <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-2/3">
+                    </div>
+                </div>
+                <div className="flex flex-wrap">
+                    <DataTable
+                        columns={this.state.columns}
+                        data={this.state.rows}
+                        pagination="true"
+                        customStyles={this.state.customStyle}/>
+                </div>
+                <Footer/>
             </div>	
         )
     }

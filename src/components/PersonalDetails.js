@@ -214,14 +214,14 @@ class PersonalDetails extends Component {
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4">
                         <div className="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
+                            <label className="block uppercase tracking-wide text-grey-darker text-gray-700 text-xs font-bold mb-2" >
                                 First Name
                             </label>
                             <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" 
                             id="first_name" name="first_name" type="text" value={this.state.first_name} onChange={this.handleChange} />
                         </div>
                         <div className="md:w-1/2 px-3">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
+                            <label className="block uppercase tracking-wide text-grey-darker text-gray-700 text-xs font-bold mb-2" >
                                 Last Name
                             </label>
                             <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" 
@@ -230,7 +230,7 @@ class PersonalDetails extends Component {
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4 mt-10">
                         <div className="md:w-1/2 px-3">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
+                            <label className="block uppercase tracking-wide text-grey-darker text-gray-700 text-xs font-bold mb-2" >
                                 Your Mobile Number
                             </label>
                             <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" 
@@ -267,14 +267,14 @@ class PersonalDetails extends Component {
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4">
                         <div className="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
+                            <label className="block uppercase tracking-wide text-grey-darker text-gray-700 text-xs font-bold mb-2" >
                                 Company Name
                             </label>
                             <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" 
                             id="company_name" name="company_name" type="text" value={this.state.company_name} onChange={this.handleChange}/>
                         </div>
                         <div className="md:w-1/2 px-3">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
+                            <label className="block uppercase tracking-wide text-grey-darker text-gray-700 text-xs font-bold mb-2" >
                                 Company Number
                             </label>
                             <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" 
@@ -283,14 +283,14 @@ class PersonalDetails extends Component {
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4 mt-10">
                         <div className="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
+                            <label className="block uppercase tracking-wide text-grey-darker text-gray-700 text-xs font-bold mb-2" >
                                 Address1
                             </label>
                             <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" 
                             id="address1" name="address1" type="text"  value={this.state.address1} onChange={this.handleChange}/>
                         </div>
                         <div className="md:w-1/2 px-3">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
+                            <label className="block uppercase tracking-wide text-grey-darker text-gray-700 text-xs font-bold mb-2" >
                             Address2
                             </label>
                             <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" 
@@ -299,14 +299,14 @@ class PersonalDetails extends Component {
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4 mt-10">
                         <div className="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
+                            <label className="block uppercase tracking-wide text-grey-darker text-gray-700 text-xs font-bold mb-2" >
                                 City
                             </label>
                             <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" 
                             id="city" name="city" type="text"  value={this.state.city} onChange={this.handleChange}/>
                         </div>
                         <div className="md:w-1/2 px-3">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
+                            <label className="block uppercase tracking-wide text-grey-darker text-gray-700 text-xs font-bold mb-2" >
                             Region
                             </label>
                             <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" 
@@ -315,7 +315,7 @@ class PersonalDetails extends Component {
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4 mt-10">
                         <div className="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
+                            <label className="block uppercase tracking-wide text-grey-darker text-gray-700 text-xs font-bold mb-2" >
                                 Post Code
                             </label>
                             <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" 
@@ -342,8 +342,8 @@ class PersonalDetails extends Component {
                         <div className="md:w-4/6 px-3 mb-6 md:mb-0">
                             <article className="overflow-hidden rounded-lg">
                                 <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                                    <p className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"> 
-                                    Additional information relating to your company can help our team with more bespoke recommendations.
+                                    <p className="block tracking-wide text-grey-darker text-lg text-blue-600 mb-2"> 
+                                    Additional information can help our team with more bespoke recommendations.
                                     </p>
                                 </header>
                             </article>
@@ -353,7 +353,7 @@ class PersonalDetails extends Component {
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4">
                         <div className="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
+                            <label className="block uppercase tracking-wide text-grey-darker text-gray-700 text-xs font-bold mb-2" >
                             How many years have you been trading?
                             </label>
                             <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
@@ -366,7 +366,7 @@ class PersonalDetails extends Component {
                             </select>
                         </div>
                         <div className="md:w-1/2 px-3">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
+                            <label className="block uppercase tracking-wide text-grey-darker text-gray-700 text-xs font-bold mb-2">
                             What is your estimated yearly turn-over?
                             </label>
                             <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
@@ -382,7 +382,7 @@ class PersonalDetails extends Component {
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4 mt-10">
                         <div className="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
+                            <label className="block uppercase tracking-wide text-grey-darker text-gray-700 text-xs font-bold mb-2">
                             How many employees do you have?
                             </label>
                             <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
@@ -396,7 +396,7 @@ class PersonalDetails extends Component {
                             </select>
                         </div>
                         <div className="md:w-1/2 px-3">
-                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
+                            <label className="block uppercase tracking-wide text-grey-darker text-gray-700 text-xs font-bold mb-2">
                             Which industry does your business form part of?
                             </label>
                             <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 

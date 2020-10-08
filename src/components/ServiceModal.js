@@ -47,7 +47,7 @@ class Modal extends React.Component {
                                 <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
                                 id="serviceName" name="serviceName" type="text" onChange={event => this.props.onInput('serviceName', event)}>
                                     <option value="DEFAULT">Please Select a service</option>
-                                    <option value="Electric">Electric</option>
+                                    <option value="Electric">Electricity</option>
                                     <option value="Gas">Gas</option>
                                     <option value="Oil">Oil</option>
                                     <option value="Water">Water</option>
@@ -55,7 +55,7 @@ class Modal extends React.Component {
                                     <option value="Waste Management">Waste Management</option>
                                     <option value="Business Rates Review">Business Rates Review</option>
                                     <option value="Fuel Cards">Fuel Cards</option>
-                                    <option value="Telecomms & Broadband">Telecomms & Broadband</option>
+                                    <option value="Telecomms & Broadband">Telecoms & Broadband</option>
                                     <option value="Cyber Security">Cyber Security</option>
                                     <option value="Printers">Printers</option>
                                     <option value="Merchant Services">Merchant Services</option>
@@ -157,15 +157,12 @@ class Modal extends React.Component {
                         <div className="flex flex-wrap -mx-3 mb-6">
                             <div className="w-full px-3 border-b border-solid border-gray-300 rounded-t">
                                 <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
-                                    Permission
+                                Yes, I’d like to share my service details with the suppliers and affiliate who introduced me.
                                 </label>
                             </div>
                         </div>
-                        <div className="flex flex-wrap -mx-3 mb-6">
+                        <div className="flex flex-wrap -mx-3 mb-3">
                             <div className="w-full px-3">
-                                <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
-                                    Yes, I’d like to share my service details with the suppliers and affiliate who introduced me.
-                                </label>
                                 <input id="permission" name="permission" type="checkbox" onChange={event => this.props.onActivate('permission', event)}/>
                             </div>
                         </div>

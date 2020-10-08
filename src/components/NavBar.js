@@ -5,7 +5,6 @@ import Services from './Services';
 import Expenses from './Expenses';
 import PersonalDetails from './PersonalDetails';
 import MyAccount from "../MyAccount.png"
-import GetQuote from "./GetQuote";
 import Quote from "./Quote";
 import Help from './Help';
 

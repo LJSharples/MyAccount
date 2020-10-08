@@ -7,6 +7,14 @@ import ServiceModal from "./ServiceModal";
 import DeleteModal from "./DeleteModal";
 import DataTable from "react-data-table-component";
 import Footer from "./Footer";
+import GetQuote from "./GetQuote";
+import { Alert, AlertTitle } from '@material-ui/lab';
+import { Collapse, IconButton } from '@material-ui/core';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 class Services extends Component {
     state = {
@@ -21,6 +29,8 @@ class Services extends Component {
         affiliateId: '',
         isOpen2: false ,
         isOpen3: false ,
+        isOpen4: false ,
+        statusList: false,
         serviceName: '',
         provider: '',
         contractDate: '',
@@ -33,6 +43,7 @@ class Services extends Component {
         selectedKey: '',
         uploaded_documents: [],
         permission: false,
+        success: false,
         customStyle: {
             rows: {
               style: {
@@ -181,12 +192,21 @@ class Services extends Component {
                     provider: lead.current_supplier,
                     contract_end: dateString.substring(0, 10),
                     cost_year: lead.cost_year,
-                    attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
+                    attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
                     handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
     
                 }
                 if(dateString < t){
-                    endedArray.push(newValue2)
+                    const newValue = {
+                        service_name: lead.service_name,
+                        provider: lead.current_supplier,
+                        contract_end: dateString.substring(0, 10),
+                        cost_year: lead.cost_year,
+                        attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
+                        handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal3()}>Get Quote</MDBBtn>
+        
+                    }
+                    endedArray.push(newValue)
                 } else if(lead.status === "CURRENT" || lead.status === "LIVE"){
                     activeArray.push(newValue2)
                 }else if(lead.status !== "CURRENT" || lead.status !== "LIVE"){
@@ -196,7 +216,7 @@ class Services extends Component {
                         contract_end: dateString.substring(0, 10),
                         cost_year: lead.cost_year,
                         status: lead.status,
-                        attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),        
+                        attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),        
                     }
                     currentArray.push(newValue)
                 }
@@ -236,7 +256,8 @@ class Services extends Component {
 
     toggleModal = () => {
         this.setState({
-          isOpen2: !this.state.isOpen2
+          isOpen2: !this.state.isOpen2,
+          uploaded_documents: []
         });
     }
 
@@ -245,6 +266,21 @@ class Services extends Component {
           isOpen3: !this.state.isOpen3,
           selectedKey: key
         });
+    }
+    toggleModal3 = () => {
+        console.log("HERE")
+        this.setState({
+          isOpen4: !this.state.isOpen4,
+        });
+    }
+
+    displayList = () => {
+        this.setState({
+            statusList: !this.state.statusList,
+        });
+    }
+    setOpen = () => {
+         this.setState({ success: false});
     }
 
     submitService = async () => {
@@ -266,6 +302,11 @@ class Services extends Component {
         try {
             const re = await API.graphql(graphqlOperation(addService, data));
             console.log(re);
+            this.setState({ 
+                success: true,
+                uploaded_documents: []
+            })
+            window.scrollTo(0, 0)
         } catch (err) {
             console.log("Error:")
             console.log(err);
@@ -296,11 +337,20 @@ class Services extends Component {
                     contract_end: dateString.substring(0, 10),
                     cost_year: lead.cost_year,
                     attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
-                    handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
+                    handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2()}>Delete</MDBBtn>
 
                 }
                 if(dateString < t){
-                    endedArray.push(newValue2)
+                    const newValue = {
+                        service_name: lead.service_name,
+                        provider: lead.current_supplier,
+                        contract_end: dateString.substring(0, 10),
+                        cost_year: lead.cost_year,
+                        attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
+                        handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal3()}>Get Quote</MDBBtn>
+        
+                    }
+                    endedArray.push(newValue)
                 } else if(lead.status === "CURRENT" || lead.status === "LIVE"){
                     activeArray.push(newValue2)
                 }else if(lead.status !== "CURRENT" || lead.status !== "LIVE"){
@@ -310,7 +360,7 @@ class Services extends Component {
                         contract_end: dateString.substring(0, 10),
                         cost_year: lead.cost_year,
                         status: lead.status,
-                        attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
+                        attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
                         handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
         
                     }
@@ -361,12 +411,21 @@ class Services extends Component {
                     provider: lead.current_supplier,
                     contract_end: dateString.substring(0, 10),
                     cost_year: lead.cost_year,
-                    attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
+                    attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
                     handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
 
                 }
                 if(dateString < t){
-                    endedArray.push(newValue2)
+                    const newValue = {
+                        service_name: lead.service_name,
+                        provider: lead.current_supplier,
+                        contract_end: dateString.substring(0, 10),
+                        cost_year: lead.cost_year,
+                        attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
+                        handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal3()}>Get Quote</MDBBtn>
+        
+                    }
+                    endedArray.push(newValue)
                 } else if(lead.status === "CURRENT" || lead.status === "LIVE"){
                     activeArray.push(newValue2)
                 }else if(lead.status !== "CURRENT" || lead.status !== "LIVE"){
@@ -463,7 +522,7 @@ class Services extends Component {
                           href="#link3"
                           role="tablist"
                         >
-                           Ended Contracts
+                           Expired Contracts
                         </a>
                       </li>
                     </ul>
@@ -517,13 +576,33 @@ class Services extends Component {
                                 <footer className="flex items-center p-2 md:p-4">
                                 </footer>
                             </article>
+                            <Collapse in={this.state.success} timeout="auto" unmountOnExit>
+                                <Alert severity="success" action={
+                                        <IconButton
+                                        aria-label="close"
+                                        color="inherit"
+                                        size="small"
+                                        onClick={() => {
+                                            this.setOpen();
+                                        }}
+                                        >
+                                            <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                                            ×
+                                            </span>
+                                        </IconButton>
+                                    }
+                                >
+                                    <AlertTitle>Success</AlertTitle>
+                                    Congratualtions — <strong>Your Service has been added!</strong>
+                                </Alert>
+                            </Collapse>
                             <div className="flex flex-wrap -mx-1 lg:-mx-4">
                                 <div className="flex-1 text-center px-8 py-4 m-4 rounded-lg">
                                     <h2 className="no-underline text-black text-2xl text-lg text-blue-600">
-                                    Manage all of your service in one place.
+                                    Manage all of your services in one place.
                                     </h2>
                                     <h2 className="no-underline text-black text-2xl text-lg text-blue-600">
-                                    Add existing services, track services in progress and view your ended deals.
+                                    Add existing services, track services in progress and view your expired contracts.
                                     </h2>
                                 </div>
                                 <div className="flex-1 text-center px-8 py-4 m-4 rounded-lg">
@@ -551,10 +630,137 @@ class Services extends Component {
                         </div>
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-2">
+                        <div className="my-1 px-1 w-full lg:my-4 lg:px-4">
+
+                            <header className="flex items-center justify-between leading-tight p-2 md:p-4">
+                                <h1 className="no-underline text-blue-600 text-2xl font-bold ">
+                                    Statuses 
+                                </h1>
+                            </header>
+                            <article className="overflow-hidden rounded-lg">
+                                <>
+                                    <Accordion>
+                                        <AccordionSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls="panel1a-content"
+                                            id="panel1a-header"
+                                        >
+                                            <Typography className="text-blue-600">Lead</Typography>
+                                        </AccordionSummary>
+                                        <AccordionDetails>
+                                            <Typography>
+                                            This is a Service you’ve added and requested a quote.
+                                            </Typography>
+                                        </AccordionDetails>
+                                    </Accordion>
+                                    <Accordion>
+                                        <AccordionSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls="panel2a-content"
+                                            id="panel2a-header"
+                                        >
+                                            <Typography className="text-blue-600">Contacting Customer</Typography>
+                                        </AccordionSummary>
+                                        <AccordionDetails>
+                                            <Typography>
+                                            You’re about to be contacted or you’re in discussions about your service already.
+                                            </Typography>
+                                        </AccordionDetails>
+                                    </Accordion>
+                                    <Accordion>
+                                        <AccordionSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls="panel2a-content"
+                                            id="panel2a-header"
+                                        >
+                                            <Typography className="text-blue-600">Back to Referrer</Typography>
+                                        </AccordionSummary>
+                                        <AccordionDetails>
+                                            <Typography>
+                                            When the supplier has referred the account back to your referring contact.
+                                            </Typography>
+                                        </AccordionDetails>
+                                    </Accordion>
+                                    <Accordion>
+                                        <AccordionSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls="panel2a-content"
+                                            id="panel2a-header"
+                                        >
+                                            <Typography className="text-blue-600">Tendering</Typography>
+                                        </AccordionSummary>
+                                        <AccordionDetails>
+                                            <Typography>
+                                            Your quote is being prepared.
+                                            </Typography>
+                                        </AccordionDetails>
+                                    </Accordion>
+                                    <Accordion>
+                                        <AccordionSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls="panel2a-content"
+                                            id="panel2a-header"
+                                        >
+                                            <Typography className="text-blue-600">Offered</Typography>
+                                        </AccordionSummary>
+                                        <AccordionDetails>
+                                            <Typography>
+                                            You’ve been offered a quote and we’re awaiting your decision.
+                                            </Typography>
+                                        </AccordionDetails>
+                                    </Accordion>
+                                    <Accordion>
+                                        <AccordionSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls="panel2a-content"
+                                            id="panel2a-header"
+                                        >
+                                            <Typography className="text-blue-600">Unsuccessful</Typography>
+                                        </AccordionSummary>
+                                        <AccordionDetails>
+                                            <Typography>
+                                            You decided the offer wasn’t for you.
+                                            </Typography>
+                                        </AccordionDetails>
+                                    </Accordion>
+                                    <Accordion>
+                                        <AccordionSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls="panel2a-content"
+                                            id="panel2a-header"
+                                        >
+                                            <Typography className="text-blue-600">Signed Contract</Typography>
+                                        </AccordionSummary>
+                                        <AccordionDetails>
+                                            <Typography>
+                                            You decided the offer was for you and it’s waiting to go Live.
+                                            </Typography>
+                                        </AccordionDetails>
+                                    </Accordion>
+                                    <Accordion>
+                                        <AccordionSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls="panel2a-content"
+                                            id="panel2a-header"
+                                        >
+                                            <Typography className="text-blue-600">Live</Typography>
+                                        </AccordionSummary>
+                                        <AccordionDetails>
+                                            <Typography>
+                                            Your new contract is now Live.
+                                            </Typography>
+                                        </AccordionDetails>
+                                    </Accordion>
+                                </>
+                            </article>
+                        </div>
+                    </div>
+                    <div className="flex flex-wrap -mx-1 lg:-mx-2">
                         <div className="text-gray-700 text-center px-4 py-2 m-2 rounded-lg">
                         </div>
                         <div className="flex-1 items-center justify-between leading-tight text-center px-20 py-10 m-10 rounded-lg">
                             <DeleteModal show={this.state.isOpen3} onClose={this.toggleModal2} deleteService={this.deleteService}/>
+                            <GetQuote show={this.state.isOpen4} onClose={this.toggleModal3} onInput={this.onInput} submitLead={this.submitService} fileUploadKey={this.fileUploadKey} onActivate={this.onActivate}/>
                         </div>
                         <div className="text-gray-700 text-center px-4 py-2 m-2 rounded-lg ">
                         </div>
