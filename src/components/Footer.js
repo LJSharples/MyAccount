@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom';
-import Help from './Help';
+import MessengerCustomerChat from 'react-messenger-customer-chat';
 
 export default function Footer( props ) {
     const [navbarOpen, setNavbarOpen] = React.useState(false);
@@ -24,7 +24,10 @@ export default function Footer( props ) {
                                         <Link to={'/help'} className="px-3 py-2 flex items-center text-lg leading-snug text-gray hover:opacity-75">Help</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link to={'/live-chat'} className="px-3 py-2 flex items-center text-lg leading-snug text-gray hover:opacity-75">Live Chat</Link>
+                                        <MessengerCustomerChat
+                                            pageId="106405290806656"
+                                            appId="2442776855982911"
+                                        />
                                     </li>
                                 </ul>
                             </div>

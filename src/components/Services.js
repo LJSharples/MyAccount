@@ -371,6 +371,10 @@ class Services extends Component {
         this.onChangeText('rowsCurrent', currentArray);
         this.onChangeText('rowsActive', activeArray);
         this.onChangeText('rowsEnded', endedArray);
+
+       setTimeout(function() { //Start the timer
+            this.setState({success: false}) //After 1 second, set render to true
+        }.bind(this), 3000)
     }
 
     deleteService = async () => {
@@ -628,6 +632,8 @@ class Services extends Component {
                                 </>
                             </article>
                         </div>
+                            <DeleteModal show={this.state.isOpen3} onClose={this.toggleModal2} deleteService={this.deleteService}/>
+                            <GetQuote show={this.state.isOpen4} onClose={this.toggleModal3} onInput={this.onInput} submitLead={this.submitService} fileUploadKey={this.fileUploadKey} onActivate={this.onActivate}/>
                     </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-2">
                         <div className="my-1 px-1 w-full lg:my-4 lg:px-4">
@@ -753,16 +759,6 @@ class Services extends Component {
                                     </Accordion>
                                 </>
                             </article>
-                        </div>
-                    </div>
-                    <div className="flex flex-wrap -mx-1 lg:-mx-2">
-                        <div className="text-gray-700 text-center px-4 py-2 m-2 rounded-lg">
-                        </div>
-                        <div className="flex-1 items-center justify-between leading-tight text-center px-20 py-10 m-10 rounded-lg">
-                            <DeleteModal show={this.state.isOpen3} onClose={this.toggleModal2} deleteService={this.deleteService}/>
-                            <GetQuote show={this.state.isOpen4} onClose={this.toggleModal3} onInput={this.onInput} submitLead={this.submitService} fileUploadKey={this.fileUploadKey} onActivate={this.onActivate}/>
-                        </div>
-                        <div className="text-gray-700 text-center px-4 py-2 m-2 rounded-lg ">
                         </div>
                     </div>
                     <Footer/>
