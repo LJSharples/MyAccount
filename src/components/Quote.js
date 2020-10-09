@@ -5,7 +5,6 @@ import { Auth, API, graphqlOperation, Storage } from "aws-amplify";
 import { MDBBtn } from 'mdbreact';
 import GetQuote from "./GetQuote";
 import DeleteModal from "./DeleteModal";
-import DataTable from "react-data-table-component";
 import Footer from "./Footer";
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { Collapse, IconButton } from '@material-ui/core';
@@ -181,7 +180,7 @@ class Quote extends Component {
             } else {
                 let bills = []
                 if(lead.uploaded_documents && lead.uploaded_documents.length > 0){
-                    let str = lead.uploaded_documents.slice(1,-1)
+                    let str = lead.uploaded_documents.slice(1,-1).replace(/\s/g,'');
                     bills = str.split(',')
                 }
                 var date = new Date(lead.contract_end);

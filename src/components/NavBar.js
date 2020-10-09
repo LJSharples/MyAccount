@@ -7,7 +7,6 @@ import PersonalDetails from './PersonalDetails';
 import MyAccount from "../MyAccount.png"
 import Quote from "./Quote";
 import Help from './Help';
-import LiveChat from './LiveChat';
 
 export default function Navbar( props ) {
     const [navbarOpen, setNavbarOpen] = React.useState(false);
@@ -71,7 +70,6 @@ export default function Navbar( props ) {
                         <Route path='/my-details' component={PersonalDetails} />
                         <Route path='/get-quote' component={Quote} />
                         <Route path='/help' component={Help} />
-                        <Route path='/live-chat' component={LiveChat} />
                     </Switch>
                 </div>
             </Router>

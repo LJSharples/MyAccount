@@ -42,6 +42,7 @@ class Services extends Component {
         user_name: '',
         selectedKey: '',
         uploaded_documents: [],
+        file_urls: [],
         permission: false,
         success: false,
         customStyle: {
@@ -182,20 +183,11 @@ class Services extends Component {
             } else {
                 let bills = []
                 if(lead.uploaded_documents && lead.uploaded_documents.length > 0){
-                    let str = lead.uploaded_documents.slice(1,-1)
+                    let str = lead.uploaded_documents.slice(1,-1).replace(/\s/g,'');
                     bills = str.split(',')
                 }
                 var date = new Date(lead.contract_end);
                 var dateString = date.toLocaleString();
-                const newValue2 = {
-                    service_name: lead.service_name,
-                    provider: lead.current_supplier,
-                    contract_end: dateString.substring(0, 10),
-                    cost_year: lead.cost_year,
-                    attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
-                    handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
-    
-                }
                 if(dateString < t){
                     const newValue = {
                         service_name: lead.service_name,
@@ -208,6 +200,21 @@ class Services extends Component {
                     }
                     endedArray.push(newValue)
                 } else if(lead.status === "CURRENT" || lead.status === "LIVE"){
+                    var money = '';
+                    if(lead.status === "LIVE"){
+                        money = lead.new_cost_year
+                    } else {
+                        money = lead.cost_year
+                    }
+                    const newValue2 = {
+                        service_name: lead.service_name,
+                        provider: lead.current_supplier,
+                        contract_end: dateString.substring(0, 10),
+                        cost_year: money,
+                        attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
+                        handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
+        
+                    }
                     activeArray.push(newValue2)
                 }else if(lead.status !== "CURRENT" || lead.status !== "LIVE"){
                     const newValue = {
@@ -248,6 +255,7 @@ class Services extends Component {
     };
 
     fileUploadKey = (key) => {
+        console.log(key)
         this.setState(prevState => ({
             uploaded_documents: [...prevState.uploaded_documents, key]
         }))
@@ -271,12 +279,6 @@ class Services extends Component {
         console.log("HERE")
         this.setState({
           isOpen4: !this.state.isOpen4,
-        });
-    }
-
-    displayList = () => {
-        this.setState({
-            statusList: !this.state.statusList,
         });
     }
     setOpen = () => {
@@ -326,20 +328,11 @@ class Services extends Component {
             } else {
                 let bills = []
                 if(lead.uploaded_documents && lead.uploaded_documents.length > 0){
-                    let str = lead.uploaded_documents.slice(1,-1)
+                    let str = lead.uploaded_documents.slice(1,-1).replace(/\s/g,'');
                     bills = str.split(',')
                 }
                 var date = new Date(lead.contract_end);
                 var dateString = date.toLocaleString();
-                const newValue2 = {
-                    service_name: lead.service_name,
-                    provider: lead.current_supplier,
-                    contract_end: dateString.substring(0, 10),
-                    cost_year: lead.cost_year,
-                    attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
-                    handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2()}>Delete</MDBBtn>
-
-                }
                 if(dateString < t){
                     const newValue = {
                         service_name: lead.service_name,
@@ -352,6 +345,22 @@ class Services extends Component {
                     }
                     endedArray.push(newValue)
                 } else if(lead.status === "CURRENT" || lead.status === "LIVE"){
+
+                    var money = '';
+                    if(lead.status === "LIVE"){
+                        money = lead.new_cost_year
+                    } else {
+                        money = lead.cost_year
+                    }
+                    const newValue2 = {
+                        service_name: lead.service_name,
+                        provider: lead.current_supplier,
+                        contract_end: dateString.substring(0, 10),
+                        cost_year: money,
+                        attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
+                        handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
+        
+                    }
                     activeArray.push(newValue2)
                 }else if(lead.status !== "CURRENT" || lead.status !== "LIVE"){
                     const newValue = {
@@ -410,15 +419,6 @@ class Services extends Component {
                 }
                 var date = new Date(lead.contract_end);
                 var dateString = date.toLocaleString();
-                const newValue2 = {
-                    service_name: lead.service_name,
-                    provider: lead.current_supplier,
-                    contract_end: dateString.substring(0, 10),
-                    cost_year: lead.cost_year,
-                    attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
-                    handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
-
-                }
                 if(dateString < t){
                     const newValue = {
                         service_name: lead.service_name,
@@ -431,6 +431,21 @@ class Services extends Component {
                     }
                     endedArray.push(newValue)
                 } else if(lead.status === "CURRENT" || lead.status === "LIVE"){
+                    var money = '';
+                    if(lead.status === "LIVE"){
+                        money = lead.new_cost_year
+                    } else {
+                        money = lead.cost_year
+                    }
+                    const newValue2 = {
+                        service_name: lead.service_name,
+                        provider: lead.current_supplier,
+                        contract_end: dateString.substring(0, 10),
+                        cost_year: money,
+                        attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
+                        handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
+        
+                    }
                     activeArray.push(newValue2)
                 }else if(lead.status !== "CURRENT" || lead.status !== "LIVE"){
                     const newValue = {
@@ -548,6 +563,132 @@ class Services extends Component {
                                 pagination="true"
                                 responsive
                                 customStyles={this.state.customStyle}/>
+                                <div className="flex flex-wrap -mx-1 lg:-mx-2">
+                                    <div className="my-1 px-1 w-full lg:my-4 lg:px-4">
+            
+                                        <header className="flex items-center justify-between leading-tight p-2 md:p-4">
+                                            <h1 className="no-underline text-blue-600 text-2xl font-bold ">
+                                                Statuses 
+                                            </h1>
+                                        </header>
+                                        <article className="overflow-hidden rounded-lg">
+                                            <>
+                                                <Accordion>
+                                                    <AccordionSummary
+                                                        expandIcon={<ExpandMoreIcon />}
+                                                        aria-controls="panel1a-content"
+                                                        id="panel1a-header"
+                                                    >
+                                                        <Typography className="text-blue-600">Lead</Typography>
+                                                    </AccordionSummary>
+                                                    <AccordionDetails>
+                                                        <Typography>
+                                                        This is a Service you’ve added and requested a quote.
+                                                        </Typography>
+                                                    </AccordionDetails>
+                                                </Accordion>
+                                                <Accordion>
+                                                    <AccordionSummary
+                                                        expandIcon={<ExpandMoreIcon />}
+                                                        aria-controls="panel2a-content"
+                                                        id="panel2a-header"
+                                                    >
+                                                        <Typography className="text-blue-600">Contacting Customer</Typography>
+                                                    </AccordionSummary>
+                                                    <AccordionDetails>
+                                                        <Typography>
+                                                        You’re about to be contacted or you’re in discussions about your service already.
+                                                        </Typography>
+                                                    </AccordionDetails>
+                                                </Accordion>
+                                                <Accordion>
+                                                    <AccordionSummary
+                                                        expandIcon={<ExpandMoreIcon />}
+                                                        aria-controls="panel2a-content"
+                                                        id="panel2a-header"
+                                                    >
+                                                        <Typography className="text-blue-600">Back to Referrer</Typography>
+                                                    </AccordionSummary>
+                                                    <AccordionDetails>
+                                                        <Typography>
+                                                        When the supplier has referred the account back to your referring contact.
+                                                        </Typography>
+                                                    </AccordionDetails>
+                                                </Accordion>
+                                                <Accordion>
+                                                    <AccordionSummary
+                                                        expandIcon={<ExpandMoreIcon />}
+                                                        aria-controls="panel2a-content"
+                                                        id="panel2a-header"
+                                                    >
+                                                        <Typography className="text-blue-600">Tendering</Typography>
+                                                    </AccordionSummary>
+                                                    <AccordionDetails>
+                                                        <Typography>
+                                                        Your quote is being prepared.
+                                                        </Typography>
+                                                    </AccordionDetails>
+                                                </Accordion>
+                                                <Accordion>
+                                                    <AccordionSummary
+                                                        expandIcon={<ExpandMoreIcon />}
+                                                        aria-controls="panel2a-content"
+                                                        id="panel2a-header"
+                                                    >
+                                                        <Typography className="text-blue-600">Offered</Typography>
+                                                    </AccordionSummary>
+                                                    <AccordionDetails>
+                                                        <Typography>
+                                                        You’ve been offered a quote and we’re awaiting your decision.
+                                                        </Typography>
+                                                    </AccordionDetails>
+                                                </Accordion>
+                                                <Accordion>
+                                                    <AccordionSummary
+                                                        expandIcon={<ExpandMoreIcon />}
+                                                        aria-controls="panel2a-content"
+                                                        id="panel2a-header"
+                                                    >
+                                                        <Typography className="text-blue-600">Unsuccessful</Typography>
+                                                    </AccordionSummary>
+                                                    <AccordionDetails>
+                                                        <Typography>
+                                                        You decided the offer wasn’t for you.
+                                                        </Typography>
+                                                    </AccordionDetails>
+                                                </Accordion>
+                                                <Accordion>
+                                                    <AccordionSummary
+                                                        expandIcon={<ExpandMoreIcon />}
+                                                        aria-controls="panel2a-content"
+                                                        id="panel2a-header"
+                                                    >
+                                                        <Typography className="text-blue-600">Signed Contract</Typography>
+                                                    </AccordionSummary>
+                                                    <AccordionDetails>
+                                                        <Typography>
+                                                        You decided the offer was for you and it’s waiting to go Live.
+                                                        </Typography>
+                                                    </AccordionDetails>
+                                                </Accordion>
+                                                <Accordion>
+                                                    <AccordionSummary
+                                                        expandIcon={<ExpandMoreIcon />}
+                                                        aria-controls="panel2a-content"
+                                                        id="panel2a-header"
+                                                    >
+                                                        <Typography className="text-blue-600">Live</Typography>
+                                                    </AccordionSummary>
+                                                    <AccordionDetails>
+                                                        <Typography>
+                                                        Your new contract is now Live.
+                                                        </Typography>
+                                                    </AccordionDetails>
+                                                </Accordion>
+                                            </>
+                                        </article>
+                                    </div>
+                                </div>
                           </div>
                           <div className={openTab === 3 ? "block" : "hidden"} id="link3">
                             <DataTable
@@ -634,132 +775,6 @@ class Services extends Component {
                         </div>
                             <DeleteModal show={this.state.isOpen3} onClose={this.toggleModal2} deleteService={this.deleteService}/>
                             <GetQuote show={this.state.isOpen4} onClose={this.toggleModal3} onInput={this.onInput} submitLead={this.submitService} fileUploadKey={this.fileUploadKey} onActivate={this.onActivate}/>
-                    </div>
-                    <div className="flex flex-wrap -mx-1 lg:-mx-2">
-                        <div className="my-1 px-1 w-full lg:my-4 lg:px-4">
-
-                            <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                                <h1 className="no-underline text-blue-600 text-2xl font-bold ">
-                                    Statuses 
-                                </h1>
-                            </header>
-                            <article className="overflow-hidden rounded-lg">
-                                <>
-                                    <Accordion>
-                                        <AccordionSummary
-                                            expandIcon={<ExpandMoreIcon />}
-                                            aria-controls="panel1a-content"
-                                            id="panel1a-header"
-                                        >
-                                            <Typography className="text-blue-600">Lead</Typography>
-                                        </AccordionSummary>
-                                        <AccordionDetails>
-                                            <Typography>
-                                            This is a Service you’ve added and requested a quote.
-                                            </Typography>
-                                        </AccordionDetails>
-                                    </Accordion>
-                                    <Accordion>
-                                        <AccordionSummary
-                                            expandIcon={<ExpandMoreIcon />}
-                                            aria-controls="panel2a-content"
-                                            id="panel2a-header"
-                                        >
-                                            <Typography className="text-blue-600">Contacting Customer</Typography>
-                                        </AccordionSummary>
-                                        <AccordionDetails>
-                                            <Typography>
-                                            You’re about to be contacted or you’re in discussions about your service already.
-                                            </Typography>
-                                        </AccordionDetails>
-                                    </Accordion>
-                                    <Accordion>
-                                        <AccordionSummary
-                                            expandIcon={<ExpandMoreIcon />}
-                                            aria-controls="panel2a-content"
-                                            id="panel2a-header"
-                                        >
-                                            <Typography className="text-blue-600">Back to Referrer</Typography>
-                                        </AccordionSummary>
-                                        <AccordionDetails>
-                                            <Typography>
-                                            When the supplier has referred the account back to your referring contact.
-                                            </Typography>
-                                        </AccordionDetails>
-                                    </Accordion>
-                                    <Accordion>
-                                        <AccordionSummary
-                                            expandIcon={<ExpandMoreIcon />}
-                                            aria-controls="panel2a-content"
-                                            id="panel2a-header"
-                                        >
-                                            <Typography className="text-blue-600">Tendering</Typography>
-                                        </AccordionSummary>
-                                        <AccordionDetails>
-                                            <Typography>
-                                            Your quote is being prepared.
-                                            </Typography>
-                                        </AccordionDetails>
-                                    </Accordion>
-                                    <Accordion>
-                                        <AccordionSummary
-                                            expandIcon={<ExpandMoreIcon />}
-                                            aria-controls="panel2a-content"
-                                            id="panel2a-header"
-                                        >
-                                            <Typography className="text-blue-600">Offered</Typography>
-                                        </AccordionSummary>
-                                        <AccordionDetails>
-                                            <Typography>
-                                            You’ve been offered a quote and we’re awaiting your decision.
-                                            </Typography>
-                                        </AccordionDetails>
-                                    </Accordion>
-                                    <Accordion>
-                                        <AccordionSummary
-                                            expandIcon={<ExpandMoreIcon />}
-                                            aria-controls="panel2a-content"
-                                            id="panel2a-header"
-                                        >
-                                            <Typography className="text-blue-600">Unsuccessful</Typography>
-                                        </AccordionSummary>
-                                        <AccordionDetails>
-                                            <Typography>
-                                            You decided the offer wasn’t for you.
-                                            </Typography>
-                                        </AccordionDetails>
-                                    </Accordion>
-                                    <Accordion>
-                                        <AccordionSummary
-                                            expandIcon={<ExpandMoreIcon />}
-                                            aria-controls="panel2a-content"
-                                            id="panel2a-header"
-                                        >
-                                            <Typography className="text-blue-600">Signed Contract</Typography>
-                                        </AccordionSummary>
-                                        <AccordionDetails>
-                                            <Typography>
-                                            You decided the offer was for you and it’s waiting to go Live.
-                                            </Typography>
-                                        </AccordionDetails>
-                                    </Accordion>
-                                    <Accordion>
-                                        <AccordionSummary
-                                            expandIcon={<ExpandMoreIcon />}
-                                            aria-controls="panel2a-content"
-                                            id="panel2a-header"
-                                        >
-                                            <Typography className="text-blue-600">Live</Typography>
-                                        </AccordionSummary>
-                                        <AccordionDetails>
-                                            <Typography>
-                                            Your new contract is now Live.
-                                            </Typography>
-                                        </AccordionDetails>
-                                    </Accordion>
-                                </>
-                            </article>
-                        </div>
                     </div>
                     <Footer/>
                 </div>	
