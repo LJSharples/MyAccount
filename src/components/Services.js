@@ -42,7 +42,8 @@ class Services extends Component {
         user_name: '',
         selectedKey: '',
         uploaded_documents: [],
-        file_urls: [],
+        errors: {},
+        errorCheck: false,
         permission: false,
         success: false,
         customStyle: {
@@ -285,105 +286,156 @@ class Services extends Component {
          this.setState({ success: false});
     }
 
-    submitService = async () => {
-        const data = {
-            user_name: this.state.userProfile.user_name,
-            status: "CURRENT",
-            service_name: this.state.serviceName,
-            callback_time: this.state.callback_time,
-            contract_end: this.state.contractDate,
-            contract_length: this.state.contractLength,
-            current_supplier: this.state.currentSupplier,
-            cost_year: this.state.cost_year,
-            cost_month: this.state.cost_month,
-            uploaded_documents: this.state.uploaded_documents,
-            permission: this.state.permission,
-            affiliate_id: this.state.affiliateId
+    checkValidation = () => {
+        let errors = {}
+        let errorCheck = false
+        if(this.state.serviceName === ''){
+            errors["serviceName"] = "Cannot be Empty"
+            errorCheck = true
         }
-        console.log(data)
-        try {
-            const re = await API.graphql(graphqlOperation(addService, data));
-            console.log(re);
-            this.setState({ 
-                success: true,
-                uploaded_documents: []
-            })
-            window.scrollTo(0, 0)
-        } catch (err) {
-            console.log("Error:")
-            console.log(err);
-        }   
-        this.setState({
-          isOpen2: !this.state.isOpen2
-        });
-        const userServices = await API.graphql(graphqlOperation(getServices, { user_name: this.state.userProfile.user_name}));
-        const currentArray = [];
-        const activeArray = [];
-        const endedArray = [];
-        var dateCurrent = new Date();
-        var t = dateCurrent.toLocaleString();
-        userServices.data["getServices"].items.map(lead => {
-            if(lead.status === "CUSTOMER DELETED"){
-
-            } else {
-                let bills = []
-                if(lead.uploaded_documents && lead.uploaded_documents.length > 0){
-                    let str = lead.uploaded_documents.slice(1,-1).replace(/\s/g,'');
-                    bills = str.split(',')
-                }
-                var date = new Date(lead.contract_end);
-                var dateString = date.toLocaleString();
-                if(dateString < t){
-                    const newValue = {
-                        service_name: lead.service_name,
-                        provider: lead.current_supplier,
-                        contract_end: dateString.substring(0, 10),
-                        cost_year: lead.cost_year,
-                        attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
-                        handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal3()}>Get Quote</MDBBtn>
-        
-                    }
-                    endedArray.push(newValue)
-                } else if(lead.status === "CURRENT" || lead.status === "LIVE"){
-
-                    var money = '';
-                    if(lead.status === "LIVE"){
-                        money = lead.new_cost_year
-                    } else {
-                        money = lead.cost_year
-                    }
-                    const newValue2 = {
-                        service_name: lead.service_name,
-                        provider: lead.current_supplier,
-                        contract_end: dateString.substring(0, 10),
-                        cost_year: money,
-                        attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
-                        handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
-        
-                    }
-                    activeArray.push(newValue2)
-                }else if(lead.status !== "CURRENT" || lead.status !== "LIVE"){
-                    const newValue = {
-                        service_name: lead.service_name,
-                        provider: lead.current_supplier,
-                        contract_end: dateString.substring(0, 10),
-                        cost_year: lead.cost_year,
-                        status: lead.status,
-                        attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
-                        handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
-        
-                    }
-                    currentArray.push(newValue)
-                }
-            }
+        if(this.state.currentSupplier === ''){
+            errors["currentSupplier"] = "Cannot be Empty"
+            errorCheck = true
+        }
+        if(this.state.contractDate === ''){
+            errors["contractDate"] = "Cannot be Empty"
+            errorCheck = true
+        }
+        if(this.state.callback_time === ''){
+            errors["callback_time"] = "Cannot be Empty"
+            errorCheck = true
+        }
+        if(this.state.cost_year === ''){
+            errors["cost_year"] = "Cannot be Empty"
+            errorCheck = true
+        }
+        if(this.state.contractLength === ''){
+            errors["contractLength"] = "Cannot be Empty"
+            errorCheck = true
+        }
+        console.log(errors);
+        this.setState({ 
+            errors: errors,
+            errorCheck: errorCheck
         })
-        this.onChangeText('rowsCurrent', currentArray);
-        this.onChangeText('rowsActive', activeArray);
-        this.onChangeText('rowsEnded', endedArray);
+    }
 
-       setTimeout(function() { //Start the timer
-            this.setState({success: false}) //After 1 second, set render to true
-        }.bind(this), 3000)
+    submitService = async () => {
+        this.checkValidation();
+        if(this.state.errorCheck === true){
+            console.log("HERE");
+        
+            const data = {
+                user_name: this.state.userProfile.user_name,
+                status: "CURRENT",
+                service_name: this.state.serviceName,
+                callback_time: this.state.callback_time,
+                contract_end: this.state.contractDate,
+                contract_length: this.state.contractLength,
+                current_supplier: this.state.currentSupplier,
+                cost_year: this.state.cost_year,
+                cost_month: this.state.cost_month,
+                uploaded_documents: this.state.uploaded_documents,
+                permission: this.state.permission,
+                affiliate_id: this.state.affiliateId
+            }
+            console.log(data)
+            try {
+                const re = await API.graphql(graphqlOperation(addService, data));
+                console.log(re);
+                this.setState({ 
+                    success: true,
+                    uploaded_documents: []
+                })
+                window.scrollTo(0, 0)
+            } catch (err) {
+                console.log("Error:")
+                console.log(err);
+            }   
+            this.setState({
+            isOpen2: !this.state.isOpen2
+            });
+            const userServices = await API.graphql(graphqlOperation(getServices, { user_name: this.state.userProfile.user_name}));
+            const currentArray = [];
+            const activeArray = [];
+            const endedArray = [];
+            var dateCurrent = new Date();
+            var t = dateCurrent.toLocaleString();
+            userServices.data["getServices"].items.map(lead => {
+                if(lead.status === "CUSTOMER DELETED"){
+
+                } else {
+                    let bills = []
+                    if(lead.uploaded_documents && lead.uploaded_documents.length > 0){
+                        let str = lead.uploaded_documents.slice(1,-1).replace(/\s/g,'');
+                        bills = str.split(',')
+                    }
+                    var date = new Date(lead.contract_end);
+                    var dateString = date.toLocaleString();
+                    if(dateString < t){
+                        const newValue = {
+                            service_name: lead.service_name,
+                            provider: lead.current_supplier,
+                            contract_end: dateString.substring(0, 10),
+                            cost_year: lead.cost_year,
+                            attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
+                            handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal3()}>Get Quote</MDBBtn>
+            
+                        }
+                        endedArray.push(newValue)
+                    } else if(lead.status === "CURRENT" || lead.status === "LIVE"){
+
+                        var money = '';
+                        if(lead.status === "LIVE"){
+                            money = lead.new_cost_year
+                        } else {
+                            money = lead.cost_year
+                        }
+                        const newValue2 = {
+                            service_name: lead.service_name,
+                            provider: lead.current_supplier,
+                            contract_end: dateString.substring(0, 10),
+                            cost_year: money,
+                            attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
+                            handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
+            
+                        }
+                        activeArray.push(newValue2)
+                    }else if(lead.status !== "CURRENT" || lead.status !== "LIVE"){
+                        const newValue = {
+                            service_name: lead.service_name,
+                            provider: lead.current_supplier,
+                            contract_end: dateString.substring(0, 10),
+                            cost_year: lead.cost_year,
+                            status: lead.status,
+                            attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
+                            handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
+            
+                        }
+                        currentArray.push(newValue)
+                    }
+                }
+            })
+            this.onChangeText('rowsCurrent', currentArray);
+            this.onChangeText('rowsActive', activeArray);
+            this.onChangeText('rowsEnded', endedArray);
+            this.setState({
+                permission: false,
+                serviceName: '',
+                callback_time: '',
+                contractDate: '',
+                contractLength: '',
+                currentSupplier: '',
+                cost_year: '',
+                cost_month: '',
+            })
+
+        setTimeout(function() { //Start the timer
+                this.setState({success: false}) //After 1 second, set render to true
+            }.bind(this), 3000)
+        } else {
+            return;
+        }
     }
 
     deleteService = async () => {
@@ -759,7 +811,7 @@ class Services extends Component {
                                     >
                                         Add Service
                                     </button>
-                                    <ServiceModal show={this.state.isOpen2} onClose={this.toggleModal} onInput={this.onInput} submitLead={this.submitService} fileUploadKey={this.fileUploadKey} onActivate={this.onActivate}>
+                                    <ServiceModal show={this.state.isOpen2} onClose={this.toggleModal} onInput={this.onInput} submitLead={this.submitService} fileUploadKey={this.fileUploadKey} onActivate={this.onActivate} errors={this.state.errors}>
                                     </ServiceModal>
                                 </div>
                             </div>
