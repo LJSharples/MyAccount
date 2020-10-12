@@ -184,8 +184,9 @@ class Services extends Component {
             } else {
                 let bills = []
                 if(lead.uploaded_documents && lead.uploaded_documents.length > 0){
-                    let str = lead.uploaded_documents.slice(1,-1).replace(/\s/g,'');
-                    bills = str.split(',')
+                    let str = lead.uploaded_documents.slice(1,-1);
+                    console.log(str)
+                    bills = str.split(', ')
                 }
                 var date = new Date(lead.contract_end);
                 var dateString = date.toLocaleString();

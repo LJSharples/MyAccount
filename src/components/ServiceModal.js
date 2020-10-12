@@ -1,6 +1,5 @@
 import React from "react";
 import FileUpload from "./FileUpload";
-import Upload from './Upload'
 
 //class ValidationForm extends React.Component{
 //    state = {
