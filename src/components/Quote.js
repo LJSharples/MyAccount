@@ -289,7 +289,7 @@ class Quote extends Component {
         }
         console.log(errors);
         this.onChangeText('errors', errors);
-        if(Object.keys(errors).length == 0){
+        if(Object.keys(errors).length === 0){
             console.log("Passed")
             text = "Passed";
             return text;

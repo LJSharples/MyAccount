@@ -10,6 +10,7 @@ class PersonalDetails extends Component {
     state = {
         userProfile: {},
         userCompany: {},
+        errors: {},
         full_name: "",
         first_name: "",
         last_name: "",
@@ -71,6 +72,10 @@ class PersonalDetails extends Component {
         }
     }
 
+    onChangeText = (key, value) => {
+        this.setState({ [key]: value})
+    };
+
     handleChange = ({ target }) => {
         this.setState({ [target.name]: target.value });
     };
@@ -81,6 +86,23 @@ class PersonalDetails extends Component {
 
     setOpen2 = () => {
          this.setState({ check: false});
+    }
+
+    checkValidation = () => {
+        let errors = {}
+        var text = "yes";
+        if(this.state.company_name === ''){
+            errors["company_name"] = "Cannot be Empty"
+        }
+        console.log(errors);
+        this.onChangeText('errors', errors);
+        if(Object.keys(errors).length === 0){
+            console.log("Passed")
+            text = "Passed";
+            return text;
+        } else {
+            return text;
+        }
     }
 
     updateUserProfile = async () => {
@@ -118,43 +140,49 @@ class PersonalDetails extends Component {
     }
 
     updateUserCompany = async () => {
-        const data = {
-            user_name: this.state.user_name,
-            company_name: this.state.company_name,
-            company_number: this.state.company_number,
-            address1: this.state.address1,
-            address2: this.state.address2,
-            city: this.state.city,
-            postcode: this.state.postcode,
-            region: this.state.region,
-            years_trading: this.state.years_trading,
-            num_employees: this.state.num_employees,
-            yearly_turnover: this.state.yearly_turnover,
-            industry: this.state.industry
-        }
-        if(this.state.createCompany){
-            try{
-                await API.graphql(graphqlOperation(addCompany, data));
-                this.setState({ success: true})
-                this.setOpen2()
-                window.scrollTo(0, 0)
-           }catch(err){
-                console.log("Error:");
-                console.log(err);
-           }
+        let result = this.checkValidation();
+        console.log(result)
+        if(result === "Passed"){
+            const data = {
+                user_name: this.state.user_name,
+                company_name: this.state.company_name,
+                company_number: this.state.company_number,
+                address1: this.state.address1,
+                address2: this.state.address2,
+                city: this.state.city,
+                postcode: this.state.postcode,
+                region: this.state.region,
+                years_trading: this.state.years_trading,
+                num_employees: this.state.num_employees,
+                yearly_turnover: this.state.yearly_turnover,
+                industry: this.state.industry
+            }
+            if(this.state.createCompany){
+                try{
+                    await API.graphql(graphqlOperation(addCompany, data));
+                    this.setState({ success: true})
+                    this.setOpen2()
+                    window.scrollTo(0, 0)
+                }catch(err){
+                    console.log("Error:");
+                    console.log(err);
+                }
+            } else {
+                try{
+                    await API.graphql(graphqlOperation(updateCompany, data));
+                    this.setState({ success: true})
+                    window.scrollTo(0, 0)
+                }catch(err){
+                        console.log("Error:");
+                        console.log(err);
+                }
+            }
+            setTimeout(function() { //Start the timer
+                this.setState({success: false}) //After 1 second, set render to true
+            }.bind(this), 3000)
         } else {
-            try{
-                await API.graphql(graphqlOperation(updateCompany, data));
-                this.setState({ success: true})
-                window.scrollTo(0, 0)
-           }catch(err){
-                console.log("Error:");
-                console.log(err);
-           }
+            return;
         }
-       setTimeout(function() { //Start the timer
-            this.setState({success: false}) //After 1 second, set render to true
-        }.bind(this), 3000)
     }
 
     render(){
@@ -272,6 +300,7 @@ class PersonalDetails extends Component {
                             </label>
                             <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" 
                             id="company_name" name="company_name" type="text" value={this.state.company_name} onChange={this.handleChange}/>
+                            <span style={{color: "red"}}>{this.state.errors["company_name"]}</span>
                         </div>
                         <div className="md:w-1/2 px-3">
                             <label className="block uppercase tracking-wide text-grey-darker text-gray-700 text-xs font-bold mb-2" >
