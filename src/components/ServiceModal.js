@@ -132,6 +132,7 @@ class Modal extends React.Component {
                                 </label>
                                 <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
                                 id="requestCall" name="requestCall" type="date" placeholder="dd-mm-yyyy" onChange={event => this.props.onInput('callback_date', event)}/>
+                                <span style={{color: "red"}}>{this.props.errors["callback_date"]}</span>
                             </div>
                         </div>
                         <div className="flex flex-wrap -mx-3 mb-6">

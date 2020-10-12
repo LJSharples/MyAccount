@@ -303,11 +303,13 @@ class Quote extends Component {
         console.log(result)
         if(result === "Passed"){
             console.log("HERE");
+            var time = this.state.callback_time;
+            var date = this.state.callback_date;
             const data = {
                 user_name: this.state.userProfile.user_name,
                 status: "LEAD",
                 service_name: this.state.serviceName,
-                callback_time: this.state.callback_time,
+                callback_time: date + 'T' + time,
                 contract_end: this.state.contractDate,
                 contract_length: this.state.contractLength,
                 current_supplier: this.state.currentSupplier,

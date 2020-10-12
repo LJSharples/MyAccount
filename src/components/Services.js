@@ -36,6 +36,7 @@ class Services extends Component {
         contractDate: '',
         contractLength: '',
         callback_time: '',
+        callback_date: '',
         cost_year: '',
         cost_month: '',
         currentSupplier: '',
@@ -301,6 +302,9 @@ class Services extends Component {
         if(this.state.callback_time === ''){
             errors["callback_time"] = "Cannot be Empty"
         }
+        if(this.state.callback_date === ''){
+            errors["callback_date"] = "Cannot be Empty"
+        }
         if(this.state.cost_year === ''){
             errors["cost_year"] = "Cannot be Empty"
         }
@@ -323,12 +327,13 @@ class Services extends Component {
         console.log(result)
         if(result === "Passed"){
             console.log("HERE");
-        
+            var time = this.state.callback_time;
+            var date = this.state.callback_date;
             const data = {
                 user_name: this.state.userProfile.user_name,
                 status: "CURRENT",
                 service_name: this.state.serviceName,
-                callback_time: this.state.callback_time,
+                callback_time: date + 'T' + time,
                 contract_end: this.state.contractDate,
                 contract_length: this.state.contractLength,
                 current_supplier: this.state.currentSupplier,
@@ -825,7 +830,7 @@ class Services extends Component {
                             </article>
                         </div>
                             <DeleteModal show={this.state.isOpen3} onClose={this.toggleModal2} deleteService={this.deleteService}/>
-                            <GetQuote show={this.state.isOpen4} onClose={this.toggleModal3} onInput={this.onInput} submitLead={this.submitService} fileUploadKey={this.fileUploadKey} onActivate={this.onActivate}/>
+                            <GetQuote show={this.state.isOpen4} onClose={this.toggleModal3} onInput={this.onInput} submitLead={this.submitService} fileUploadKey={this.fileUploadKey} onActivate={this.onActivate} errors={this.state.errors}/>
                     </div>
                     <Footer/>
                 </div>	
