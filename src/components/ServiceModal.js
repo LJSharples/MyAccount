@@ -159,6 +159,7 @@ class Modal extends React.Component {
                                 </label>
                                 <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
                                 id="cost_month" name="cost_month" type="number" placeholder="£0.00" min="0.01" step="0.01" max="2500" onChange={event => this.props.onInput('cost_month', event)}/>
+                                <span style={{color: "red"}}>{this.props.errors["cost_month"]}</span>
                             </div>
                         </div>
                         <div className="flex flex-wrap -mx-3 mb-6">

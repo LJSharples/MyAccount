@@ -61,6 +61,7 @@ class GetQuote extends React.Component {
                                     <option value="Merchant Services">Merchant Services</option>
                                     <option value="Insolvency">Insolvency</option>
                                 </select>
+                                <span style={{color: "red"}}>{this.props.errors["serviceName"]}</span>
                             </div>
                             <div className="w-full md:w-1/2 px-3">
                                 <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
@@ -68,6 +69,7 @@ class GetQuote extends React.Component {
                                 </label>
                                 <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
                                 id="currentSupplier" name="currentSupplier" type="text" placeholder="Enter your current supplier" onChange={event => this.props.onInput('currentSupplier', event)}/>
+                                <span style={{color: "red"}}>{this.props.errors["currentSupplier"]}</span>
                             </div>
                         </div>
                         <div className="flex flex-wrap -mx-3 mb-6">
@@ -77,6 +79,7 @@ class GetQuote extends React.Component {
                                 </label>
                                 <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
                                 id="contractDate" name="contractDate" onChange={event => this.props.onInput('contractDate', event)} type="date" placeholder="dd-mm-yyyy" />
+                                <span style={{color: "red"}}>{this.props.errors["contractDate"]}</span>
                             </div>
                             <div className="w-full md:w-1/2 px-3">
                                 <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
@@ -92,6 +95,7 @@ class GetQuote extends React.Component {
                                     <option>48 Months</option>
                                     <option>60 Months</option>
                                 </select>
+                                <span style={{color: "red"}}>{this.props.errors["contractLength"]}</span>
                             </div>
                         </div>
                         <div className="flex flex-wrap -mx-3 mb-6">
@@ -126,6 +130,7 @@ class GetQuote extends React.Component {
                                 </label>
                                 <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
                                 id="requestCall" name="requestCall" type="date" placeholder="dd-mm-yyyy" onChange={event => this.props.onInput('callback_date', event)}/>
+                                <span style={{color: "red"}}>{this.props.errors["callback_time"]}</span>
                             </div>
                         </div>
                         <div className="flex flex-wrap -mx-3 mb-6">
@@ -145,6 +150,7 @@ class GetQuote extends React.Component {
                                 </label>
                                 <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
                                 id="cost_year" name="cost_year" type="number" placeholder="£0.00" min="0.01" step="0.01" max="250000" onChange={event => this.props.onInput('cost_year', event)}/>
+                                <span style={{color: "red"}}>{this.props.errors["cost_year"]}</span>
                             </div>
                             <div className="w-full md:w-1/2 px-3">
                                 <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
@@ -152,6 +158,7 @@ class GetQuote extends React.Component {
                                 </label>
                                 <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
                                 id="cost_month" name="cost_month" type="number" placeholder="£0.00" min="0.01" step="0.01" max="2500" onChange={event => this.props.onInput('cost_month', event)}/>
+                                <span style={{color: "red"}}>{this.props.errors["cost_month"]}</span>
                             </div>
                         </div>
                         <div className="flex flex-wrap -mx-3 mb-6">

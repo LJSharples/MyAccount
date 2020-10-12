@@ -35,6 +35,7 @@ class Quote extends Component {
         uploaded_documents: [],
         permission: true,
         success: false,
+        errors: {},
         customStyle: {
             rows: {
               style: {
@@ -262,38 +263,91 @@ class Quote extends Component {
          this.setState({ success: false});
     }
 
-    submitService = async () => {
-        const data = {
-            user_name: this.state.userProfile.user_name,
-            status: "LEAD",
-            service_name: this.state.serviceName,
-            callback_time: this.state.callback_time,
-            contract_end: this.state.contractDate,
-            contract_length: this.state.contractLength,
-            current_supplier: this.state.currentSupplier,
-            cost_year: this.state.cost_year,
-            cost_month: this.state.cost_month,
-            uploaded_documents: this.state.uploaded_documents,
-            permission: this.state.permission,
-            affiliate_id: this.state.affiliateId
+    checkValidation = () => {
+        let errors = {}
+        var text = "yes";
+        if(this.state.serviceName === ''){
+            errors["serviceName"] = "Cannot be Empty"
         }
-        console.log(data)
-        try {
-            const re = await API.graphql(graphqlOperation(addService, data));
-            console.log(re);
-            this.setState({ success: true})
-            window.scrollTo(0, 0)
-        } catch (err) {
-            console.log("Error:")
-            console.log(err);
-        }   
-        this.setState({
-          isOpen2: !this.state.isOpen2
-        });
+        if(this.state.currentSupplier === ''){
+            errors["currentSupplier"] = "Cannot be Empty"
+        }
+        if(this.state.contractDate === ''){
+            errors["contractDate"] = "Cannot be Empty"
+        }
+        if(this.state.contractLength === ''){
+            errors["contractLength"] = "Cannot be Empty"
+        }
+        if(this.state.callback_time === ''){
+            errors["callback_time"] = "Cannot be Empty"
+        }
+        if(this.state.cost_year === ''){
+            errors["cost_year"] = "Cannot be Empty"
+        }
+        if(this.state.cost_month === ''){
+            errors["cost_month"] = "Cannot be Empty"
+        }
+        console.log(errors);
+        this.onChangeText('errors', errors);
+        if(Object.keys(errors).length == 0){
+            console.log("Passed")
+            text = "Passed";
+            return text;
+        } else {
+            return text;
+        }
+    }
 
-       setTimeout(function() { //Start the timer
-            this.setState({success: false}) //After 1 second, set render to true
-        }.bind(this), 3000)
+    submitService = async () => {
+        let result = this.checkValidation();
+        console.log(result)
+        if(result === "Passed"){
+            console.log("HERE");
+            const data = {
+                user_name: this.state.userProfile.user_name,
+                status: "LEAD",
+                service_name: this.state.serviceName,
+                callback_time: this.state.callback_time,
+                contract_end: this.state.contractDate,
+                contract_length: this.state.contractLength,
+                current_supplier: this.state.currentSupplier,
+                cost_year: this.state.cost_year,
+                cost_month: this.state.cost_month,
+                uploaded_documents: this.state.uploaded_documents,
+                permission: this.state.permission,
+                affiliate_id: this.state.affiliateId
+            }
+            console.log(data)
+            try {
+                const re = await API.graphql(graphqlOperation(addService, data));
+                console.log(re);
+                this.setState({ success: true})
+                window.scrollTo(0, 0)
+            } catch (err) {
+                console.log("Error:")
+                console.log(err);
+            }   
+            this.setState({
+            isOpen2: !this.state.isOpen2
+            });
+
+            this.setState({
+                permission: false,
+                serviceName: '',
+                callback_time: '',
+                contractDate: '',
+                contractLength: '',
+                currentSupplier: '',
+                cost_year: '',
+                cost_month: '',
+            })
+
+            setTimeout(function() { //Start the timer
+                this.setState({success: false}) //After 1 second, set render to true
+            }.bind(this), 3000)
+        } else {
+            return;
+        }
     }
 
     deleteService = async () => {
@@ -433,7 +487,7 @@ class Quote extends Component {
                                     >
                                         Get Quote
                                     </button>
-                                    <GetQuote show={this.state.isOpen2} onClose={this.toggleModal} onInput={this.onInput} submitLead={this.submitService} fileUploadKey={this.fileUploadKey} onActivate={this.onActivate}>
+                                    <GetQuote show={this.state.isOpen2} onClose={this.toggleModal} onInput={this.onInput} submitLead={this.submitService} fileUploadKey={this.fileUploadKey} onActivate={this.onActivate} errors={this.state.errors}>
                                     </GetQuote>
                                 </div>
                             </div>

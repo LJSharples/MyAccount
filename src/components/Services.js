@@ -43,7 +43,6 @@ class Services extends Component {
         selectedKey: '',
         uploaded_documents: [],
         errors: {},
-        errorCheck: false,
         permission: false,
         success: false,
         customStyle: {
@@ -242,8 +241,6 @@ class Services extends Component {
     };
 
     onInput = (key, event) => {
-        console.log(key);
-        console.log(this.state);
         this.setState({ [key]: event.target.value})
     };
 
@@ -288,41 +285,43 @@ class Services extends Component {
 
     checkValidation = () => {
         let errors = {}
-        let errorCheck = false
+        var text = "yes";
         if(this.state.serviceName === ''){
             errors["serviceName"] = "Cannot be Empty"
-            errorCheck = true
         }
         if(this.state.currentSupplier === ''){
             errors["currentSupplier"] = "Cannot be Empty"
-            errorCheck = true
         }
         if(this.state.contractDate === ''){
             errors["contractDate"] = "Cannot be Empty"
-            errorCheck = true
-        }
-        if(this.state.callback_time === ''){
-            errors["callback_time"] = "Cannot be Empty"
-            errorCheck = true
-        }
-        if(this.state.cost_year === ''){
-            errors["cost_year"] = "Cannot be Empty"
-            errorCheck = true
         }
         if(this.state.contractLength === ''){
             errors["contractLength"] = "Cannot be Empty"
-            errorCheck = true
+        }
+        if(this.state.callback_time === ''){
+            errors["callback_time"] = "Cannot be Empty"
+        }
+        if(this.state.cost_year === ''){
+            errors["cost_year"] = "Cannot be Empty"
+        }
+        if(this.state.cost_month === ''){
+            errors["cost_month"] = "Cannot be Empty"
         }
         console.log(errors);
-        this.setState({ 
-            errors: errors,
-            errorCheck: errorCheck
-        })
+        this.onChangeText('errors', errors);
+        if(Object.keys(errors).length == 0){
+            console.log("Passed")
+            text = "Passed";
+            return text;
+        } else {
+            return text;
+        }
     }
 
     submitService = async () => {
-        this.checkValidation();
-        if(this.state.errorCheck === true){
+        let result = this.checkValidation();
+        console.log(result)
+        if(result === "Passed"){
             console.log("HERE");
         
             const data = {
@@ -430,7 +429,7 @@ class Services extends Component {
                 cost_month: '',
             })
 
-        setTimeout(function() { //Start the timer
+            setTimeout(function() { //Start the timer
                 this.setState({success: false}) //After 1 second, set render to true
             }.bind(this), 3000)
         } else {
