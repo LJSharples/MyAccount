@@ -172,6 +172,7 @@ class Services extends Component {
                 hide: 'md',
             },
         ];
+        console.log(userServices.data["getServices"].items);
         const currentArray = [];
         const activeArray = [];
         const endedArray = [];
@@ -321,7 +322,7 @@ class Services extends Component {
         } else {
             return text;
         }
-    }
+    }//services modal - put permission check box to the side of text like money section
 
     submitService = async () => {
         let result = this.checkValidation();
@@ -330,9 +331,13 @@ class Services extends Component {
             console.log("HERE");
             var time = this.state.callback_time;
             var date = this.state.callback_date;
+            var status = "CURRENT";
+            if(this.state.permission){
+                status = "LEAD"
+            }
             const data = {
                 user_name: this.state.userProfile.user_name,
-                status: "CURRENT",
+                status: status,
                 service_name: this.state.serviceName,
                 callback_time: date + 'T' + time,
                 contract_end: this.state.contractDate,

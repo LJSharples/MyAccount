@@ -34,6 +34,7 @@ class Dashboard extends Component {
         user_name: '',
         selectedKey: '',
         uploaded_documents: [],
+        errors: {},
         permission: true,
     }
 
@@ -223,7 +224,7 @@ class Dashboard extends Component {
                             >
                                 Get Quote
                             </button>
-                            <GetQuote show={this.state.isOpen2} onClose={this.toggleModal} onInput={this.onInput} submitLead={this.submitService} fileUploadKey={this.fileUploadKey} onActivate={this.onActivate}>
+                            <GetQuote show={this.state.isOpen2} onClose={this.toggleModal} onInput={this.onInput} submitLead={this.submitService} fileUploadKey={this.fileUploadKey} onActivate={this.onActivate} errors={this.state.errors}>
                             </GetQuote>
                         </div>
                     </div>

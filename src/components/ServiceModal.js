@@ -165,13 +165,21 @@ class Modal extends React.Component {
                         <div className="flex flex-wrap -mx-3 mb-6">
                             <div className="w-full px-3 border-b border-solid border-gray-300 rounded-t">
                                 <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
-                                Yes, I’d like to share my service details with the suppliers and affiliate who introduced me.
+                                    Permission
                                 </label>
                             </div>
                         </div>
-                        <div className="flex flex-wrap -mx-3 mb-3">
-                            <div className="w-full px-3">
-                                <input id="permission" name="permission" type="checkbox" onChange={event => this.props.onActivate('permission', event)}/>
+                        <div className="flex flex-wrap -mx-3 mb-6">
+                            <div className="w-full md:w-1/2 px-3">
+                                <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
+                                Yes, I’d like to share my service details with the suppliers and affiliate who introduced me.
+                                </label>
+                            </div>
+                            <div className="w-full md:w-1/2 px-3">
+                                <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
+                                    I Agree
+                                </label>
+                                <input className="form-checkbox h-6 w-6" id="permission" name="permission" type="checkbox" onChange={event => this.props.onActivate('permission', event)}/>
                             </div>
                         </div>
                     </div>
