@@ -104,6 +104,7 @@ export const addService = /* GraphQL */ `
     $uploaded_documents: String
     $permission: String
     $affiliate_id: String
+    $email: String
   ) {
     addService(
       user_name: $user_name
@@ -118,6 +119,7 @@ export const addService = /* GraphQL */ `
       uploaded_documents: $uploaded_documents
       permission: $permission
       affiliate_id: $affiliate_id
+      email: $email
     ) {
       user_name
       status

@@ -41,6 +41,7 @@ class Services extends Component {
         cost_month: '',
         currentSupplier: '',
         user_name: '',
+        email: '',
         selectedKey: '',
         uploaded_documents: [],
         errors: {},
@@ -78,6 +79,7 @@ class Services extends Component {
         let user = await Auth.currentAuthenticatedUser();
         const currentUserInfo = await Auth.currentUserInfo();
         const userProfile = await API.graphql(graphqlOperation(getUserDetails, { user_name: user.username}));
+        this.setState({ email: user.email });
         this.setState({ affiliateId: currentUserInfo.attributes['custom:affiliate_id'] });
         this.setState({ userProfile: userProfile.data["user"]});
         this.setState({ userCompany: userProfile.data["getCompany"]});
@@ -177,7 +179,11 @@ class Services extends Component {
         const activeArray = [];
         const endedArray = [];
         var dateCurrent = new Date();
-        var t = dateCurrent.toLocaleString();
+        var day = dateCurrent.getDate();
+        var month = dateCurrent.getMonth() + 1;
+        var year = dateCurrent.getFullYear();
+
+        var t = day + '-' + month + '-' + year;
 
         userServices.data["getServices"].items.map(lead => {
             if(lead.status === "CUSTOMER DELETED"){
@@ -186,11 +192,20 @@ class Services extends Component {
                 let bills = []
                 if(lead.uploaded_documents && lead.uploaded_documents.length > 0){
                     let str = lead.uploaded_documents.slice(1,-1);
-                    console.log(str)
                     bills = str.split(', ')
                 }
-                var date = new Date(lead.contract_end);
-                var dateString = date.toLocaleString();
+                var contractEndDate = new Date(lead.contract_end);
+                var day2 = contractEndDate.getDate();
+                var month2 = contractEndDate.getMonth() + 1;
+                var year2 = contractEndDate.getFullYear();
+                var dateString = day2 + '-' + month2 + '-' + year2;
+                console.log(t);
+                console.log(dateString);  
+                if (dateString < t) {    
+                    console.log("dateString is less than than t.");    
+                 }else {    
+                    console.log("t is greater than dateString.");    
+                 }
                 if(dateString < t){
                     const newValue = {
                         service_name: lead.service_name,
@@ -202,9 +217,9 @@ class Services extends Component {
         
                     }
                     endedArray.push(newValue)
-                } else if(lead.status === "CURRENT" || lead.status === "LIVE"){
+                } else if(lead.status === "CURRENT" || lead.status === "LIVE" || lead.status === "Live contract"){
                     var money = '';
-                    if(lead.status === "LIVE"){
+                    if(lead.status === "LIVE" || lead.status === "Live contract"){
                         money = lead.new_cost_year
                     } else {
                         money = lead.cost_year
@@ -337,6 +352,7 @@ class Services extends Component {
             }
             const data = {
                 user_name: this.state.userProfile.user_name,
+                email: this.state.email,
                 status: status,
                 service_name: this.state.serviceName,
                 callback_time: date + 'T' + time,
@@ -370,7 +386,11 @@ class Services extends Component {
             const activeArray = [];
             const endedArray = [];
             var dateCurrent = new Date();
-            var t = dateCurrent.toLocaleString();
+            var day = dateCurrent.getDate();
+            var month = dateCurrent.getMonth() + 1;
+            var year = dateCurrent.getFullYear();
+    
+            var t = day + '-' + month + '-' + year;
             userServices.data["getServices"].items.map(lead => {
                 if(lead.status === "CUSTOMER DELETED"){
 
@@ -380,8 +400,18 @@ class Services extends Component {
                         let str = lead.uploaded_documents.slice(1,-1).replace(/\s/g,'');
                         bills = str.split(',')
                     }
-                    var date = new Date(lead.contract_end);
-                    var dateString = date.toLocaleString();
+                    var contractEndDate = new Date(lead.contract_end);
+                    var day2 = contractEndDate.getDate();
+                    var month2 = contractEndDate.getMonth() + 1;
+                    var year2 = contractEndDate.getFullYear();
+                    var dateString = day2 + '-' + month2 + '-' + year2;
+                    console.log(t);
+                    console.log(dateString);  
+                    if (dateString < t) {    
+                        console.log("dateString is less than than t.");    
+                     }else {    
+                        console.log("t is greater than dateString.");    
+                     }
                     if(dateString < t){
                         const newValue = {
                             service_name: lead.service_name,
@@ -393,10 +423,10 @@ class Services extends Component {
             
                         }
                         endedArray.push(newValue)
-                    } else if(lead.status === "CURRENT" || lead.status === "LIVE"){
+                    } else if(lead.status === "CURRENT" || lead.status === "LIVE" || lead.status === "Live contract"){
 
                         var money = '';
-                        if(lead.status === "LIVE"){
+                        if(lead.status === "LIVE" || lead.status === "Live contract"){
                             money = lead.new_cost_year
                         } else {
                             money = lead.cost_year
@@ -800,7 +830,7 @@ class Services extends Component {
                                     }
                                 >
                                     <AlertTitle>Success</AlertTitle>
-                                    Congratualtions — <strong>Your Service has been added!</strong>
+                                    Congratulations — <strong>Your Service has been added!</strong>
                                 </Alert>
                             </Collapse>
                             <div className="flex flex-wrap -mx-1 lg:-mx-4">

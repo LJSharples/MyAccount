@@ -31,6 +31,7 @@ class Quote extends Component {
         cost_month: '',
         currentSupplier: '',
         user_name: '',
+        email: '',
         selectedKey: '',
         uploaded_documents: [],
         permission: true,
@@ -68,6 +69,7 @@ class Quote extends Component {
         let user = await Auth.currentAuthenticatedUser();
         const currentUserInfo = await Auth.currentUserInfo();
         const userProfile = await API.graphql(graphqlOperation(getUserDetails, { user_name: user.username}));
+        this.setState({ email: user.email });
         this.setState({ affiliateId: currentUserInfo.attributes['custom:affiliate_id'] });
         this.setState({ userProfile: userProfile.data["user"]});
         this.setState({ userCompany: userProfile.data["getCompany"]});
@@ -307,6 +309,7 @@ class Quote extends Component {
             var date = this.state.callback_date;
             const data = {
                 user_name: this.state.userProfile.user_name,
+                email: this.state.email,
                 status: "LEAD",
                 service_name: this.state.serviceName,
                 callback_time: date + 'T' + time,
