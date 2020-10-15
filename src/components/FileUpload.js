@@ -35,12 +35,12 @@ class FileUpload extends React.Component {
         return (
             <Dropzone onDrop={acceptedFiles => this.onUpload(acceptedFiles)}>
                 {({getRootProps, getInputProps}) => (
-                    <section>
+                    <section className="appearance-none block w-full bg-gray-200">
                         <div {...getRootProps()}>
                             <input {...getInputProps()} />
                             <p>Drag 'n' drop some files here, or click to select files</p>
                         </div>
-                        <div>
+                        <div> 
                             {this.state.fileNames.map(function(d, idx){
                                 return (<li key={idx}>{d}</li>)
                             })}

@@ -179,11 +179,6 @@ class Services extends Component {
         const activeArray = [];
         const endedArray = [];
         var dateCurrent = new Date();
-        var day = dateCurrent.getDate();
-        var month = dateCurrent.getMonth() + 1;
-        var year = dateCurrent.getFullYear();
-
-        var t = day + '-' + month + '-' + year;
 
         userServices.data["getServices"].items.map(lead => {
             if(lead.status === "CUSTOMER DELETED"){
@@ -195,22 +190,19 @@ class Services extends Component {
                     bills = str.split(', ')
                 }
                 var contractEndDate = new Date(lead.contract_end);
-                var day2 = contractEndDate.getDate();
-                var month2 = contractEndDate.getMonth() + 1;
-                var year2 = contractEndDate.getFullYear();
-                var dateString = day2 + '-' + month2 + '-' + year2;
-                console.log(t);
-                console.log(dateString);  
-                if (dateString < t) {    
-                    console.log("dateString is less than than t.");    
+                console.log(dateCurrent.toDateString());
+                console.log(contractEndDate.toLocaleDateString());
+
+                if (contractEndDate.toISOString() < dateCurrent.toISOString()) {    
+                    console.log("Less then current.");    
                  }else {    
-                    console.log("t is greater than dateString.");    
+                    console.log("more then current");    
                  }
-                if(dateString < t){
+                if(contractEndDate.toISOString() < dateCurrent.toISOString()){
                     const newValue = {
                         service_name: lead.service_name,
                         provider: lead.current_supplier,
-                        contract_end: dateString.substring(0, 10),
+                        contract_end: contractEndDate.toLocaleDateString(),
                         cost_year: lead.cost_year,
                         attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
                         handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal3()}>Get Quote</MDBBtn>
@@ -227,7 +219,7 @@ class Services extends Component {
                     const newValue2 = {
                         service_name: lead.service_name,
                         provider: lead.current_supplier,
-                        contract_end: dateString.substring(0, 10),
+                        contract_end: contractEndDate.toLocaleDateString(),
                         cost_year: money,
                         attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
                         handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
@@ -238,7 +230,7 @@ class Services extends Component {
                     const newValue = {
                         service_name: lead.service_name,
                         provider: lead.current_supplier,
-                        contract_end: dateString.substring(0, 10),
+                        contract_end: contractEndDate.toLocaleDateString(),
                         cost_year: lead.cost_year,
                         status: lead.status,
                         attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),        
@@ -255,6 +247,8 @@ class Services extends Component {
     }
 
     onChangeText = (key, value) => {
+        console.log(key)
+        console.log(value)
         this.setState({ [key]: value})
     };
 
@@ -315,12 +309,6 @@ class Services extends Component {
         }
         if(this.state.contractLength === ''){
             errors["contractLength"] = "Cannot be Empty"
-        }
-        if(this.state.callback_time === ''){
-            errors["callback_time"] = "Cannot be Empty"
-        }
-        if(this.state.callback_date === ''){
-            errors["callback_date"] = "Cannot be Empty"
         }
         if(this.state.cost_year === ''){
             errors["cost_year"] = "Cannot be Empty"
@@ -386,37 +374,28 @@ class Services extends Component {
             const activeArray = [];
             const endedArray = [];
             var dateCurrent = new Date();
-            var day = dateCurrent.getDate();
-            var month = dateCurrent.getMonth() + 1;
-            var year = dateCurrent.getFullYear();
     
-            var t = day + '-' + month + '-' + year;
             userServices.data["getServices"].items.map(lead => {
                 if(lead.status === "CUSTOMER DELETED"){
-
+    
                 } else {
                     let bills = []
                     if(lead.uploaded_documents && lead.uploaded_documents.length > 0){
-                        let str = lead.uploaded_documents.slice(1,-1).replace(/\s/g,'');
-                        bills = str.split(',')
+                        let str = lead.uploaded_documents.slice(1,-1);
+                        bills = str.split(', ')
                     }
                     var contractEndDate = new Date(lead.contract_end);
-                    var day2 = contractEndDate.getDate();
-                    var month2 = contractEndDate.getMonth() + 1;
-                    var year2 = contractEndDate.getFullYear();
-                    var dateString = day2 + '-' + month2 + '-' + year2;
-                    console.log(t);
-                    console.log(dateString);  
-                    if (dateString < t) {    
-                        console.log("dateString is less than than t.");    
-                     }else {    
-                        console.log("t is greater than dateString.");    
-                     }
-                    if(dateString < t){
+    
+                    if (contractEndDate.toISOString() < dateCurrent.toISOString()) {    
+                        console.log("Less then current.");    
+                        }else {    
+                        console.log("more then current");    
+                        }
+                    if(contractEndDate.toISOString() < dateCurrent.toISOString()){
                         const newValue = {
                             service_name: lead.service_name,
                             provider: lead.current_supplier,
-                            contract_end: dateString.substring(0, 10),
+                            contract_end: contractEndDate.toLocaleDateString(),
                             cost_year: lead.cost_year,
                             attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
                             handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal3()}>Get Quote</MDBBtn>
@@ -434,7 +413,7 @@ class Services extends Component {
                         const newValue2 = {
                             service_name: lead.service_name,
                             provider: lead.current_supplier,
-                            contract_end: dateString.substring(0, 10),
+                            contract_end: contractEndDate.toLocaleDateString(),
                             cost_year: money,
                             attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
                             handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
@@ -445,7 +424,7 @@ class Services extends Component {
                         const newValue = {
                             service_name: lead.service_name,
                             provider: lead.current_supplier,
-                            contract_end: dateString.substring(0, 10),
+                            contract_end: contractEndDate.toLocaleDateString(),
                             cost_year: lead.cost_year,
                             status: lead.status,
                             attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
@@ -851,7 +830,7 @@ class Services extends Component {
                                     >
                                         Add Service
                                     </button>
-                                    <ServiceModal show={this.state.isOpen2} onClose={this.toggleModal} onInput={this.onInput} submitLead={this.submitService} fileUploadKey={this.fileUploadKey} onActivate={this.onActivate} errors={this.state.errors}>
+                                    <ServiceModal show={this.state.isOpen2} onClose={this.toggleModal} date={this.state.contractDate} callback={this.state.callback_date} onInput={this.onInput} onChangeText={this.onChangeText} submitLead={this.submitService} fileUploadKey={this.fileUploadKey} onActivate={this.onActivate} errors={this.state.errors}>
                                     </ServiceModal>
                                 </div>
                             </div>
