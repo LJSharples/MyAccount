@@ -1,14 +1,10 @@
-import React, { useState} from "react";
+import React from "react";
 import FileUpload from "./FileUpload";
-import DatePicker from "react-datepicker";
+import DatePicker, { registerLocale } from "react-datepicker";
 
 import 'react-datepicker/dist/react-datepicker.css'
-
-//class ValidationForm extends React.Component{
-//    state = {
-//       serviceError: "Please select a service"
-//};
-
+import { enGB} from 'date-fns/locale';
+registerLocale('enGB', enGB)
 
 class Modal extends React.Component {
     render() {
@@ -19,8 +15,6 @@ class Modal extends React.Component {
 
         return (
             <>
-
-
 
             <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative w-auto my-6 mx-auto max-w-3xl max-h-screen">
@@ -81,7 +75,7 @@ class Modal extends React.Component {
                                     Contract End Date
                                 </label>
                                 <DatePicker className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                locale="en-GB" dateFormat="dd/MM/yyyy" selected={this.props.date} onChange={date => this.props.onChangeText('contractDate', date)} />
+                                locale="enGB" dateFormat="yyyy/MM/dd" selected={this.props.date} onChange={date => this.props.onChangeText('contractDate', date)} placeholderText="Enter your contract end date"/>
                                 <span style={{color: "red"}}>{this.props.errors["contractDate"]}</span>
                             </div>
                             <div className="w-full md:w-1/2 px-3">
@@ -121,11 +115,8 @@ class Modal extends React.Component {
                         </div>
                         <div className="flex flex-wrap -mx-3 mb-6">
                             <div className="w-full px-3">
-                                <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
-                                    Set Callback
-                                </label>
                                 <DatePicker  showTimeSelect className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                locale="en-GB" dateFormat="MMMM d, yyyy h:mm aa" selected={this.props.callback} onChange={date => this.props.onChangeText('callback_date', date)} />
+                                locale="enGB" dateFormat="MMMM d, yyyy h:mm aa" selected={this.props.callback} onChange={date => this.props.onChangeText('callback_date', date)} placeholderText="Enter a callback"/>
                             </div>
                         </div>
                         <div className="flex flex-wrap -mx-3 mb-6">

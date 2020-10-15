@@ -83,13 +83,7 @@ class Dashboard extends Component {
         }
     }
 
-    onChangeText = (key, value) => {
-        this.setState({ [key]: value})
-    };
-
     onInput = (key, event) => {
-        console.log(key);
-        console.log(this.state);
         this.setState({ [key]: event.target.value})
     };
 
@@ -131,8 +125,7 @@ class Dashboard extends Component {
         }
         console.log(data)
         try {
-            const re = await API.graphql(graphqlOperation(addService, data));
-            console.log(re);
+            await API.graphql(graphqlOperation(addService, data));
         } catch (err) {
             console.log("Error:")
             console.log(err);

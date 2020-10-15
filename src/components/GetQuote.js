@@ -1,11 +1,10 @@
 import React from "react";
 import FileUpload from "./FileUpload";
+import DatePicker, { registerLocale } from "react-datepicker";
 
-//class ValidationForm extends React.Component{
-//    state = {
-//       serviceError: "Please select a service"
-//};
-
+import 'react-datepicker/dist/react-datepicker.css'
+import { enGB} from 'date-fns/locale';
+registerLocale('enGB', enGB)
 
 class GetQuote extends React.Component {
     render() {
@@ -16,8 +15,6 @@ class GetQuote extends React.Component {
 
         return (
             <>
-
-
 
             <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative w-auto my-6 mx-auto max-w-3xl max-h-screen">
@@ -77,8 +74,8 @@ class GetQuote extends React.Component {
                                 <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
                                     Contract End Date
                                 </label>
-                                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-                                id="contractDate" name="contractDate" onChange={event => this.props.onInput('contractDate', event)} type="date" placeholder="dd-mm-yyyy" />
+                                <DatePicker className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                locale="enGB" dateFormat="yyyy/MM/dd" selected={this.props.date} onChange={date => this.props.onChangeText('contractDate', date)} placeholderText="Enter your contract end date"/>
                                 <span style={{color: "red"}}>{this.props.errors["contractDate"]}</span>
                             </div>
                             <div className="w-full md:w-1/2 px-3">
@@ -117,20 +114,9 @@ class GetQuote extends React.Component {
                             </div>
                         </div>
                         <div className="flex flex-wrap -mx-3 mb-6">
-                            <div className="w-full md:w-1/2 px-3">
-                                <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
-                                    Callback Time
-                                </label>
-                                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-                                id="requestCall" name="requestCall" type="time" placeholder="--:--" onChange={event => this.props.onInput('callback_time', event)}/>
-                            </div>
-                            <div className="w-full md:w-1/2 px-3">
-                                <label className="block uppercase tracking-wide text-gray-700 text-blue-600 text-xs font-bold mb-2">
-                                    Callback Date
-                                </label>
-                                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-                                id="requestCall" name="requestCall" type="date" placeholder="dd-mm-yyyy" onChange={event => this.props.onInput('callback_date', event)}/>
-                                <span style={{color: "red"}}>{this.props.errors["callback_time"]}</span>
+                            <div className="w-full px-3">
+                                <DatePicker  showTimeSelect className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                locale="enGB" dateFormat="MMMM d, yyyy h:mm aa" selected={this.props.callback} onChange={date => this.props.onChangeText('callback_date', date)} placeholderText="Enter a callback"/>
                             </div>
                         </div>
                         <div className="flex flex-wrap -mx-3 mb-6">

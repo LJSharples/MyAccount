@@ -16,7 +16,7 @@ export class InternalApp extends Component {
 
     url = async () => {
         let user = await Auth.currentUserInfo();
-        const url = "http://login.managedbills.com/?logout"
+        let url = "http://login.managedbills.com/?logout"
         //&r=begbies add if user attribute is set
         if(user.attributes['custom:affiliation'] !== undefined){
             url = "http://login.managedbills.com/?logout&r=" + user.attributes['custom:affiliation']

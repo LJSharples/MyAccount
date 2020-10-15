@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { getServices, getUserDetails } from "../graphql/queries";
+import { getUserDetails } from "../graphql/queries";
 import { addService, removeService } from "../graphql/mutations";
 import { Auth, API, graphqlOperation, Storage } from "aws-amplify";
-import { MDBBtn } from 'mdbreact';
 import GetQuote from "./GetQuote";
 import DeleteModal from "./DeleteModal";
 import Footer from "./Footer";
@@ -24,8 +23,11 @@ class Quote extends Component {
         isOpen3: false ,
         serviceName: '',
         provider: '',
+        s_contractDate: '',
         contractDate: '',
         contractLength: '',
+        s_callback_date: '',
+        callback_date: '',
         callback_time: '',
         cost_year: '',
         cost_month: '',
@@ -73,158 +75,26 @@ class Quote extends Component {
         this.setState({ affiliateId: currentUserInfo.attributes['custom:affiliate_id'] });
         this.setState({ userProfile: userProfile.data["user"]});
         this.setState({ userCompany: userProfile.data["getCompany"]});
-
-        //user services
-        const userServices = await API.graphql(graphqlOperation(getServices, { user_name: user.username}));
-        const columnsArray = [
-            {
-                name: 'Service Name',
-                selector: 'service_name',
-                sortable: true,
-                center: true
-            },
-            {
-                name: 'Service Provider',
-                selector: 'provider',
-                sortable: true,
-                center: true
-            },
-            {
-                name: 'Contract End Date',
-                selector: 'contract_end',
-                sortable: true,
-                center: true,
-                hide: 'sm',
-            },
-            {
-                name: 'Cost per year (£)',
-                selector: 'cost_year',
-                sortable: true,
-                center: true,
-                hide: 'sm',
-            },
-            {
-                name: 'Attachments',
-                selector: 'attachments',
-                sortable: true,
-                responsive: true,
-                center: true,
-                grow: 3,
-                hide: 'md',
-            },
-            {
-                name: 'Actions',
-                selector: 'handle',
-                sortable: true,
-                center: true,
-                hide: 'md',
-            },
-        ];
-        const columnsArray2 = [
-            {
-                name: 'Service Name',
-                selector: 'service_name',
-                sortable: true,
-                center: true
-            },
-            {
-                name: 'Service Provider',
-                selector: 'provider',
-                sortable: true,
-                center: true
-            },
-            {
-                name: 'Contract End Date',
-                selector: 'contract_end',
-                sortable: true,
-                center: true,
-                hide: 'sm',
-            },
-            {
-                name: 'Cost per year (£)',
-                selector: 'cost_year',
-                sortable: true,
-                center: true,
-                hide: 'sm',
-            },
-            {
-                name: 'Status',
-                selector: 'status',
-                sortable: true,
-                center: true,
-                hide: 'sm',
-            },
-            {
-                name: 'Attachments',
-                selector: 'attachments',
-                sortable: true,
-                responsive: true,
-                center: true,
-                grow: 3,
-                hide: 'md',
-            },
-            {
-                name: 'Actions',
-                selector: 'handle',
-                sortable: true,
-                center: true,
-                hide: 'md',
-            },
-        ];
-        const currentArray = [];
-        const activeArray = [];
-        const endedArray = [];
-        var dateCurrent = new Date();
-        var t = dateCurrent.toLocaleString();
-
-        userServices.data["getServices"].items.map(lead => {
-            if(lead.status === "CUSTOMER DELETED"){
-
-            } else {
-                let bills = []
-                if(lead.uploaded_documents && lead.uploaded_documents.length > 0){
-                    let str = lead.uploaded_documents.slice(1,-1).replace(/\s/g,'');
-                    bills = str.split(',')
-                }
-                var date = new Date(lead.contract_end);
-                var dateString = date.toLocaleString();
-                const newValue2 = {
-                    service_name: lead.service_name,
-                    provider: lead.current_supplier,
-                    contract_end: dateString.substring(0, 10),
-                    cost_year: lead.cost_year,
-                    attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
-                    handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
-    
-                }
-                if(dateString < t){
-                    endedArray.push(newValue2)
-                } else if(lead.status === "CURRENT" || lead.status === "LIVE"){
-                    activeArray.push(newValue2)
-                }else if(lead.status !== "CURRENT" || lead.status !== "LIVE"){
-                    const newValue = {
-                        service_name: lead.service_name,
-                        provider: lead.current_supplier,
-                        contract_end: dateString.substring(0, 10),
-                        cost_year: lead.cost_year,
-                        status: lead.status,
-                        attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
-                        handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
-        
-                    }
-                    currentArray.push(newValue)
-                }
-            }
-        })
-        this.onChangeText('rowsCurrent', currentArray);
-        this.onChangeText('rowsActive', activeArray);
-        this.onChangeText('rowsEnded', endedArray);
-        this.onChangeText('column', columnsArray);
-        this.onChangeText('column2', columnsArray2);
     }
 
     onChangeText = (key, value) => {
-        this.setState({ [key]: value})
+        console.log(key)
+        console.log(value)
+        if(key === "contractDate"){
+            this.setState({ s_contractDate: value})
+            let month = value.getMonth() + 1
+            let date = value.getFullYear() + "-" + month + "-" + value.getDate();
+            this.setState({ contractDate : date})
+        } else if(key === "callback_date"){
+            let time = value.toLocaleString();
+            console.log(value.toLocaleDateString())
+            console.log(time.substr(12, 8))
+            this.setState({ s_callback_date: value})
+            this.setState({ callback_date : value.toLocaleDateString()})
+            this.setState({ callback_time : time.substr(12, 8)})
+        } else {
+            this.setState({ [key]: value})
+        }
     };
 
     onInput = (key, event) => {
@@ -370,55 +240,6 @@ class Quote extends Component {
             console.log("Error:")
             console.log(err);
         }
-        const userServices = await API.graphql(graphqlOperation(getServices, { user_name: this.state.userProfile.user_name}));
-        console.log(userServices.data["getServices"].items);
-        const currentArray = [];
-        const activeArray = [];
-        const endedArray = [];
-        var dateCurrent = new Date();
-        var t = dateCurrent.toLocaleString();
-        userServices.data["getServices"].items.map(lead => {
-            if(lead.status === "CUSTOMER DELETED"){
-
-            } else {
-                let bills = []
-                if(lead.uploaded_documents && lead.uploaded_documents.length > 0){
-                    let str = lead.uploaded_documents.slice(1,-1)
-                    bills = str.split(',')
-                }
-                var date = new Date(lead.contract_end);
-                var dateString = date.toLocaleString();
-                const newValue2 = {
-                    service_name: lead.service_name,
-                    provider: lead.current_supplier,
-                    contract_end: dateString.substring(0, 10),
-                    cost_year: lead.cost_year,
-                    attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
-                    handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
-
-                }
-                if(dateString < t){
-                    endedArray.push(newValue2)
-                } else if(lead.status === "CURRENT" || lead.status === "LIVE"){
-                    activeArray.push(newValue2)
-                }else if(lead.status !== "CURRENT" || lead.status !== "LIVE"){
-                    const newValue = {
-                        service_name: lead.service_name,
-                        provider: lead.current_supplier,
-                        contract_end: dateString.substring(0, 10),
-                        cost_year: lead.cost_year,
-                        status: lead.status,
-                        attachments: bills.map(e => <MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn>),
-                        handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
-        
-                    }
-                    currentArray.push(newValue)
-                }
-            }
-        })
-        this.onChangeText('rowsCurrent', currentArray);
-        this.onChangeText('rowsActive', activeArray);
-        this.onChangeText('rowsEnded', endedArray);
     }
 
     downloadFile = async (key) => {
@@ -492,7 +313,7 @@ class Quote extends Component {
                                     >
                                         Get Quote
                                     </button>
-                                    <GetQuote show={this.state.isOpen2} onClose={this.toggleModal} onInput={this.onInput} submitLead={this.submitService} fileUploadKey={this.fileUploadKey} onActivate={this.onActivate} errors={this.state.errors}>
+                                    <GetQuote show={this.state.isOpen2} onClose={this.toggleModal} date={this.state.s_contractDate} callback={this.state.s_callback_date} onChangeText={this.onChangeText} onInput={this.onInput} submitLead={this.submitService} fileUploadKey={this.fileUploadKey} onActivate={this.onActivate} errors={this.state.errors}>
                                     </GetQuote>
                                 </div>
                             </div>

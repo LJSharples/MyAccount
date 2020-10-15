@@ -34,9 +34,11 @@ class Services extends Component {
         serviceName: '',
         provider: '',
         contractDate: '',
+        s_contractDate: '',
         contractLength: '',
         callback_time: '',
         callback_date: '',
+        s_callback_date: '',
         cost_year: '',
         cost_month: '',
         currentSupplier: '',
@@ -91,7 +93,8 @@ class Services extends Component {
                 name: 'Service Name',
                 selector: 'service_name',
                 sortable: true,
-                center: true
+                center: true,
+                grow: 2,
             },
             {
                 name: 'Service Provider',
@@ -119,7 +122,7 @@ class Services extends Component {
                 sortable: true,
                 responsive: true,
                 center: true,
-                grow: 3,
+                grow: 2,
                 hide: 'md',
             },
             {
@@ -135,7 +138,8 @@ class Services extends Component {
                 name: 'Service Name',
                 selector: 'service_name',
                 sortable: true,
-                center: true
+                center: true,
+                grow: 2,
             },
             {
                 name: 'Service Provider',
@@ -170,7 +174,7 @@ class Services extends Component {
                 sortable: true,
                 responsive: true,
                 center: true,
-                grow: 3,
+                grow: 2,
                 hide: 'md',
             },
         ];
@@ -247,9 +251,19 @@ class Services extends Component {
     }
 
     onChangeText = (key, value) => {
-        console.log(key)
-        console.log(value)
-        this.setState({ [key]: value})
+        if(key === "contractDate"){
+            this.setState({ s_contractDate: value})
+            let month = value.getMonth() + 1
+            let date = value.getFullYear() + "-" + month + "-" + value.getDate();
+            this.setState({ contractDate : date})
+        } else if(key === "callback_date"){
+            let time = value.toLocaleString();
+            this.setState({ s_callback_date: value})
+            this.setState({ callback_date : value.toLocaleDateString()})
+            this.setState({ callback_time : time.substr(12, 8)})
+        } else {
+            this.setState({ [key]: value})
+        }
     };
 
     onInput = (key, event) => {
@@ -257,15 +271,12 @@ class Services extends Component {
     };
 
     onActivate = () => {
-        console.log(this.state.permission)
         this.setState(prevState => ({
             permission: !prevState.permission
         }));
-        console.log(this.state.permission)
     };
 
     fileUploadKey = (key) => {
-        console.log(key)
         this.setState(prevState => ({
             uploaded_documents: [...prevState.uploaded_documents, key]
         }))
@@ -286,7 +297,6 @@ class Services extends Component {
         });
     }
     toggleModal3 = () => {
-        console.log("HERE")
         this.setState({
           isOpen4: !this.state.isOpen4,
         });
@@ -316,10 +326,8 @@ class Services extends Component {
         if(this.state.cost_month === ''){
             errors["cost_month"] = "Cannot be Empty"
         }
-        console.log(errors);
         this.onChangeText('errors', errors);
         if(Object.keys(errors).length === 0){
-            console.log("Passed")
             text = "Passed";
             return text;
         } else {
@@ -329,9 +337,7 @@ class Services extends Component {
 
     submitService = async () => {
         let result = this.checkValidation();
-        console.log(result)
         if(result === "Passed"){
-            console.log("HERE");
             var time = this.state.callback_time;
             var date = this.state.callback_date;
             var status = "CURRENT";
@@ -353,10 +359,8 @@ class Services extends Component {
                 permission: this.state.permission,
                 affiliate_id: this.state.affiliateId
             }
-            console.log(data)
             try {
-                const re = await API.graphql(graphqlOperation(addService, data));
-                console.log(re);
+                await API.graphql(graphqlOperation(addService, data));
                 this.setState({ 
                     success: true,
                     uploaded_documents: []
@@ -464,7 +468,6 @@ class Services extends Component {
             id: id.substr(8),
             status: 'CUSTOMER DELETED'
         }
-        console.log(data)
         try {
             await API.graphql(graphqlOperation(removeService, data));
             this.setState({ isOpen3: !this.state.isOpen3 })
@@ -537,10 +540,8 @@ class Services extends Component {
     }
 
     downloadFile = async (key) => {
-        console.log(key)
         await Storage.get(key, { level: 'private'})
         .then(result => {
-            console.log(result)
             window.open(result, "_blank")
         })
         .catch(err => console.log(err));
@@ -830,7 +831,7 @@ class Services extends Component {
                                     >
                                         Add Service
                                     </button>
-                                    <ServiceModal show={this.state.isOpen2} onClose={this.toggleModal} date={this.state.contractDate} callback={this.state.callback_date} onInput={this.onInput} onChangeText={this.onChangeText} submitLead={this.submitService} fileUploadKey={this.fileUploadKey} onActivate={this.onActivate} errors={this.state.errors}>
+                                    <ServiceModal show={this.state.isOpen2} onClose={this.toggleModal} date={this.state.s_contractDate} callback={this.state.s_callback_date} onInput={this.onInput} onChangeText={this.onChangeText} submitLead={this.submitService} fileUploadKey={this.fileUploadKey} onActivate={this.onActivate} errors={this.state.errors}>
                                     </ServiceModal>
                                 </div>
                             </div>
@@ -845,7 +846,7 @@ class Services extends Component {
                             </article>
                         </div>
                             <DeleteModal show={this.state.isOpen3} onClose={this.toggleModal2} deleteService={this.deleteService}/>
-                            <GetQuote show={this.state.isOpen4} onClose={this.toggleModal3} onInput={this.onInput} submitLead={this.submitService} fileUploadKey={this.fileUploadKey} onActivate={this.onActivate} errors={this.state.errors}/>
+                            <GetQuote show={this.state.isOpen4} onClose={this.toggleModal3} date={this.state.s_contractDate} callback={this.state.s_callback_date} onChangeText={this.onChangeText} onInput={this.onInput} submitLead={this.submitService} fileUploadKey={this.fileUploadKey} onActivate={this.onActivate} errors={this.state.errors}/>
                     </div>
                     <Footer/>
                 </div>	

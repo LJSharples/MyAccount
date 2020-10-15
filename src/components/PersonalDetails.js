@@ -29,7 +29,6 @@ class PersonalDetails extends Component {
         user_name: "",
         success: false,
         check: false,
-        timeOut: 300,
         createUser: false,
         createCompany: false
     }

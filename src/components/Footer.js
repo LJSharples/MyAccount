@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import MessengerCustomerChat from 'react-messenger-customer-chat';
 
 export default function Footer( props ) {
-    const [navbarOpen, setNavbarOpen] = React.useState(false);
+    const [navbarOpen] = React.useState(false);
     return (
         <>
                 <div>
