@@ -60,15 +60,18 @@ class Dashboard extends Component {
 
             let sum = userServices.data["getServices"].items.reduce(function(prev, current) {
                 if(current.status === "CURRENT" || current.status === "LIVE" || current.status === "Live" || current.status === "Live Contract"){
-                    console.log(current)
                     return prev + +parseFloat(current.cost_year) 
                  }
                  return prev
             }, 0);
+            console.log(userServices.data["getServices"].items)
 
             let sum3 = userServices.data["getServices"].items.reduce(function(prev, current) {
                 if(current.status === "CURRENT" || current.status === "LIVE" || current.status === "Live" || current.status === "Live Contract"){
-                   return prev + +parseFloat(current.savings) 
+                    if(!isNaN(parseFloat(current.savings))){
+                        console.log(parseFloat(current.savings));
+                        return prev + +parseFloat(current.savings) 
+                    }
                 }
                 return prev
             }, 0);

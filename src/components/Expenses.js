@@ -73,16 +73,15 @@ class Expenses extends Component {
 
         let sum3 = userServices.data["getServices"].items.reduce(function(prev, current) {
             if(current.status === "CURRENT" || current.status === "LIVE" || current.status === "Live" || current.status === "Live Contract"){
-               return prev + +parseFloat(current.savings) 
+                if(!isNaN(parseFloat(current.savings))){
+                    console.log(parseFloat(current.savings));
+                    return prev + +parseFloat(current.savings) 
+                }
             }
             return prev
         }, 0);
         this.setState({monthlyCost: parseFloat(sum2).toFixed(2)})
         this.setState({moneySaved: parseFloat(sum3).toFixed(2)})
-        if(isNaN(sum3)){
-            console.log("HERE")
-            this.setState({moneySaved: '0.00'})
-        }
 
         //costs per month
         const water = [];
