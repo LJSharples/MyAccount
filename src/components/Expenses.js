@@ -19,6 +19,7 @@ class Expenses extends Component {
         annualCost: 0,
         monthlyCost: 0,
         moneySaved: 0,
+        savings: 0,
         toolTipText: "The expense amounts are estimates if your service costs are variable and subject to change each month",
         toolTipText2: "Some services are variable, therefore these savings are estimated based on figures provided by you or the suppliers.",
         customStyle: {
@@ -53,22 +54,35 @@ class Expenses extends Component {
         //user services
         const userServices = await API.graphql(graphqlOperation(getServices, { user_name: user.username}));
         //summary expenses
+        console.log(userServices)
         let sum = userServices.data["getServices"].items.reduce(function(prev, current) {
-            if(current.status === "CURRENT" || current.status === "LIVE"){
-               return prev + +current.cost_year 
+            if(current.status === "CURRENT" || current.status === "LIVE" || current.status === "Live" || current.status === "Live Contract"){
+               return prev + +parseFloat(current.cost_year) 
             }
             return prev
         }, 0);
-        this.setState({annualCost: sum})
+        this.setState({annualCost: sum.toFixed(2)})
 
 
         let sum2 = userServices.data["getServices"].items.reduce(function(prev, current) {
-            if(current.status === "CURRENT" || current.status === "LIVE"){
-               return prev + +current.cost_month 
+            if(current.status === "CURRENT" || current.status === "LIVE" || current.status === "Live" || current.status === "Live Contract"){
+               return prev + +parseFloat(current.cost_month) 
             }
             return prev
         }, 0);
-        this.setState({monthlyCost: sum2})
+
+        let sum3 = userServices.data["getServices"].items.reduce(function(prev, current) {
+            if(current.status === "CURRENT" || current.status === "LIVE" || current.status === "Live" || current.status === "Live Contract"){
+               return prev + +parseFloat(current.savings) 
+            }
+            return prev
+        }, 0);
+        this.setState({monthlyCost: parseFloat(sum2).toFixed(2)})
+        this.setState({moneySaved: parseFloat(sum3).toFixed(2)})
+        if(isNaN(sum3)){
+            console.log("HERE")
+            this.setState({moneySaved: '0.00'})
+        }
 
         //costs per month
         const water = [];
@@ -99,7 +113,7 @@ class Expenses extends Component {
         const merchantServicesYear = [];
         const insolvencyYear = [];
         userServices.data["getServices"].items.map(lead => {
-            if(lead.status === "CURRENT"){
+            if(lead.status === "CURRENT" || lead.status === "Live" || lead.status === "LIVE"){
                 if (lead.service_name === "Gas" && lead.cost_month) {
                     gas.push(parseFloat(lead.cost_month));
                     gasYear.push(parseFloat(lead.cost_year));
@@ -140,51 +154,6 @@ class Expenses extends Component {
                     insolvency.push(parseFloat(lead.cost_month));
                     insolvencyYear.push(parseFloat(lead.cost_year));
                 }
-            } else if(lead.status === "LIVE") {
-                if (lead.service_name === "Gas" && lead.new_cost_month) {
-                    gas.push(parseFloat(lead.new_cost_month));
-                    gasYear.push(parseFloat(lead.new_cost_year));
-                } else if(lead.service_name === "Electric" && lead.new_cost_month) {
-                    elec.push(parseFloat(lead.new_cost_month));
-                    elecYear.push(parseFloat(lead.new_cost_year));
-                } else if(lead.service_name === "Water" && lead.new_cost_month) {
-                    water.push(parseFloat(lead.new_cost_month));
-                    waterYear.push(parseFloat(lead.new_cost_year));
-                } else if(lead.service_name === "Oil" && lead.new_cost_month) {
-                    oil.push(parseFloat(lead.new_cost_month));
-                    oilYear.push(parseFloat(lead.new_cost_year));
-                } else if(lead.service_name === "Energy Reduction" && lead.new_cost_month) {
-                    energyReduction.push(parseFloat(lead.new_cost_month));
-                    energyReductionYear.push(parseFloat(lead.new_cost_year));
-                } else if(lead.service_name === "Waste Management" && lead.new_cost_month) {
-                    wasteManagement.push(parseFloat(lead.new_cost_month));
-                    wasteManagementYear.push(parseFloat(lead.new_cost_year));
-                } else if(lead.service_name === "Business Rates Review" && lead.new_cost_month) {
-                    businessRatesReview.push(parseFloat(lead.new_cost_month));
-                    businessRatesReviewYear.push(parseFloat(lead.new_cost_year));
-                } else if(lead.service_name === "Fuel Cards" && lead.new_cost_month) {
-                    fuelCards.push(parseFloat(lead.new_cost_month));
-                    fuelCardsYear.push(parseFloat(lead.new_cost_year));
-                } else if(lead.service_name === "Telecomms & Broadband" && lead.new_cost_month) {
-                    telecommsBroadband.push(parseFloat(lead.new_cost_month));
-                    telecommsBroadbandYear.push(parseFloat(lead.new_cost_year));
-                } else if(lead.service_name === "Cyber Security" && lead.new_cost_month) {
-                    cyberSecurity.push(parseFloat(lead.new_cost_month));
-                    cyberSecurityYear.push(parseFloat(lead.new_cost_year));
-                } else if(lead.service_name === "Printers" && lead.new_cost_month) {
-                    printers.push(parseFloat(lead.new_cost_month));
-                    printersYear.push(parseFloat(lead.new_cost_year));
-                } else if(lead.service_name === "Merchant Services" && lead.new_cost_month) {
-                    merchantServices.push(parseFloat(lead.new_cost_month));
-                    merchantServicesYear.push(parseFloat(lead.new_cost_year));
-                } else if(lead.service_name === "Insolvency" && lead.new_cost_month) {
-                    insolvency.push(parseFloat(lead.new_cost_month));
-                    insolvencyYear.push(parseFloat(lead.new_cost_year));
-                }
-            }
-            
-            if(lead.new_cost_month && lead.new_cost_year){
-                this.generateMoneySaved(lead.cost_year, lead.new_cost_year)
             }
         });
         //do summary 
@@ -390,37 +359,21 @@ class Expenses extends Component {
         const valuesArray2 = [];
         
         userServices.data["getServices"].items.map(lead => {
-            if(lead.status === "CURRENT" || lead.status === "LIVE"){
+            if(lead.status === "CURRENT" || lead.status === "LIVE" || lead.status === "Live" || lead.status === "Live Contract"){
                 var date = new Date(lead.contract_end);
                 var dateString = date.toLocaleString();
-                var money = '';
-                var moneyMonth = '';
-                if(lead.status === "LIVE"){
-                    money = lead.new_cost_year
-                    moneyMonth = lead.new_cost_month
-                } else {
-                    money = lead.cost_year
-                    moneyMonth= lead.cost_month
-                }
                 const newValue2 = {
                     service_name: lead.service_name,
                     contract_length: lead.contract_length,
                     contract_end: dateString.substring(0, 10),
-                    cost_year: money,
-                    cost_month: moneyMonth,
+                    cost_year: lead.cost_year,
+                    cost_month: lead.cost_month,
                 }
                 valuesArray2.push(newValue2);
             }
         })
         this.setState({ columns: columnsArray2})
         this.setState({ rows: valuesArray2})
-    }
-
-    generateMoneySaved = (oldYear, newYear) => {
-        if(newYear > oldYear){
-            var money = oldYear - newYear
-            this.setState({ moneySaved: this.state.moneySaved + money})
-        }
     }
 
     scroll = () =>{

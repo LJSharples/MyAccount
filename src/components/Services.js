@@ -213,24 +213,18 @@ class Services extends Component {
         
                     }
                     endedArray.push(newValue)
-                } else if(lead.status === "CURRENT" || lead.status === "LIVE" || lead.status === "Live contract"){
-                    var money = '';
-                    if(lead.status === "LIVE" || lead.status === "Live contract"){
-                        money = lead.new_cost_year
-                    } else {
-                        money = lead.cost_year
-                    }
+                } else if(lead.status === "CURRENT" || lead.status === "LIVE" || lead.status === "Live" || lead.status === "Live Contract"){
                     const newValue2 = {
                         service_name: lead.service_name,
                         provider: lead.current_supplier,
                         contract_end: contractEndDate.toLocaleDateString(),
-                        cost_year: money,
+                        cost_year: lead.cost_year,
                         attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
                         handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
         
                     }
                     activeArray.push(newValue2)
-                }else if(lead.status !== "CURRENT" || lead.status !== "LIVE"){
+                }else if(lead.status !== "CURRENT" || lead.status !== "LIVE" || lead.status !== "Live" || lead.status !== "Live Contract"){
                     const newValue = {
                         service_name: lead.service_name,
                         provider: lead.current_supplier,
@@ -406,25 +400,18 @@ class Services extends Component {
             
                         }
                         endedArray.push(newValue)
-                    } else if(lead.status === "CURRENT" || lead.status === "LIVE" || lead.status === "Live contract"){
-
-                        var money = '';
-                        if(lead.status === "LIVE" || lead.status === "Live contract"){
-                            money = lead.new_cost_year
-                        } else {
-                            money = lead.cost_year
-                        }
+                    } else if(lead.status === "CURRENT" || lead.status === "LIVE" || lead.status === "Live" || lead.status === "Live Contract"){
                         const newValue2 = {
                             service_name: lead.service_name,
                             provider: lead.current_supplier,
                             contract_end: contractEndDate.toLocaleDateString(),
-                            cost_year: money,
+                            cost_year: lead.cost_year,
                             attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
                             handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
             
                         }
                         activeArray.push(newValue2)
-                    }else if(lead.status !== "CURRENT" || lead.status !== "LIVE"){
+                    }else if(lead.status !== "CURRENT" || lead.status !== "LIVE" || lead.status !== "Live" || lead.status !== "Live Contract"){
                         const newValue = {
                             service_name: lead.service_name,
                             provider: lead.current_supplier,
@@ -504,24 +491,18 @@ class Services extends Component {
         
                     }
                     endedArray.push(newValue)
-                } else if(lead.status === "CURRENT" || lead.status === "LIVE"){
-                    var money = '';
-                    if(lead.status === "LIVE"){
-                        money = lead.new_cost_year
-                    } else {
-                        money = lead.cost_year
-                    }
+                } else if(lead.status === "CURRENT" || lead.status === "LIVE" || lead.status === "Live" || lead.status === "Live Contract"){
                     const newValue2 = {
                         service_name: lead.service_name,
                         provider: lead.current_supplier,
                         contract_end: dateString.substring(0, 10),
-                        cost_year: money,
+                        cost_year: lead.cost_year,
                         attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
                         handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
         
                     }
                     activeArray.push(newValue2)
-                }else if(lead.status !== "CURRENT" || lead.status !== "LIVE"){
+                }else if(lead.status !== "CURRENT" || lead.status !== "LIVE" || lead.status !== "Live" || lead.status !== "Live Contract"){
                     const newValue = {
                         service_name: lead.service_name,
                         provider: lead.current_supplier,

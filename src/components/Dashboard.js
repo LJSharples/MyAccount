@@ -51,7 +51,7 @@ class Dashboard extends Component {
             //get total services
             const userServices = await API.graphql(graphqlOperation(getServices, { user_name: user.username}));
             let serviceSum = userServices.data["getServices"].items.reduce(function(prev, current) {
-                if(current.status === "CURRENT" || current.status === "LIVE"){
+                if(current.status === "CURRENT" || current.status === "LIVE" || current.status === "Live" || current.status === "Live Contract"){
                     return prev + +1 
                  }
                  return prev
@@ -59,27 +59,28 @@ class Dashboard extends Component {
             this.setState({services: serviceSum});
 
             let sum = userServices.data["getServices"].items.reduce(function(prev, current) {
-                if(current.status === "CURRENT" || current.status === "LIVE"){
-                    return prev + +current.cost_year 
+                if(current.status === "CURRENT" || current.status === "LIVE" || current.status === "Live" || current.status === "Live Contract"){
+                    console.log(current)
+                    return prev + +parseFloat(current.cost_year) 
                  }
                  return prev
             }, 0);
-            this.setState({annualCost: sum})
 
-            userServices.data["getServices"].items.map(lead => {
-                if(lead.new_cost_month && lead.new_cost_year){
-                    this.generateMoneySaved(lead.cost_year, lead.new_cost_year)
+            let sum3 = userServices.data["getServices"].items.reduce(function(prev, current) {
+                if(current.status === "CURRENT" || current.status === "LIVE" || current.status === "Live" || current.status === "Live Contract"){
+                   return prev + +parseFloat(current.savings) 
                 }
-            });
+                return prev
+            }, 0);
+            this.setState({annualCost: parseFloat(sum).toFixed(2)})
+            this.setState({annualSave: parseFloat(sum3).toFixed(2)})
+            if(isNaN(sum3)){
+                console.log("HERE")
+                this.setState({annualSave: '0.00'})
+            }
+
         } else {
             this.setState({ redirect: true});
-        }
-    }
-
-    generateMoneySaved = (oldYear, newYear) => {
-        if(newYear > oldYear){
-            var money = oldYear - newYear
-            this.setState({ annualSave: this.state.annualSave + money})
         }
     }
 
