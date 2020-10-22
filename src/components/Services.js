@@ -15,6 +15,7 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import TagManager from 'react-gtm-module'
 
 class Services extends Component {
     state = {
@@ -335,8 +336,10 @@ class Services extends Component {
             var time = this.state.callback_time;
             var date = this.state.callback_date;
             var status = "CURRENT";
+            var event = 'addService'
             if(this.state.permission){
                 status = "LEAD"
+                event = "addQuote"
             }
             const data = {
                 user_name: this.state.userProfile.user_name,
@@ -355,6 +358,12 @@ class Services extends Component {
             }
             try {
                 await API.graphql(graphqlOperation(addService, data));
+                TagManager.dataLayer({
+                    dataLayer: {
+                        event: event,
+                        user_name: this.state.userProfile.user_name
+                    }
+                })
                 this.setState({ 
                     success: true,
                     uploaded_documents: []
@@ -458,6 +467,12 @@ class Services extends Component {
         try {
             await API.graphql(graphqlOperation(removeService, data));
             this.setState({ isOpen3: !this.state.isOpen3 })
+            TagManager.dataLayer({
+                dataLayer: {
+                    event: 'serviceDeleted',
+                    user_name: this.state.userProfile.user_name
+                }
+            })
         } catch (err) {
             console.log("Error:")
             console.log(err);

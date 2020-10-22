@@ -5,6 +5,7 @@ import { updateUser, updateCompany, addProfile, addCompany } from '../graphql/mu
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { Collapse, IconButton } from '@material-ui/core';
 import Footer from "./Footer";
+import TagManager from 'react-gtm-module'
 
 class PersonalDetails extends Component {
     state = {
@@ -116,6 +117,12 @@ class PersonalDetails extends Component {
             console.log(data);
             try {
                 await API.graphql(graphqlOperation(addProfile, data));
+                TagManager.dataLayer({
+                    dataLayer: {
+                        event: 'addProfile',
+                        user_name: this.state.userProfile.user_name
+                    }
+                })
                 this.setState({ success: true})
                 window.scrollTo(0, 0)
                 this.setOpen2()
@@ -126,6 +133,12 @@ class PersonalDetails extends Component {
         } else {
             try {
                 await API.graphql(graphqlOperation(updateUser, data));
+                TagManager.dataLayer({
+                    dataLayer: {
+                        event: 'updateProfile',
+                        user_name: this.state.userProfile.user_name
+                    }
+                })
                 this.setState({ success: true})
                 window.scrollTo(0, 0)
             } catch (err) {
@@ -159,6 +172,12 @@ class PersonalDetails extends Component {
             if(this.state.createCompany){
                 try{
                     await API.graphql(graphqlOperation(addCompany, data));
+                    TagManager.dataLayer({
+                        dataLayer: {
+                            event: 'addCompany',
+                            user_name: this.state.userProfile.user_name
+                        }
+                    })
                     this.setState({ success: true})
                     this.setOpen2()
                     window.scrollTo(0, 0)
@@ -169,6 +188,12 @@ class PersonalDetails extends Component {
             } else {
                 try{
                     await API.graphql(graphqlOperation(updateCompany, data));
+                    TagManager.dataLayer({
+                        dataLayer: {
+                            event: 'updateCompany',
+                            user_name: this.state.userProfile.user_name
+                        }
+                    })
                     this.setState({ success: true})
                     window.scrollTo(0, 0)
                 }catch(err){

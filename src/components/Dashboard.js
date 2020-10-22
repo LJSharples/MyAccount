@@ -10,6 +10,7 @@ import {
     createMuiTheme,
     MuiThemeProvider
   } from "@material-ui/core/styles";
+import TagManager from 'react-gtm-module'
 
 class Dashboard extends Component {
     state = {
@@ -32,6 +33,7 @@ class Dashboard extends Component {
         cost_month: '',
         currentSupplier: '',
         user_name: '',
+        email: '',
         selectedKey: '',
         uploaded_documents: [],
         errors: {},
@@ -41,6 +43,7 @@ class Dashboard extends Component {
     async componentDidMount(){
         let user = await Auth.currentAuthenticatedUser();
         const userProfile = await API.graphql(graphqlOperation(getUserDetails, { user_name: user.username}));
+        this.setState({ email: user.email });
         if(userProfile.data["user"] && userProfile.data["user"].user_name){
             this.setState({ userProfile: userProfile.data["user"]})
             this.setState({ userCompany: userProfile.data["getCompany"]})
@@ -115,6 +118,7 @@ class Dashboard extends Component {
     submitService = async () => {
         const data = {
             user_name: this.state.userProfile.user_name,
+            email: this.state.email,
             status: "LEAD",
             service_name: this.state.serviceName,
             callback_time: this.state.callback_time,
@@ -130,6 +134,12 @@ class Dashboard extends Component {
         console.log(data)
         try {
             await API.graphql(graphqlOperation(addService, data));
+            TagManager.dataLayer({
+                dataLayer: {
+                    event: 'addQuote',
+                    user_name: this.state.userProfile.user_name
+                }
+            })
         } catch (err) {
             console.log("Error:")
             console.log(err);
