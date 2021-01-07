@@ -235,6 +235,13 @@ class Dashboard extends Component {
                             </GetQuote>
                         </div>
                     </div>
+                    <div className="bg-indigo-900 text-center py-4 lg:px-4">
+                        <div className="p-2 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
+                        <span className="“flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">Help</span>
+                        <span className="font-semibold mr-2 text-left flex-auto">Do you need help with anything? If so just click the blue live chat icon and our team will help answer your questions.</span>
+                        <svg className="opacity-75 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z"/></svg>
+                        </div>
+                    </div>
                     <div className="flex flex-wrap -mx-1 lg:-mx-4">
                         <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-2/3">
                             <Tooltip title={this.state.toolTipText2} arrow>
