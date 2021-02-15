@@ -90,6 +90,26 @@ class Dashboard extends Component {
         }
     }
 
+    onChangeText = (key, value) => {
+        console.log(key)
+        console.log(value)
+        if(key === "contractDate"){
+            this.setState({ s_contractDate: value})
+            let month = value.getMonth() + 1
+            let date = value.getFullYear() + "-" + month + "-" + value.getDate();
+            this.setState({ contractDate : date})
+        } else if(key === "callback_date"){
+            let time = value.toLocaleString();
+            console.log(value.toLocaleDateString())
+            console.log(time.substr(12, 8))
+            this.setState({ s_callback_date: value})
+            this.setState({ callback_date : value.toLocaleDateString()})
+            this.setState({ callback_time : time.substr(12, 8)})
+        } else {
+            this.setState({ [key]: value})
+        }
+    };
+
     onInput = (key, event) => {
         this.setState({ [key]: event.target.value})
     };
@@ -231,7 +251,7 @@ class Dashboard extends Component {
                             >
                                 Get Quote
                             </button>
-                            <GetQuote show={this.state.isOpen2} onClose={this.toggleModal} onInput={this.onInput} submitLead={this.submitService} fileUploadKey={this.fileUploadKey} onActivate={this.onActivate} errors={this.state.errors}>
+                            <GetQuote show={this.state.isOpen2} onClose={this.toggleModal} date={this.state.s_contractDate} callback={this.state.s_callback_date}  onInput={this.onInput} onChangeText={this.onChangeText} submitLead={this.submitService} fileUploadKey={this.fileUploadKey} onActivate={this.onActivate} errors={this.state.errors}>
                             </GetQuote>
                         </div>
                     </div>
