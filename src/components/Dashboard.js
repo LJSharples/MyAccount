@@ -42,52 +42,64 @@ class Dashboard extends Component {
 
     async componentDidMount(){
         let user = await Auth.currentAuthenticatedUser();
-        const userProfile = await API.graphql(graphqlOperation(getUserDetails, { user_name: user.username}));
-        this.setState({ email: user.email });
-        if(userProfile.data["user"] && userProfile.data["user"].user_name){
-            this.setState({ userProfile: userProfile.data["user"]})
-            this.setState({ userCompany: userProfile.data["getCompany"]})
-            if(userProfile.data["user"].first_name){
-                this.setState({ first_name: userProfile.data["user"].first_name });
-            }
-
-            //get total services
-            const userServices = await API.graphql(graphqlOperation(getServices, { user_name: user.username}));
-            let serviceSum = userServices.data["getServices"].items.reduce(function(prev, current) {
-                if(current.status === "CURRENT" || current.status === "LIVE" || current.status === "Live" || current.status === "Live Contract"){
-                    return prev + +1 
-                 }
-                 return prev
-            }, 0);
-            this.setState({services: serviceSum});
-
-            let sum = userServices.data["getServices"].items.reduce(function(prev, current) {
-                if(current.status === "CURRENT" || current.status === "LIVE" || current.status === "Live" || current.status === "Live Contract"){
-                    return prev + +parseFloat(current.cost_year) 
-                 }
-                 return prev
-            }, 0);
-            console.log(userServices.data["getServices"].items)
-
-            let sum3 = userServices.data["getServices"].items.reduce(function(prev, current) {
-                if(current.status === "CURRENT" || current.status === "LIVE" || current.status === "Live" || current.status === "Live Contract"){
-                    if(!isNaN(parseFloat(current.savings))){
-                        console.log(parseFloat(current.savings));
-                        return prev + +parseFloat(current.savings) 
-                    }
+        var userProfile = {}
+        try{
+            userProfile = await API.graphql(graphqlOperation(getUserDetails, { user_name: user.username}));
+            this.setState({ email: user.email });
+            if(userProfile.data["user"] && userProfile.data["user"].user_name){
+                this.setState({ userProfile: userProfile.data["user"]})
+                this.setState({ userCompany: userProfile.data["getCompany"]})
+                if(userProfile.data["user"].first_name){
+                    this.setState({ first_name: userProfile.data["user"].first_name });
                 }
-                return prev
-            }, 0);
-            this.setState({annualCost: parseFloat(sum).toFixed(2)})
-            this.setState({annualSave: parseFloat(sum3).toFixed(2)})
-            if(isNaN(sum3)){
-                console.log("HERE")
-                this.setState({annualSave: '0.00'})
-            }
 
-        } else {
-            this.setState({ redirect: true});
+                //get total services
+                var userServices = []
+                try{
+                    userServices = await API.graphql(graphqlOperation(getServices, { user_name: user.username}));
+                    let serviceSum = userServices.data["getServices"].items.reduce(function(prev, current) {
+                        if(current.status === "CURRENT" || current.status === "LIVE" || current.status === "Live" || current.status === "Live Contract"){
+                            return prev + +1 
+                        }
+                        return prev
+                    }, 0);
+                    this.setState({services: serviceSum});
+        
+                    let sum = userServices.data["getServices"].items.reduce(function(prev, current) {
+                        if(current.status === "CURRENT" || current.status === "LIVE" || current.status === "Live" || current.status === "Live Contract"){
+                            return prev + +parseFloat(current.cost_year) 
+                        }
+                        return prev
+                    }, 0);
+                    console.log(userServices.data["getServices"].items)
+        
+                    let sum3 = userServices.data["getServices"].items.reduce(function(prev, current) {
+                        if(current.status === "CURRENT" || current.status === "LIVE" || current.status === "Live" || current.status === "Live Contract"){
+                            if(!isNaN(parseFloat(current.savings))){
+                                console.log(parseFloat(current.savings));
+                                return prev + +parseFloat(current.savings) 
+                            }
+                        }
+                        return prev
+                    }, 0);
+                    this.setState({annualCost: parseFloat(sum).toFixed(2)})
+                    this.setState({annualSave: parseFloat(sum3).toFixed(2)})
+                    if(isNaN(sum3)){
+                        console.log("HERE")
+                        this.setState({annualSave: '0.00'})
+                    }
+                } catch(e){
+                    console.log(e)
+                }
+                
+
+            } else {
+                this.setState({ redirect: true});
+            }
+        } catch(e){
+            console.log(e)
         }
+        
     }
 
     onChangeText = (key, value) => {

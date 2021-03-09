@@ -37,38 +37,43 @@ class PersonalDetails extends Component {
     async componentDidMount(){
         let user = await Auth.currentAuthenticatedUser();
         this.setState({ user_name: user.username })
-        const userProfile = await API.graphql(graphqlOperation(getUserDetails, { user_name: user.username}));
-        if(userProfile.data["user"] && userProfile.data["user"].full_name){
-            this.setState({ userProfile: userProfile.data["user"]})
-            this.setState({
-                user_name: user.username,
-                full_name: userProfile.data["user"].full_name,
-                first_name: userProfile.data["user"].first_name,
-                last_name: userProfile.data["user"].last_name,
-                phone: userProfile.data["user"].phone
-            });
-        } else{
-            this.setState({ createUser: true});
-            this.setState({ check: true});
-        }
-        if(userProfile.data["getCompany"] && userProfile.data["getCompany"].address1){
-            this.setState({ userCompany: userProfile.data["getCompany"]})
-            this.setState({
-                company_name: userProfile.data["getCompany"].Data,
-                address1: userProfile.data["getCompany"].address1,
-                address2: userProfile.data["getCompany"].address2,
-                city: userProfile.data["getCompany"].city,
-                postcode: userProfile.data["getCompany"].postcode,
-                region: userProfile.data["getCompany"].region,
-                company_number: userProfile.data["getCompany"].company_number,
-                years_trading: userProfile.data["getCompany"].years_trading,
-                yearly_turnover: userProfile.data["getCompany"].yearly_turnover,
-                num_employees: userProfile.data["getCompany"].num_employees,
-                industry: userProfile.data["getCompany"].industry
-            });
-        } else{
-            this.setState({ createCompany: true});
-            this.setState({ check: true});
+        var userProfile = {} 
+        try{
+            userProfile = await API.graphql(graphqlOperation(getUserDetails, { user_name: user.username}));
+            if(userProfile.data["user"] && userProfile.data["user"].full_name){
+                this.setState({ userProfile: userProfile.data["user"]})
+                this.setState({
+                    user_name: user.username,
+                    full_name: userProfile.data["user"].full_name,
+                    first_name: userProfile.data["user"].first_name,
+                    last_name: userProfile.data["user"].last_name,
+                    phone: userProfile.data["user"].phone
+                });
+            } else{
+                this.setState({ createUser: true});
+                this.setState({ check: true});
+            }
+            if(userProfile.data["getCompany"] && userProfile.data["getCompany"].address1){
+                this.setState({ userCompany: userProfile.data["getCompany"]})
+                this.setState({
+                    company_name: userProfile.data["getCompany"].Data,
+                    address1: userProfile.data["getCompany"].address1,
+                    address2: userProfile.data["getCompany"].address2,
+                    city: userProfile.data["getCompany"].city,
+                    postcode: userProfile.data["getCompany"].postcode,
+                    region: userProfile.data["getCompany"].region,
+                    company_number: userProfile.data["getCompany"].company_number,
+                    years_trading: userProfile.data["getCompany"].years_trading,
+                    yearly_turnover: userProfile.data["getCompany"].yearly_turnover,
+                    num_employees: userProfile.data["getCompany"].num_employees,
+                    industry: userProfile.data["getCompany"].industry
+                });
+            } else{
+                this.setState({ createCompany: true});
+                this.setState({ check: true});
+            }
+        } catch(e){
+            console.log(e)
         }
     }
 

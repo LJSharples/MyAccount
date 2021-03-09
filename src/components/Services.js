@@ -88,7 +88,6 @@ class Services extends Component {
         this.setState({ userCompany: userProfile.data["getCompany"]});
 
         //user services
-        const userServices = await API.graphql(graphqlOperation(getServices, { user_name: user.username}));
         const columnsArray = [
             {
                 name: 'Service Name',
@@ -179,65 +178,70 @@ class Services extends Component {
                 hide: 'md',
             },
         ];
-        console.log(userServices.data["getServices"].items);
         const currentArray = [];
         const activeArray = [];
         const endedArray = [];
         var dateCurrent = new Date();
+        var userServices = []
+        try{
+            userServices = await API.graphql(graphqlOperation(getServices, { user_name: user.username}));
+            console.log(userServices.data["getServices"].items);
+            userServices.data["getServices"].items.map(lead => {
+                if(lead.status === "CUSTOMER DELETED"){
 
-        userServices.data["getServices"].items.map(lead => {
-            if(lead.status === "CUSTOMER DELETED"){
+                } else {
+                    let bills = []
+                    if(lead.uploaded_documents && lead.uploaded_documents.length > 0){
+                        let str = lead.uploaded_documents.slice(1,-1);
+                        bills = str.split(', ')
+                    }
+                    var contractEndDate = new Date(lead.contract_end);
+                    console.log(dateCurrent.toDateString());
+                    console.log(contractEndDate.toLocaleDateString());
 
-            } else {
-                let bills = []
-                if(lead.uploaded_documents && lead.uploaded_documents.length > 0){
-                    let str = lead.uploaded_documents.slice(1,-1);
-                    bills = str.split(', ')
+                    if (contractEndDate.toISOString() < dateCurrent.toISOString()) {    
+                        console.log("Less then current.");    
+                    }else {    
+                        console.log("more then current");    
+                    }
+                    if(contractEndDate.toISOString() < dateCurrent.toISOString()){
+                        const newValue = {
+                            service_name: lead.service_name,
+                            provider: lead.current_supplier,
+                            contract_end: contractEndDate.toLocaleDateString(),
+                            cost_year: lead.cost_year,
+                            attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
+                            handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal3()}>Get Quote</MDBBtn>
+            
+                        }
+                        endedArray.push(newValue)
+                    } else if(lead.status === "CURRENT" || lead.status === "LIVE" || lead.status === "Live" || lead.status === "Live Contract"){
+                        const newValue2 = {
+                            service_name: lead.service_name,
+                            provider: lead.current_supplier,
+                            contract_end: contractEndDate.toLocaleDateString(),
+                            cost_year: lead.cost_year,
+                            attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
+                            handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
+            
+                        }
+                        activeArray.push(newValue2)
+                    }else if(lead.status !== "CURRENT" || lead.status !== "LIVE" || lead.status !== "Live" || lead.status !== "Live Contract"){
+                        const newValue = {
+                            service_name: lead.service_name,
+                            provider: lead.current_supplier,
+                            contract_end: contractEndDate.toLocaleDateString(),
+                            cost_year: lead.cost_year,
+                            status: lead.status,
+                            attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),        
+                        }
+                        currentArray.push(newValue)
+                    }
                 }
-                var contractEndDate = new Date(lead.contract_end);
-                console.log(dateCurrent.toDateString());
-                console.log(contractEndDate.toLocaleDateString());
-
-                if (contractEndDate.toISOString() < dateCurrent.toISOString()) {    
-                    console.log("Less then current.");    
-                 }else {    
-                    console.log("more then current");    
-                 }
-                if(contractEndDate.toISOString() < dateCurrent.toISOString()){
-                    const newValue = {
-                        service_name: lead.service_name,
-                        provider: lead.current_supplier,
-                        contract_end: contractEndDate.toLocaleDateString(),
-                        cost_year: lead.cost_year,
-                        attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
-                        handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal3()}>Get Quote</MDBBtn>
-        
-                    }
-                    endedArray.push(newValue)
-                } else if(lead.status === "CURRENT" || lead.status === "LIVE" || lead.status === "Live" || lead.status === "Live Contract"){
-                    const newValue2 = {
-                        service_name: lead.service_name,
-                        provider: lead.current_supplier,
-                        contract_end: contractEndDate.toLocaleDateString(),
-                        cost_year: lead.cost_year,
-                        attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),
-                        handle: <MDBBtn color="purple" outline size="sm" onClick={() => this.toggleModal2(lead.PK)}>Delete</MDBBtn>
-        
-                    }
-                    activeArray.push(newValue2)
-                }else if(lead.status !== "CURRENT" || lead.status !== "LIVE" || lead.status !== "Live" || lead.status !== "Live Contract"){
-                    const newValue = {
-                        service_name: lead.service_name,
-                        provider: lead.current_supplier,
-                        contract_end: contractEndDate.toLocaleDateString(),
-                        cost_year: lead.cost_year,
-                        status: lead.status,
-                        attachments: bills.map(e => <div><MDBBtn color="purple" outline size="sm" key={e} onClick={() => this.downloadFile(e)}>{e}</MDBBtn><br/></div>),        
-                    }
-                    currentArray.push(newValue)
-                }
-            }
-        })
+            })
+        } catch(e){
+            console.log(e)
+        }
         this.onChangeText('rowsCurrent', currentArray);
         this.onChangeText('rowsActive', activeArray);
         this.onChangeText('rowsEnded', endedArray);
